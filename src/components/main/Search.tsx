@@ -17,7 +17,7 @@ function Search() {
   /* 검색어 */
   const [searchText, setSearchText] = useState("");
 
-  /* 임시 데이터 */
+  /* 임시 데이터 : 백엔드 데이터와 연결 필요 */
   const [data, setData] = useState([
     { id: "1", name: "서울", sight: "경복궁" },
     { id: "2", name: "부산", sight: "해운대" },
@@ -76,20 +76,28 @@ function Search() {
           onChangeText={(text) => setSearchText(text)}
         />
       </View>
-      {searchText.length !== 0 && (
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.result}>
-              <Text>{highlightSearchText(item.name, searchText)}</Text>
-              <Text> | </Text>
-              <Text>{highlightSearchText(item.sight, searchText)}</Text>
-            </View>
-          )}
-          style={styles.results}
-        />
-      )}
+      {
+        /* 검색어와 일치하는 데이터 있을 시 검색 결과 표시*/
+        searchText.length !== 0 && filteredData.length !== 0 ? (
+          <FlatList
+            data={filteredData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <View style={styles.result}>
+                <Text>{highlightSearchText(item.name, searchText)}</Text>
+                <Text> | </Text>
+                <Text>{highlightSearchText(item.sight, searchText)}</Text>
+              </View>
+            )}
+            style={styles.results}
+          />
+        ) : /* 일치하는 검색어가 없을 경우 검색 결과 없음 표시 */
+        filteredData.length == 0 ? (
+          <View style={styles.results}>
+            <Text style={{ color: "gray" }}>검색 결과가 없습니다.</Text>
+          </View>
+        ) : null
+      }
     </View>
   );
 }
@@ -99,6 +107,7 @@ export default Search;
 const screenWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
+  /* 검색창 스타일 */
   searchBar: {
     width: screenWidth - 20,
     height: 50,
@@ -107,14 +116,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#d0d2d4",
     flexDirection: "row",
   },
+  /* 검색 결과 컨테이너 스타일 */
   results: {
     width: screenWidth - 40,
     padding: 10,
     textAlign: "left",
     borderWidth: 2,
-    borderColor: "red",
+    borderColor: "gray",
     borderRadius: 20,
+    backgroundColor: "white",
   },
+  /* 각 검색 결과 스타일 */
   result: {
     marginVertical: 5,
     flexDirection: "row",
