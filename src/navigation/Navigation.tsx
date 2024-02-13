@@ -1,5 +1,5 @@
 /* Pages */
-import Main from "../components/Main";
+import Main from "../components/main/Main";
 import Plan from "../components/Plan";
 import Sos from "../components/Sos";
 import Chat from "../components/Chat";
