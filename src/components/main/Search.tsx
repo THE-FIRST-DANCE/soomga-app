@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 import {
   Dimensions,
   StyleSheet,
@@ -6,8 +6,11 @@ import {
   Text,
   TextInput,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+
+/* vector-icons */
+import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
 type highlightSearchTextType = {
   (text: string, search: string): React.ReactElement;
@@ -75,6 +78,18 @@ function Search() {
           value={searchText}
           onChangeText={(text) => setSearchText(text)}
         />
+        {
+          /* 검색어 삭제 버튼 */
+          searchText.length !== 0 && (
+            <MaterialIcons
+              name="cancel"
+              size={24}
+              color="gray"
+              style={styles.cancelButton}
+              onPress={() => setSearchText("")}
+            />
+          )
+        }
       </View>
       {
         /* 검색어와 일치하는 데이터 있을 시 검색 결과 표시*/
@@ -83,11 +98,10 @@ function Search() {
             data={filteredData}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={styles.result}>
-                <Text>{highlightSearchText(item.name, searchText)}</Text>
-                <Text> | </Text>
+              <TouchableOpacity style={styles.result}>
+                <Text>{highlightSearchText(item.name, searchText)} | </Text>
                 <Text>{highlightSearchText(item.sight, searchText)}</Text>
-              </View>
+              </TouchableOpacity>
             )}
             style={styles.results}
           />
@@ -116,13 +130,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#d0d2d4",
     flexDirection: "row",
   },
+  /* 검색어 삭제 버튼 스타일 */
+  cancelButton: { position: "absolute", right: 20, top: 13 },
   /* 검색 결과 컨테이너 스타일 */
   results: {
     width: screenWidth - 40,
     padding: 10,
     textAlign: "left",
     borderWidth: 2,
-    borderColor: "gray",
+    borderColor: "#DC2626",
     borderRadius: 20,
     backgroundColor: "white",
   },
