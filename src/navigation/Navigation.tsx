@@ -3,7 +3,7 @@ import Main from "../components/main/Main";
 import Plan from "../components/Plan";
 import Sos from "../components/Sos";
 import Chat from "../components/Chat";
-import Profile from "../components/Profile";
+import Profile from "../components/profile/Profile";
 
 /* 화면 전환 */
 import { NavigationContainer } from "@react-navigation/native";
@@ -11,9 +11,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 /* vector-icons */
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import { createStackNavigator } from "@react-navigation/stack";
+import TagEdit from "../components/profile/TagEdit";
 
 /* 하단 내비게이션 바 생성 */
 const Tab = createBottomTabNavigator();
+
+/* 컴포넌트 내 내비게이터 생성 */
+const Stack = createStackNavigator();
 
 export default function Navigation() {
   return (
@@ -30,13 +35,23 @@ export default function Navigation() {
       >
         <Tab.Screen
           name="홈"
-          component={Main}
           options={{
             tabBarIcon: ({ color }) => (
               <Entypo name="home" size={40} color={color} />
             ),
           }}
-        />
+        >
+          {() => (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Home Page"
+                component={Main}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="태그 편집" component={TagEdit} />
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
         <Tab.Screen
           name="플랜"
           component={Plan}
