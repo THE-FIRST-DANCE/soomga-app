@@ -15,6 +15,7 @@ type ScheduleType = {
 };
 
 function Schedules() {
+  /* 임시 데이터 */
   const schedules = [
     {
       id: 1,
@@ -39,6 +40,7 @@ function Schedules() {
     },
   ];
 
+  /* 가장 가까운 여행 일정(2개) 저장 */
   const [nearSchedule, setNearSchedule] = useState<Array<ScheduleType>>([]);
 
   const showNearSchedule = () => {
@@ -47,11 +49,13 @@ function Schedules() {
     setNearSchedule(nearSchedule);
   };
 
+  /* 날짜 형식 변환 */
   const formatDate = (date: Date) => {
     const year = date.getFullYear();
     const month = date.getMonth();
     const day = date.getDate();
     const hour = date.getHours();
+    /* minute이 0일 경우 00으로 변환 */
     const minute = date.getMinutes() === 0 ? "00" : date.getMinutes();
 
     return `${year}. ${month}. ${day} ${hour}:${minute}`;
@@ -78,7 +82,6 @@ function Schedules() {
           size={20}
           color="white"
           style={{ lineHeight: 50, position: "absolute", right: 10 }}
-          onPress={() => console.log("Schedules Button Pressed!")}
         />
       </View>
       {nearSchedule.map((schedule) => (
@@ -98,10 +101,12 @@ function Schedules() {
 export default Schedules;
 
 const styles = StyleSheet.create({
+  /* 컨테이너 스타일 */
   container: {
     marginTop: 60,
     marginHorizontal: 15,
   },
+  /* 제목 스타일 */
   title: {
     height: 35,
     borderRadius: 10,
