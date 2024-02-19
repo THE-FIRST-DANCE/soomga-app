@@ -6,7 +6,7 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 import Schedule from "./Schedule";
 import { useState, useEffect } from "react";
 
-type Schedule = {
+type ScheduleType = {
   id: number;
   name: string;
   description: string;
@@ -39,7 +39,7 @@ function Schedules() {
     },
   ];
 
-  const [nearSchedule, setNearSchedule] = useState<Array<Schedule>>([]);
+  const [nearSchedule, setNearSchedule] = useState<Array<ScheduleType>>([]);
 
   const showNearSchedule = () => {
     schedules.sort((a, b) => a.date_start.getTime() - b.date_start.getTime());
@@ -47,12 +47,19 @@ function Schedules() {
     setNearSchedule(nearSchedule);
   };
 
+  const formatDate = (date: Date) => {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const day = date.getDate();
+    const hour = date.getHours();
+    const minute = date.getMinutes() === 0 ? "00" : date.getMinutes();
+
+    return `${year}. ${month}. ${day} ${hour}:${minute}`;
+  };
+
   useEffect(() => {
     showNearSchedule();
   }, []);
-
-  console.log(schedules);
-  console.log(nearSchedule);
 
   return (
     <View style={styles.container}>
@@ -80,6 +87,8 @@ function Schedules() {
           id={schedule.id}
           name={schedule.name}
           description={schedule.description}
+          date_start={formatDate(schedule.date_start)}
+          date_end={formatDate(schedule.date_end)}
         />
       ))}
     </View>
