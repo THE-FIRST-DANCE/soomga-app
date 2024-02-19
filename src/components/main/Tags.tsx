@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   StyleSheet,
   View,
@@ -8,6 +8,7 @@ import {
   ScrollView,
   Pressable,
 } from "react-native";
+
 import {
   MyNavigationProp,
   RootStackParamList,
@@ -32,11 +33,13 @@ function Tags() {
     { id: "7", tagName: "#프로그래밍" },
   ];
 
-  const [visibleTags, setVisibleTags] = useState<Tag[]>([
+  /* 전체 태그 상태 관리 */
+  const [allTags, setAllTags] = useState<Tag[]>([
     ...tags,
     { id: "more", tagName: "..." },
   ]);
 
+  /* navigation 추가 */
   const navigation =
     useNavigation<MyNavigationProp<keyof RootStackParamList>>();
 
@@ -44,14 +47,14 @@ function Tags() {
     <ScrollView
       horizontal={true}
       showsHorizontalScrollIndicator={false}
-      style={styles.tagsContainer}
+      style={styles.container}
     >
-      {visibleTags.map((tag, index) => (
+      {allTags.map((tag, index) => (
         <Pressable
           key={tag.id}
           style={styles.tag}
           onPress={() => {
-            if (index === visibleTags.length - 1) {
+            if (index === allTags.length - 1) {
               navigation.navigate("태그 편집");
             }
           }}
@@ -64,7 +67,8 @@ function Tags() {
 }
 
 const styles = StyleSheet.create({
-  tagsContainer: {
+  /* 태그 컨테이너 스타일 */
+  container: {
     flexDirection: "row",
     width: screenWidth - 20,
     height: 100,
@@ -74,6 +78,7 @@ const styles = StyleSheet.create({
     top: 100,
     zIndex: -1,
   },
+  /* 각 태그 스타일 */
   tag: {
     borderColor: "#DC2626",
     borderWidth: 1,
