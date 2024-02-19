@@ -1,4 +1,3 @@
-import React from "react";
 import { View } from "react-native";
 
 /* 페이지 import */
