@@ -5,6 +5,11 @@ import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 import Schedule from "./Schedule";
 import { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "../../navigation/NavigationProps";
 
 type ScheduleType = {
   id: number;
@@ -61,6 +66,10 @@ function Schedules() {
     return `${year}. ${month}. ${day} ${hour}:${minute}`;
   };
 
+  /* navigation 추가 */
+  const navigation =
+    useNavigation<MyNavigationProp<keyof RootStackParamList>>();
+
   useEffect(() => {
     showNearSchedule();
   }, []);
@@ -82,6 +91,7 @@ function Schedules() {
           size={20}
           color="white"
           style={{ lineHeight: 50, position: "absolute", right: 10 }}
+          onPress={() => navigation.navigate("여행 일정")}
         />
       </View>
       {nearSchedule.map((schedule) => (
