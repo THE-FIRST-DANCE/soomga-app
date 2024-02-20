@@ -73,7 +73,7 @@ function Search() {
           style={{ margin: 13 }}
         />
         <TextInput
-          placeholder="어디로 갈까"
+          placeholder="관광지 이름, 지역 이름을 검색해 보세요"
           style={{ margin: 5 }}
           value={searchText}
           onChangeText={(text) => setSearchText(text)}
@@ -141,6 +141,9 @@ const styles = StyleSheet.create({
     borderColor: "#DC2626",
     borderRadius: 20,
     backgroundColor: "white",
+    position: "absolute",
+    top: 100,
+    zIndex: 1,
   },
   /* 각 검색 결과 스타일 */
   result: {

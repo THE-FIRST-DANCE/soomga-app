@@ -13,6 +13,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
 import TagEdit from "../components/profile/TagEdit";
+import Schedules from "../components/profile/Schedules";
 
 /* 하단 내비게이션 바 생성 */
 const Tab = createBottomTabNavigator();
@@ -49,6 +50,7 @@ export default function Navigation() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen name="태그 편집" component={TagEdit} />
+              <Stack.Screen name="여행 일정" component={Schedules} />
             </Stack.Navigator>
           )}
         </Tab.Screen>
