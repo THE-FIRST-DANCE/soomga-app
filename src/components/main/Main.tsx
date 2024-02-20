@@ -4,6 +4,7 @@ import { View } from "react-native";
 import Search from "./Search";
 import Tags from "./Tags";
 import Schedules from "./Schedules";
+import Recommend from "./recommend/Recommend";
 
 function Main() {
   return (
@@ -11,6 +12,7 @@ function Main() {
       <Search />
       <Tags />
       <Schedules />
+      <Recommend />
     </View>
   );
 }
