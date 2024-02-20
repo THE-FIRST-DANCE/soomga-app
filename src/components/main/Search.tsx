@@ -73,7 +73,7 @@ function Search() {
           style={{ margin: 13 }}
         />
         <TextInput
-          placeholder="관광지 이름, 지역 이름을 검색해 보세요"
+          placeholder="관광지, 지역 이름으로 검색"
           style={{ margin: 5 }}
           value={searchText}
           onChangeText={(text) => setSearchText(text)}
