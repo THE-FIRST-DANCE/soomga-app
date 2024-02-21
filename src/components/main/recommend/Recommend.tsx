@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 /* Pages */
-import Places from "./Places";
+import Places from "@recommend/Places";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";

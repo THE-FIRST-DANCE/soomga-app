@@ -1,10 +1,10 @@
 import { View } from "react-native";
 
-/* 페이지 import */
-import Search from "./Search";
-import Tags from "./Tags";
-import Schedules from "./Schedule/Schedules";
-import Recommend from "./Recommend/Recommend";
+/* Pages */
+import Search from "@main/Search";
+import Tags from "@main/Tags";
+import Schedules from "@schedule/Schedules";
+import Recommend from "@recommend/Recommend";
 
 function Main() {
   return (

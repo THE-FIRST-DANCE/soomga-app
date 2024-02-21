@@ -1,18 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+
+/* Navigation */
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "@navigation/NavigationProps";
+
 import {
   StyleSheet,
-  View,
   Text,
   Dimensions,
   ScrollView,
   Pressable,
 } from "react-native";
-
-import {
-  MyNavigationProp,
-  RootStackParamList,
-} from "../../navigation/NavigationProps";
 
 const screenWidth = Dimensions.get("window").width;
 

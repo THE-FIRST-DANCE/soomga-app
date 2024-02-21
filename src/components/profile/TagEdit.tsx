@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 
-function Test() {
+function TagEdit() {
   return (
     <View style={{ alignItems: "center", justifyContent: "center" }}>
       <Text>Tag Edit Page</Text>
@@ -8,4 +8,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default TagEdit;
