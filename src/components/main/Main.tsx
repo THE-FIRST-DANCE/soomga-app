@@ -3,7 +3,8 @@ import { View } from "react-native";
 /* 페이지 import */
 import Search from "./Search";
 import Tags from "./Tags";
-import Schedules from "./Schedules";
+import Schedules from "./Schedule/Schedules";
+import Recommend from "./Recommend/Recommend";
 
 function Main() {
   return (
@@ -11,6 +12,7 @@ function Main() {
       <Search />
       <Tags />
       <Schedules />
+      <Recommend />
     </View>
   );
 }

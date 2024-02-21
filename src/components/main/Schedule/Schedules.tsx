@@ -9,7 +9,7 @@ import { useNavigation } from "@react-navigation/native";
 import {
   MyNavigationProp,
   RootStackParamList,
-} from "../../navigation/NavigationProps";
+} from "../../../navigation/NavigationProps";
 
 type ScheduleType = {
   id: number;
@@ -100,8 +100,8 @@ function Schedules() {
           id={schedule.id}
           name={schedule.name}
           description={schedule.description}
-          date_start={formatDate(schedule.date_start)}
-          date_end={formatDate(schedule.date_end)}
+          start_time={formatDate(schedule.date_start)}
+          end_time={formatDate(schedule.date_end)}
         />
       ))}
     </View>

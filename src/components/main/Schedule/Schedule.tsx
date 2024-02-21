@@ -5,11 +5,11 @@ type ScheduleType = {
   id: number;
   name: string;
   description: string;
-  date_start: string;
-  date_end: string;
+  start_time: string;
+  end_time: string;
 };
 
-function Schedule({ name, description, date_start, date_end }: ScheduleType) {
+function Schedule({ name, description, start_time, end_time }: ScheduleType) {
   return (
     <TouchableOpacity style={styles.container}>
       {/* 좌측 바 */}
@@ -33,9 +33,9 @@ function Schedule({ name, description, date_start, date_end }: ScheduleType) {
       </View>
       <View style={{ marginVertical: 10, position: "absolute", right: 10 }}>
         {/* 일정 시작 시각 */}
-        <Text style={styles.date}>{date_start}</Text>
+        <Text style={styles.date}>{start_time}</Text>
         {/* 일정 종료 시각 */}
-        <Text style={styles.date}>{date_end}</Text>
+        <Text style={styles.date}>{end_time}</Text>
       </View>
     </TouchableOpacity>
   );
