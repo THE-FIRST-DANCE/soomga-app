@@ -6,12 +6,14 @@ import { AntDesign } from "@expo/vector-icons";
 type SightType = {
   photo: string;
   name: string;
+  lat: number;
+  lng: number;
   distance: number;
   address: string;
   stars: number;
 };
 
-function Place({ photo, name, distance, address, stars }: SightType) {
+function Place({ photo, name, lat, lng, distance, address, stars }: SightType) {
   return (
     <ImageBackground source={{ uri: photo }} style={styles.container}>
       <View style={{ height: 180, backgroundColor: "white", opacity: 0.7 }}>
