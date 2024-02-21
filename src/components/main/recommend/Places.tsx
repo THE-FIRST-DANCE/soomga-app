@@ -1,10 +1,10 @@
 import { StyleSheet, Dimensions, ScrollView } from "react-native";
 
-import Sight from "./Sight";
+import Place from "./Place";
 
-function Sights() {
+function Places() {
   /* 임시 데이터 */
-  const sights = [
+  const places = [
     {
       id: 1,
       photo:
@@ -40,21 +40,21 @@ function Sights() {
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     >
-      {sights.map((sight) => (
-        <Sight
-          key={sight.id}
-          photo={sight.photo}
-          name={sight.name}
-          distance={sight.distance}
-          address={sight.address}
-          stars={sight.stars}
+      {places.map((place) => (
+        <Place
+          key={place.id}
+          photo={place.photo}
+          name={place.name}
+          distance={place.distance}
+          address={place.address}
+          stars={place.stars}
         />
       ))}
     </ScrollView>
   );
 }
 
-export default Sights;
+export default Places;
 
 const screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({

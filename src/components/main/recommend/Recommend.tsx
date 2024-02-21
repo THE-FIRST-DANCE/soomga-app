@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
 /* Pages */
-import Sights from "./Sights";
+import Places from "./Places";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -81,7 +81,7 @@ function Recommend() {
         </Text>
       </View>
       <View>
-        <Sights />
+        <Places />
       </View>
     </View>
   );

@@ -11,7 +11,7 @@ type SightType = {
   stars: number;
 };
 
-function Sight({ photo, name, distance, address, stars }: SightType) {
+function Place({ photo, name, distance, address, stars }: SightType) {
   return (
     <ImageBackground source={{ uri: photo }} style={styles.container}>
       <View style={{ height: 180, backgroundColor: "white", opacity: 0.7 }}>
@@ -35,7 +35,7 @@ function Sight({ photo, name, distance, address, stars }: SightType) {
   );
 }
 
-export default Sight;
+export default Place;
 
 const styles = StyleSheet.create({
   container: {
