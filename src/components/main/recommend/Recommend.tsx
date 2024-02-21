@@ -4,6 +4,7 @@ import * as Location from "expo-location";
 
 /* Pages */
 import Places from "@recommend/Places";
+import Regions from "@recommend/Regions";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -80,9 +81,10 @@ function Recommend() {
             : `${location.region} ${location.city} ${location.street}`}
         </Text>
       </View>
-      <View>
-        <Places />
-      </View>
+      <Places />
+
+      <Text style={styles.title}>지역 추천</Text>
+      <Regions />
     </View>
   );
 }
@@ -96,7 +98,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
   },
   /* 제목 스타일 */
-  title: { fontWeight: "700", fontSize: 25, marginLeft: 5 },
+  title: { fontWeight: "700", fontSize: 25, marginLeft: 5, marginTop: 20 },
 
   /* 위치 정보 컨테이너 스타일 */
   locationContainer: { flexDirection: "row", height: 30, marginTop: 10 },
