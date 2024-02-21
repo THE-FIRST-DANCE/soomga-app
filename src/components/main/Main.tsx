@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 /* Pages */
 import Search from "@main/Search";
@@ -11,8 +11,11 @@ function Main() {
     <View>
       <Search />
       <Tags />
-      <Schedules />
-      <Recommend />
+      <ScrollView style={{ height: 580 }} showsVerticalScrollIndicator={false}>
+        <Schedules />
+        <Recommend />
+        <Recommend />
+      </ScrollView>
     </View>
   );
 }
