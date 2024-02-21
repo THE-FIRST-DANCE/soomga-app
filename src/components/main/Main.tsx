@@ -14,7 +14,6 @@ function Main() {
       <ScrollView style={{ height: 580 }} showsVerticalScrollIndicator={false}>
         <Schedules />
         <Recommend />
-        <Recommend />
       </ScrollView>
     </View>
   );
