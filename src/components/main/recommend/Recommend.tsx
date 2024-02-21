@@ -65,9 +65,14 @@ function Recommend() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>여행지 추천</Text>
+      <Text style={styles.title}>관광지 추천</Text>
       <View style={styles.locationContainer}>
-        <SimpleLineIcons name="location-pin" size={24} color="gray" />
+        <SimpleLineIcons
+          name="location-pin"
+          size={20}
+          color="gray"
+          style={{ marginLeft: 5 }}
+        />
         <Text style={styles.location}>
           {/* 비동기 작업 진행중일 경우 메시지를 먼저 띄움 */}
           {isLoading
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
   locationContainer: { flexDirection: "row", height: 30, marginTop: 10 },
 
   /* 위치 정보 텍스트 스타일 */
-  location: { fontSize: 14, lineHeight: 25, marginLeft: 5 },
+  location: { fontSize: 14, lineHeight: 20, marginLeft: 5 },
 });
 
 export default Recommend;
