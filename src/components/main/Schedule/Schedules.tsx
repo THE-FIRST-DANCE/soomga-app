@@ -116,7 +116,7 @@ export default Schedules;
 const styles = StyleSheet.create({
   /* 컨테이너 스타일 */
   container: {
-    marginTop: 60,
+    marginTop: 10,
     marginHorizontal: 15,
   },
   /* 제목 스타일 */
