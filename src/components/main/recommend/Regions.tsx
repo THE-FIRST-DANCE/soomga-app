@@ -1,7 +1,7 @@
 import { Dimensions, ScrollView } from "react-native";
 
 /* Pages */
-import Region from "@recommend/Region";
+import Region from "@recommendMain/Region";
 
 function Regions() {
   /* 임시 데이터 */

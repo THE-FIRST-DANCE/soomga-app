@@ -3,8 +3,8 @@ import { ScrollView, View } from "react-native";
 /* Pages */
 import Search from "@main/Search";
 import Tags from "@main/Tags";
-import Schedules from "@schedule/Schedules";
-import Recommend from "@recommend/Recommend";
+import Schedules from "@scheduleMain/Schedules";
+import Recommend from "@recommendMain/Recommend";
 
 function Main() {
   return (

@@ -9,7 +9,7 @@ import {
 } from "@navigation/NavigationProps";
 
 /* Pages */
-import Schedule from "@schedule/Schedule";
+import Schedule from "@scheduleMain/Schedule";
 
 /* vector-icons */
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";

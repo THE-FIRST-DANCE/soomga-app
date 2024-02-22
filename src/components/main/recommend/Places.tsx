@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 
 /* Pages */
-import Place from "@recommend/Place";
+import Place from "@recommendMain/Place";
 
 function Places() {
   /* 임시 데이터 */
