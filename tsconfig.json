@@ -11,7 +11,9 @@
       "@main/*": ["src/components/main/*"],
       "@recommendMain/*": ["src/components/main/recommend/*"],
       "@scheduleMain/*": ["src/components/main/Schedule/*"],
-      "@guideMain/*": ["src/components/main/guide/*"],
+      "@guideMain/*": ["src/components/main/recommend/Guide/*"],
+      "@placeMain/*": ["src/components/main/recommend/Place/*"],
+      "@regionMain/*": ["src/components/main/recommend/Region/*"],
       /* profile 디렉토리 */
       "@profile/*": ["src/components/profile/*"],
       /* navigation 디렉토리 */

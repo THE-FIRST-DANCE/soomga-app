@@ -15,8 +15,10 @@ module.exports = function (api) {
             /* main 디렉토리 */
             "@main/*": "./src/components/main/*",
             "@recommendMain/*": "./src/components/main/recommend/*",
+            "@guideMain/*": "./src/components/main/recommend/Guide/*",
+            "@placeMain/*": "./src/components/main/recommend/Place/*",
+            "@regionMain/*": "./src/components/main/recommend/Region/*",
             "@scheduleMain/*": "./src/components/main/Schedule/*",
-            "@guideMain/*": "./src/components/main/guide/*",
             /* profile 디렉토리 */
             "@profile/*": "./src/components/profile/*",
             /* navigation 디렉토리 */
