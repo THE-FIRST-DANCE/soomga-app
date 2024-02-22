@@ -1,4 +1,11 @@
-import { View, Text, StyleSheet, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 
@@ -66,7 +73,15 @@ function Recommend() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>관광지 추천</Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Text style={styles.title}>관광지 추천</Text>
+        <TouchableOpacity
+          onPress={() => console.log("More Button Pressed!")}
+          style={styles.moreButton}
+        >
+          <Text>+ 더보기</Text>
+        </TouchableOpacity>
+      </View>
       <View style={styles.locationContainer}>
         <SimpleLineIcons
           name="location-pin"
@@ -82,8 +97,21 @@ function Recommend() {
         </Text>
       </View>
       <Places />
-
-      <Text style={styles.title}>지역 추천</Text>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 20,
+        }}
+      >
+        <Text style={styles.title}>지역 추천</Text>
+        <TouchableOpacity
+          onPress={() => console.log("More Button Pressed!")}
+          style={styles.moreButton}
+        >
+          <Text>+ 더보기</Text>
+        </TouchableOpacity>
+      </View>
       <Regions />
     </View>
   );
@@ -97,8 +125,19 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginHorizontal: 15,
   },
+  /* 더보기 버튼 스타일 */
+  moreButton: {
+    marginRight: 10,
+    marginTop: 3,
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 5,
+    borderColor: "#DC2626",
+    backgroundColor: "white",
+    elevation: 5,
+  },
   /* 제목 스타일 */
-  title: { fontWeight: "700", fontSize: 25, marginLeft: 5, marginTop: 20 },
+  title: { fontWeight: "700", fontSize: 25, marginLeft: 5 },
 
   /* 위치 정보 컨테이너 스타일 */
   locationContainer: { flexDirection: "row", height: 30, marginTop: 10 },
