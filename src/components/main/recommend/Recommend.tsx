@@ -75,10 +75,7 @@ function Recommend() {
     <View style={styles.container}>
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text style={styles.title}>관광지 추천</Text>
-        <TouchableOpacity
-          onPress={() => console.log("More Button Pressed!")}
-          style={styles.moreButton}
-        >
+        <TouchableOpacity style={styles.moreButton}>
           <Text>+ 더보기</Text>
         </TouchableOpacity>
       </View>
@@ -105,10 +102,7 @@ function Recommend() {
         }}
       >
         <Text style={styles.title}>지역 추천</Text>
-        <TouchableOpacity
-          onPress={() => console.log("More Button Pressed!")}
-          style={styles.moreButton}
-        >
+        <TouchableOpacity style={styles.moreButton}>
           <Text>+ 더보기</Text>
         </TouchableOpacity>
       </View>
