@@ -1,4 +1,11 @@
-import { Dimensions, ScrollView } from "react-native";
+import {
+  View,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 
 /* Pages */
 import Region from "@recommendMain/Region";
@@ -40,16 +47,46 @@ function Regions() {
 
   const screenWidth = Dimensions.get("window").width;
   return (
-    <ScrollView
-      horizontal={true}
-      showsHorizontalScrollIndicator={false}
-      style={{ marginTop: 20, width: screenWidth - 40 }}
-    >
-      {regions.map((region) => (
-        <Region key={region.id} photo={region.photo} name={region.name} />
-      ))}
-    </ScrollView>
+    <View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          marginTop: 20,
+        }}
+      >
+        <Text style={styles.title}>지역 추천</Text>
+        <TouchableOpacity style={styles.moreButton}>
+          <Text>+ 더보기</Text>
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        style={{ marginTop: 20, width: screenWidth - 40 }}
+      >
+        {regions.map((region) => (
+          <Region key={region.id} photo={region.photo} name={region.name} />
+        ))}
+      </ScrollView>
+    </View>
   );
 }
 
 export default Regions;
+
+const styles = StyleSheet.create({
+  /* 더보기 버튼 스타일 */
+  moreButton: {
+    marginRight: 10,
+    marginTop: 3,
+    borderWidth: 1,
+    borderRadius: 20,
+    padding: 5,
+    borderColor: "#DC2626",
+    backgroundColor: "white",
+    elevation: 5,
+  },
+  /* 제목 스타일 */
+  title: { fontWeight: "700", fontSize: 25, marginLeft: 5 },
+});
