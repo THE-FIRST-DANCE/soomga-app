@@ -1,14 +1,16 @@
 import { View, StyleSheet, Dimensions } from "react-native";
 
 /* Pages */
-import Places from "@recommendMain/Places";
-import Regions from "@recommendMain/Regions";
+import Places from "@placeMain/Places";
+import Regions from "@regionMain/Regions";
+import Guides from "@guideMain/Guides";
 
 function Recommend() {
   return (
     <View style={styles.container}>
       <Places />
       <Regions />
+      <Guides />
     </View>
   );
 }
