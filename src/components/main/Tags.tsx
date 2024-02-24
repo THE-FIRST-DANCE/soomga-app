@@ -1,20 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
+
+/* Navigation */
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "@navigation/NavigationProps";
+
 import {
   StyleSheet,
-  View,
   Text,
   Dimensions,
   ScrollView,
   Pressable,
 } from "react-native";
-
-import {
-  MyNavigationProp,
-  RootStackParamList,
-} from "../../navigation/NavigationProps";
-
-const screenWidth = Dimensions.get("window").width;
 
 interface Tag {
   id: string;
@@ -66,17 +65,16 @@ function Tags() {
   );
 }
 
+const screenWidth = Dimensions.get("window").width;
+
 const styles = StyleSheet.create({
   /* 태그 컨테이너 스타일 */
   container: {
     flexDirection: "row",
     width: screenWidth - 20,
-    height: 100,
+    height: 50,
     marginHorizontal: 10,
     marginTop: 5,
-    position: "absolute",
-    top: 100,
-    zIndex: -1,
   },
   /* 각 태그 스타일 */
   tag: {

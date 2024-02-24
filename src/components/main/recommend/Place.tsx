@@ -16,7 +16,7 @@ type SightType = {
 function Place({ photo, name, lat, lng, distance, address, stars }: SightType) {
   return (
     <ImageBackground source={{ uri: photo }} style={styles.container}>
-      <View style={{ height: 180, backgroundColor: "white", opacity: 0.7 }}>
+      <View style={styles.whiteBackground}>
         <View style={{ ...styles.information }}>
           <View style={{ flexDirection: "row", width: 180 }}>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
@@ -43,22 +43,23 @@ const styles = StyleSheet.create({
   container: {
     width: 270,
     height: 180,
-    marginHorizontal: 2,
-    borderWidth: 1,
+    marginHorizontal: 5,
     borderRadius: 20,
     overflow: "hidden",
+    elevation: 5,
   },
+  whiteBackground: { height: 180, backgroundColor: "white", opacity: 0.7 },
   information: {
     position: "absolute",
-    left: 20,
-    bottom: 20,
+    left: 15,
+    bottom: 15,
     zIndex: 1,
   },
-  name: { fontSize: 30, height: 40 },
+  name: { fontSize: 25, height: 30 },
   distance: {
     marginLeft: 5,
-    height: 40,
-    lineHeight: 50,
+    height: 30,
+    lineHeight: 40,
   },
   stars: {
     marginLeft: 5,

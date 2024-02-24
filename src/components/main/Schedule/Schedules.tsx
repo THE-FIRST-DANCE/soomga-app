@@ -1,15 +1,18 @@
 import { View, Text, StyleSheet } from "react-native";
-
-/* vector-icons */
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-
-import Schedule from "./Schedule";
 import { useState, useEffect } from "react";
+
+/* Navigation */
 import { useNavigation } from "@react-navigation/native";
 import {
   MyNavigationProp,
   RootStackParamList,
-} from "../../../navigation/NavigationProps";
+} from "@navigation/NavigationProps";
+
+/* Pages */
+import Schedule from "@schedule/Schedule";
+
+/* vector-icons */
+import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
 type ScheduleType = {
   id: number;
@@ -113,7 +116,7 @@ export default Schedules;
 const styles = StyleSheet.create({
   /* 컨테이너 스타일 */
   container: {
-    marginTop: 60,
+    marginTop: 10,
     marginHorizontal: 15,
   },
   /* 제목 스타일 */

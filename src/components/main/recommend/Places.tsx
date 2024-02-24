@@ -1,6 +1,7 @@
 import { StyleSheet, Dimensions, ScrollView, Alert } from "react-native";
 
-import Place from "./Place";
+/* Pages */
+import Place from "@recommend/Place";
 
 function Places() {
   /* 임시 데이터 */
@@ -67,7 +68,7 @@ export default Places;
 const screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
-    width: screenWidth - 50,
+    width: screenWidth - 40,
     padding: 5,
   },
 });
