@@ -1,6 +1,5 @@
 import {
   View,
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
@@ -49,7 +48,7 @@ function Regions() {
     <View>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>지역 추천</Text>
-        <TouchableOpacity style={styles.moreButton}>
+        <TouchableOpacity activeOpacity={0.5} style={styles.moreButton}>
           <Text>+ 더보기</Text>
         </TouchableOpacity>
       </View>
@@ -80,6 +79,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 5,
   },
+  /* 제목 컨테이너 스타일 */
   titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
