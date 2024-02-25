@@ -15,7 +15,7 @@ import Place from "@placeMain/Place";
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
 
-/* 위치 정보 객체 타입 */
+/* props */
 type LocationType = {
   city: string | null;
   region: string | null;
@@ -116,7 +116,7 @@ function Places() {
         }}
       >
         <Text style={styles.title}>관광지 추천</Text>
-        <TouchableOpacity style={styles.moreButton}>
+        <TouchableOpacity activeOpacity={0.5} style={styles.moreButton}>
           <Text>+ 더보기</Text>
         </TouchableOpacity>
       </View>
@@ -155,6 +155,7 @@ function Places() {
 export default Places;
 
 const styles = StyleSheet.create({
+  /* 컨테이너 스타일 */
   container: {
     marginTop: 30,
   },
