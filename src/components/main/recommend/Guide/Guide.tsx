@@ -6,22 +6,19 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-/* Tag 타입 import */
-import { Tag } from "@main/Tags";
-
 /* vector-icons */
-import { Octicons } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { Octicons, AntDesign } from "@expo/vector-icons";
 
+/* props */
 type GuideType = {
   photo: string;
   name: string;
   gender: string;
   description: string;
-  tags: Tag[];
+  stars: number;
 };
 
-function Guide({ photo, name, gender, description, tags }: GuideType) {
+function Guide({ photo, name, gender, description, stars }: GuideType) {
   const guideGender = gender === "M" ? "#4BB3FF" : "#FF8090";
 
   return (
@@ -37,11 +34,15 @@ function Guide({ photo, name, gender, description, tags }: GuideType) {
             top: 20,
             borderRadius: 100,
           }}
-        ></View>
+        />
         <View style={styles.information}>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
             {name}
           </Text>
+          <View style={{ flexDirection: "row" }}>
+            <AntDesign name="star" size={18} color="#ffd900" />
+            <Text style={{ marginLeft: 3 }}>{stars}</Text>
+          </View>
           <View style={{ flexDirection: "row" }}>
             <Octicons name="note" size={15} color="black" />
             <Text
@@ -52,15 +53,7 @@ function Guide({ photo, name, gender, description, tags }: GuideType) {
               {description}
             </Text>
           </View>
-          <View style={{ flexDirection: "row" }}>
-            <AntDesign name="star" size={18} color="#ffd900" />
-            <Text numberOfLines={1} ellipsizeMode="tail" style={{ width: 200 }}>
-              {tags.map((tag) => (
-                <Text key={tag.id}>{tag.name}, </Text>
-              ))}
-            </Text>
-          </View>
-          <TouchableOpacity style={styles.chatButton}>
+          <TouchableOpacity activeOpacity={0.7} style={styles.chatButton}>
             <Text>채팅하기</Text>
           </TouchableOpacity>
         </View>
@@ -72,6 +65,7 @@ function Guide({ photo, name, gender, description, tags }: GuideType) {
 export default Guide;
 
 const styles = StyleSheet.create({
+  /* 컨테이너 스타일 */
   container: {
     width: 230,
     height: 270,
@@ -80,24 +74,34 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     elevation: 5,
   },
-  whiteBackground: { height: 270, backgroundColor: "white", opacity: 0.6 },
+  /* 연한 배경색 스타일 */
+  whiteBackground: {
+    height: 270,
+    backgroundColor: "white",
+    opacity: 0.6,
+  },
+  /* 가이드 정보 섹션 스타일 */
   information: {
     position: "absolute",
     left: 15,
     bottom: 15,
     zIndex: 1,
   },
+  /* 가이드 이름 텍스트 스타일 */
   name: { fontSize: 30, height: 40 },
+  /* 가이드 자기소개 스타일 */
   description: {
     marginLeft: 5,
     width: 180,
     height: 20,
     lineHeight: 17,
   },
+  /* 가이드 별점 스타일 */
   stars: {
     marginLeft: 5,
     lineHeight: 20,
   },
+  /* 추천 가이드 채팅하기 버튼 스타일 */
   chatButton: {
     width: 190,
     marginTop: 10,
