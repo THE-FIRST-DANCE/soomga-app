@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Dimensions,
   TouchableOpacity,
   ScrollView,
 } from "react-native";
@@ -11,6 +10,7 @@ import {
 import Guide from "@guideMain/Guide";
 
 function Guides() {
+  /* 임시 데이터 */
   const guides = [
     {
       id: 1,
@@ -19,14 +19,7 @@ function Guides() {
       name: "카리나",
       gender: "F",
       description: "I'm Rocket Puncher!",
-      tags: [
-        { id: 1, name: "#ENFP" },
-        { id: 2, name: "#외향적" },
-        { id: 3, name: "#Kpop" },
-        { id: 4, name: "#애니메이션" },
-        { id: 5, name: "#게임" },
-        { id: 6, name: "#여행" },
-      ],
+      stars: 4.8,
     },
     {
       id: 2,
@@ -35,14 +28,7 @@ function Guides() {
       name: "지젤",
       gender: "M",
       description: "I'm Xenoglossy!",
-      tags: [
-        { id: 1, name: "#INFJ" },
-        { id: 2, name: "#내향적" },
-        { id: 3, name: "#Kpop" },
-        { id: 4, name: "#언어교환" },
-        { id: 5, name: "#패션" },
-        { id: 6, name: "#명상" },
-      ],
+      stars: 4.3,
     },
     {
       id: 3,
@@ -51,14 +37,7 @@ function Guides() {
       name: "윈터",
       gender: "F",
       description: "I'm Armamenter!",
-      tags: [
-        { id: 1, name: "#INFP" },
-        { id: 2, name: "#내향적" },
-        { id: 3, name: "#Kpop" },
-        { id: 4, name: "#집콕" },
-        { id: 5, name: "#음악" },
-        { id: 6, name: "#노래불러주기" },
-      ],
+      stars: 4.6,
     },
     {
       id: 4,
@@ -67,14 +46,7 @@ function Guides() {
       name: "닝닝",
       gender: "M",
       description: "I'm E.D Hacker!",
-      tags: [
-        { id: 1, name: "#INFP" },
-        { id: 2, name: "#내향적" },
-        { id: 3, name: "#Kpop" },
-        { id: 4, name: "#언어교환" },
-        { id: 5, name: "#음악" },
-        { id: 6, name: "#게임" },
-      ],
+      stars: 4.1,
     },
   ];
 
@@ -82,7 +54,7 @@ function Guides() {
     <View>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>가이드 추천</Text>
-        <TouchableOpacity style={styles.moreButton}>
+        <TouchableOpacity activeOpacity={0.5} style={styles.moreButton}>
           <Text>+ 더보기</Text>
         </TouchableOpacity>
       </View>
@@ -98,7 +70,7 @@ function Guides() {
             gender={guide.gender}
             name={guide.name}
             description={guide.description}
-            tags={guide.tags}
+            stars={guide.stars}
           />
         ))}
       </ScrollView>
@@ -123,6 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     elevation: 5,
   },
+  /* 제목 컨테이너 스타일 */
   titleContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
