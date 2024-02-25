@@ -107,5 +107,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 20,
     paddingBottom: 10,
+    height: 290,
   },
 });
