@@ -31,6 +31,7 @@ export default function Navigation() {
           headerShown: false,
           tabBarStyle: tabBarStyle,
           tabBarLabelStyle: tabBarLabelStyle,
+          tabBarHideOnKeyboard: true,
         }}
         initialRouteName="Main"
       >
