@@ -15,7 +15,8 @@ import {
   Pressable,
 } from "react-native";
 
-export type Tag = {
+/* props */
+type Tag = {
   id: number;
   name: string;
 };
