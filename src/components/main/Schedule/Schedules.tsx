@@ -14,6 +14,7 @@ import Schedule from "@scheduleMain/Schedule";
 /* vector-icons */
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
 
+/* props */
 type ScheduleType = {
   id: number;
   name: string;
@@ -86,9 +87,7 @@ function Schedules() {
           color="red"
           style={{ marginLeft: 10 }}
         />
-        <Text style={{ color: "white", marginLeft: 10, fontWeight: "700" }}>
-          여행 일정
-        </Text>
+        <Text style={styles.titleText}>여행 일정</Text>
         <MaterialIcons
           name="arrow-forward-ios"
           size={20}
@@ -127,4 +126,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
   },
+  /* 제목 텍스트 스타일 */
+  titleText: { color: "white", marginLeft: 10, fontWeight: "700" },
 });
