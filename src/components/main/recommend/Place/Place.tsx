@@ -17,7 +17,7 @@ function Place({ photo, name, lat, lng, distance, address, stars }: SightType) {
   return (
     <ImageBackground source={{ uri: photo }} style={styles.container}>
       <View style={styles.whiteBackground}>
-        <View style={{ ...styles.information }}>
+        <View style={styles.information}>
           <View style={{ flexDirection: "row", width: 180 }}>
             <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
               {name}
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     elevation: 5,
   },
-  whiteBackground: { height: 180, backgroundColor: "white", opacity: 0.7 },
+  whiteBackground: { height: 180, backgroundColor: "white", opacity: 0.6 },
   information: {
     position: "absolute",
     left: 15,
