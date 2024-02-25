@@ -45,16 +45,9 @@ function Regions() {
     },
   ];
 
-  const screenWidth = Dimensions.get("window").width;
   return (
     <View>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          marginTop: 20,
-        }}
-      >
+      <View style={styles.titleContainer}>
         <Text style={styles.title}>지역 추천</Text>
         <TouchableOpacity style={styles.moreButton}>
           <Text>+ 더보기</Text>
@@ -63,7 +56,7 @@ function Regions() {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        style={{ marginTop: 20, width: screenWidth - 40 }}
+        style={{ marginTop: 20 }}
       >
         {regions.map((region) => (
           <Region key={region.id} photo={region.photo} name={region.name} />
@@ -86,6 +79,11 @@ const styles = StyleSheet.create({
     borderColor: "#DC2626",
     backgroundColor: "white",
     elevation: 5,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
   },
   /* 제목 스타일 */
   title: { fontWeight: "700", fontSize: 25, marginLeft: 5 },
