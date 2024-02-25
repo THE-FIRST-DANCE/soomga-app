@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 
+/* props */
 type RegionType = {
   photo: string;
   name: string;
@@ -18,6 +19,7 @@ function Region({ photo, name }: RegionType) {
 export default Region;
 
 const styles = StyleSheet.create({
+  /* 컨테이너 스타일 */
   container: {
     width: 190,
     height: 210,
@@ -26,6 +28,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     elevation: 7,
   },
+  /* 연한 배경색 스타일 */
   whiteBackground: {
     height: 210,
     backgroundColor: "white",
@@ -33,6 +36,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  /* 지역 이름 텍스트 스타일 */
   name: {
     fontSize: 25,
     fontWeight: "600",
