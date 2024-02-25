@@ -19,7 +19,7 @@ export default Region;
 
 const styles = StyleSheet.create({
   container: {
-    width: 180,
+    width: 190,
     height: 210,
     marginHorizontal: 5,
     borderRadius: 20,
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   whiteBackground: {
     height: 210,
     backgroundColor: "white",
-    opacity: 0.7,
+    opacity: 0.6,
     justifyContent: "center",
     alignItems: "center",
   },
