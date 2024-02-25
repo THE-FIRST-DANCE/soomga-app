@@ -1,4 +1,4 @@
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 /* Pages */
 import Places from "@placeMain/Places";
@@ -15,13 +15,11 @@ function Recommend() {
   );
 }
 
-const screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   /* 추천 전체 스타일 */
   container: {
-    width: screenWidth - 30,
     marginTop: 20,
-    marginHorizontal: 15,
+    marginLeft: 15,
   },
 });
 
