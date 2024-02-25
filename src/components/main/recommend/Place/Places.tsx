@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  Dimensions,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -29,7 +28,7 @@ function Places() {
     {
       id: 1,
       photo:
-        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzEyMjVfNjIg%2FMDAxNzAzNTA0NDUyNTMx.KI5VQZel_r8tMUUI23kkoPwRS5QL4C2K6aGuwAePwZcg.hqXMts-qzUIhP1ylSXI745mL62ZBoKSarmNbQfBCASAg.JPEG.dnjsdlf6072%2F20231224%25A3%25DF203153.jpg&type=sc960_832",
+        "https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMzAzMjZfMjI2%2FMDAxNjc5ODM1Nzc1MTQ4.lwbY7Phtc5eS34iwee7ys6NI_c9jg1gBlpny1jh1--og.U-s_c4iHl97gt6jHHKD8QUVAssRb7yMJrg4GBW2cLHog.JPEG.minhae9191%2F%25B4%25EB%25B1%25B8_%25C0%25CC%25BF%25F9%25B5%25E5_%252813%2529.jpg&type=sc960_832",
       name: "이월드",
       lat: 35.853355,
       lng: 128.563884,
@@ -135,11 +134,7 @@ function Places() {
             : `${location.region} ${location.city} ${location.street}`}
         </Text>
       </View>
-      <ScrollView
-        style={styles.container}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-      >
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
         {places.map((place) => (
           <Place
             key={place.id}
@@ -159,11 +154,9 @@ function Places() {
 
 export default Places;
 
-const screenWidth = Dimensions.get("window").width;
 const styles = StyleSheet.create({
   container: {
-    width: screenWidth - 40,
-    padding: 5,
+    marginTop: 30,
   },
   /* 더보기 버튼 스타일 */
   moreButton: {
