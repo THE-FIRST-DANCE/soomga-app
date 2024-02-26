@@ -5,6 +5,8 @@
     "paths": {
       /* src 전체 디렉토리 */
       "@/*": ["src/*"],
+      /* assets 디렉토리 */
+      "@assets/*": ["src/assets/*"],
       /* components 전체 디렉토리 */
       "@components/*": ["src/components/*"],
       /* main 디렉토리 */
@@ -16,6 +18,8 @@
       "@regionMain/*": ["src/components/main/recommend/Region/*"],
       /* profile 디렉토리 */
       "@profile/*": ["src/components/profile/*"],
+      "@login/*": ["src/components/profile/LogIn/*"],
+      "@signIn/*": ["src/components/profile/SignIn/*"],
       /* navigation 디렉토리 */
       "@navigation/*": ["src/navigation/*"]
     }
