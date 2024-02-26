@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 
+/* props */
 type ScheduleType = {
   id: number;
   name: string;
@@ -14,7 +15,7 @@ function Schedule({ name, description, start_time, end_time }: ScheduleType) {
     <View style={styles.container}>
       {/* 좌측 바 */}
       <View style={styles.leftBar} />
-      <TouchableOpacity style={styles.scheduleInformation}>
+      <TouchableOpacity activeOpacity={0.5} style={styles.scheduleInformation}>
         {/* 일정 이름 */}
         <Text style={[styles.scheduleText, styles.name]}>{name}</Text>
 

@@ -15,27 +15,30 @@ import {
   Pressable,
 } from "react-native";
 
-interface Tag {
-  id: string;
-  tagName: string;
-}
+/* props */
+type Tag = {
+  id: number;
+  name: string;
+};
 
 function Tags() {
   /* 임시 데이터 */
   const tags = [
-    { id: "1", tagName: "#ISFJ" },
-    { id: "2", tagName: "#Kpop" },
-    { id: "3", tagName: "#인스타그램" },
-    { id: "4", tagName: "#사진" },
-    { id: "5", tagName: "#야구" },
-    { id: "6", tagName: "#볼링" },
-    { id: "7", tagName: "#프로그래밍" },
+    { id: 1, name: "#ISFJ" },
+    { id: 2, name: "#Kpop" },
+    { id: 3, name: "#인스타그램" },
+    { id: 4, name: "#사진" },
+    { id: 5, name: "#야구" },
+    { id: 6, name: "#볼링" },
+    { id: 7, name: "#프로그래밍" },
   ];
+
+  const lastIndex = tags.length;
 
   /* 전체 태그 상태 관리 */
   const [allTags, setAllTags] = useState<Tag[]>([
     ...tags,
-    { id: "more", tagName: "..." },
+    { id: lastIndex + 1, name: "..." },
   ]);
 
   /* navigation 추가 */
@@ -58,7 +61,7 @@ function Tags() {
             }
           }}
         >
-          <Text>{tag.tagName}</Text>
+          <Text>{tag.name}</Text>
         </Pressable>
       ))}
     </ScrollView>

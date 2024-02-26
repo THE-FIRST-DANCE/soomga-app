@@ -12,6 +12,7 @@ import {
 /* vector-icons */
 import { AntDesign, MaterialIcons } from "@expo/vector-icons";
 
+/* props */
 type highlightSearchTextType = {
   (text: string, search: string): React.ReactElement;
 };
