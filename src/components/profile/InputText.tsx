@@ -5,9 +5,15 @@ type InputTextType = {
   title: string;
   placeholder: string;
   style?: object;
+  isPasswordVisible?: boolean;
 };
 
-function InputText({ title, placeholder, style }: InputTextType) {
+function InputText({
+  title,
+  placeholder,
+  style,
+  isPasswordVisible,
+}: InputTextType) {
   return (
     <View style={style}>
       <Text style={{ fontSize: 20 }}>{title}</Text>
@@ -15,6 +21,7 @@ function InputText({ title, placeholder, style }: InputTextType) {
         placeholder={placeholder}
         placeholderTextColor="gray"
         style={styles.inputTexts}
+        secureTextEntry={isPasswordVisible}
       />
     </View>
   );
