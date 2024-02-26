@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
+import LogIn from "@login/LogIn";
 
 function Profile() {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Profile Page</Text>
+    <View>
+      <LogIn />
     </View>
   );
 }
