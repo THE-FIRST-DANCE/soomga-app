@@ -6,6 +6,8 @@ import Chat from "@components/Chat";
 import Profile from "@profile/Profile";
 import TagEdit from "@profile/TagEdit";
 import Schedules from "@profile/Schedules";
+import LogIn from "@login/LogIn";
+import SignIn from "@signIn/SignIn";
 
 /* 화면 전환 */
 import { NavigationContainer } from "@react-navigation/native";
@@ -84,13 +86,27 @@ export default function Navigation() {
         />
         <Tab.Screen
           name="프로필"
-          component={Profile}
           options={{
             tabBarIcon: ({ color }) => (
               <FontAwesome6 name="user-large" size={30} color={color} />
             ),
           }}
-        />
+        >
+          {() => (
+            <Stack.Navigator>
+              <Stack.Screen
+                name="Profile Page"
+                component={Profile}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="회원가입"
+                component={SignIn}
+                options={{ headerShown: false }}
+              />
+            </Stack.Navigator>
+          )}
+        </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
