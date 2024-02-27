@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 /* Pages */
 import Main from "@main/Main";
 import Plan from "@components/Plan";
@@ -31,8 +33,8 @@ export default function Navigation() {
           tabBarActiveTintColor: "#DC2626",
           tabBarInactiveTintColor: "gray",
           headerShown: false,
-          tabBarStyle: tabBarStyle,
-          tabBarLabelStyle: tabBarLabelStyle,
+          tabBarStyle,
+          tabBarLabelStyle,
           tabBarHideOnKeyboard: true,
         }}
         initialRouteName="Main"
