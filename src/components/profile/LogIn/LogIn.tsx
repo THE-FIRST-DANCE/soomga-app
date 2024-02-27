@@ -69,7 +69,7 @@ function LogIn() {
           style={{ marginTop: 10 }}
           activeOpacity={0.6}
           onPress={() => {
-            navigation.navigate("회원가입");
+            navigation.navigate("Email & Password");
           }}
         >
           <Text style={styles.signInText}>회원등록</Text>

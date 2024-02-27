@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 /* Pages */
 import Main from "@main/Main";
 import Plan from "@components/Plan";
@@ -9,7 +7,7 @@ import Profile from "@profile/Profile";
 import TagEdit from "@profile/TagEdit";
 import Schedules from "@profile/Schedules";
 import LogIn from "@login/LogIn";
-import SignIn from "@signIn/SignIn";
+import EmailPassword from "@signIn/EmailPassword";
 
 /* 화면 전환 */
 import { NavigationContainer } from "@react-navigation/native";
@@ -102,8 +100,8 @@ export default function Navigation() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen
-                name="회원가입"
-                component={SignIn}
+                name="Email & Password"
+                component={EmailPassword}
                 options={{ headerShown: false }}
               />
             </Stack.Navigator>
