@@ -1,10 +1,12 @@
+import { useState } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 
 /* components */
 import InputText from "@profile/InputText";
+import NextButton from "@profile/NextButton";
 
 /* vector-icons */
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 
 /* navigation */
 import { useNavigation } from "@react-navigation/native";
@@ -12,7 +14,6 @@ import {
   MyNavigationProp,
   RootStackParamList,
 } from "@navigation/NavigationProps";
-import { useState } from "react";
 
 /* 소셜 로그인 부분 수평선 */
 function Hr() {
@@ -78,9 +79,7 @@ function LogIn() {
         </TouchableOpacity>
       </View>
       {/* 로그인 버튼 */}
-      <TouchableOpacity style={styles.loginButton} activeOpacity={0.6}>
-        <AntDesign name="arrowright" size={24} color="white" />
-      </TouchableOpacity>
+      <NextButton />
       {/* 소셜 로그인 컨테이너 */}
       <View>
         <View
@@ -150,19 +149,6 @@ const styles = StyleSheet.create({
     color: "gray",
     fontSize: 15,
     textDecorationLine: "underline",
-  },
-  /* 로그인 버튼 스타일 */
-  loginButton: {
-    width: 50,
-    height: 50,
-    marginTop: 15,
-    marginRight: 10,
-    borderRadius: 100,
-    backgroundColor: "#DC2626",
-    elevation: 10,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "flex-end",
   },
   /* 소셜 로그인 버튼 컨테이너 스타일 */
   socialLoginContainer: {
