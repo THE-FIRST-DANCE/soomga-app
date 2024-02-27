@@ -6,6 +6,7 @@ type InputTextType = {
   placeholder: string;
   style?: object;
   isPasswordVisible?: boolean;
+  onChangeText?: (text: string) => void;
 };
 
 function InputText({
@@ -13,6 +14,7 @@ function InputText({
   placeholder,
   style,
   isPasswordVisible,
+  onChangeText,
 }: InputTextType) {
   return (
     <View style={style}>
@@ -22,6 +24,7 @@ function InputText({
         placeholderTextColor="gray"
         style={styles.inputTexts}
         secureTextEntry={isPasswordVisible}
+        onChangeText={onChangeText}
       />
     </View>
   );
