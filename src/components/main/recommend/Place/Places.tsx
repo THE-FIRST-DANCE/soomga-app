@@ -61,7 +61,7 @@ function Places() {
   ];
 
   /* 비동기 작업 진행 여부 변수 */
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   /* 위치 정보 저장 변수 */
   const [location, setLocation] = useState<LocationType>({
