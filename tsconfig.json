@@ -21,7 +21,9 @@
       "@login/*": ["src/components/profile/LogIn/*"],
       "@signIn/*": ["src/components/profile/SignIn/*"],
       /* navigation 디렉토리 */
-      "@navigation/*": ["src/navigation/*"]
+      "@navigation/*": ["src/navigation/*"],
+      /* stacks 디렉토리 */
+      "@stacks/*": ["src/stacks/*"]
     }
   },
   "extends": "@tsconfig/react-native/tsconfig.json"
