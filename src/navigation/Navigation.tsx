@@ -1,29 +1,21 @@
 /* Pages */
-import Main from "@main/Main";
 import Plan from "@components/Plan";
 import Sos from "@components/Sos";
 import Chat from "@components/Chat";
-import Profile from "@profile/Profile";
-import TagEdit from "@profile/TagEdit";
-import Schedules from "@profile/Schedules";
-import LogIn from "@login/LogIn";
-import EmailPassword from "@signIn/EmailPassword";
-import NicknameGender from "@signIn/NicknameGender";
-import TagsSelect from "@signIn/TagsSelect";
 
-/* 화면 전환 */
+/* Stacks */
+import HomeStacks from "@stacks/HomeStacks";
+import ProfileStacks from "@/stacks/ProfileStacks";
+
+/* Navigation */
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 /* vector-icons */
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import { createStackNavigator } from "@react-navigation/stack";
 
 /* 하단 내비게이션 바 생성 */
 const Tab = createBottomTabNavigator();
-
-/* 컴포넌트 내 내비게이터 생성 */
-const Stack = createStackNavigator();
 
 export default function Navigation() {
   return (
@@ -47,17 +39,7 @@ export default function Navigation() {
             ),
           }}
         >
-          {() => (
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Home Page"
-                component={Main}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen name="태그 편집" component={TagEdit} />
-              <Stack.Screen name="여행 일정" component={Schedules} />
-            </Stack.Navigator>
-          )}
+          {HomeStacks}
         </Tab.Screen>
         <Tab.Screen
           name="플랜"
@@ -94,30 +76,7 @@ export default function Navigation() {
             ),
           }}
         >
-          {() => (
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Profile Page"
-                component={Profile}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Email & Password"
-                component={EmailPassword}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Nickname & Gender"
-                component={NicknameGender}
-                options={{ headerShown: false }}
-              />
-              <Stack.Screen
-                name="Tags Select"
-                component={TagsSelect}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          )}
+          {ProfileStacks}
         </Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
