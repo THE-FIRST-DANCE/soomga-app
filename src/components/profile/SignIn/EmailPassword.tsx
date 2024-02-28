@@ -11,9 +11,16 @@ import {
 /* components */
 import InputText from "@profile/InputText";
 
+/* Navigation */
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "@navigation/NavigationProps";
+
 /* vector-icons */
 import { Feather } from "@expo/vector-icons";
 import NextButton from "../NextButton";
+import { useNavigation } from "@react-navigation/native";
 
 function EmailPassword() {
   /* 비밀번호 표시 여부 설정 */
@@ -30,7 +37,6 @@ function EmailPassword() {
 
   const handleEmailInputChange = (text: string) => {
     setEmailInputValue(text);
-    console.log(emailInputValue);
   };
 
   /* 이메일 정규식 */
@@ -47,7 +53,6 @@ function EmailPassword() {
 
   const handlePasswordInputChange = (text: string) => {
     setPasswordInputValue(text);
-    console.log(passwordInputValue);
   };
 
   /* 비밀번호 정규식 */
@@ -65,7 +70,6 @@ function EmailPassword() {
 
   const handlePasswordCheckInputChange = (text: string) => {
     setPasswordCheckInputValue(text);
-    console.log(passwordCheckInputValue);
   };
 
   const isPasswordCheckValid = (): boolean => {
@@ -73,6 +77,10 @@ function EmailPassword() {
   };
 
   /* --------------------------------------------------------------------------------- */
+
+  /* navigation 추가 */
+  const navigation =
+    useNavigation<MyNavigationProp<keyof RootStackParamList>>();
 
   return (
     <View style={{ marginHorizontal: 25 }}>
@@ -161,7 +169,7 @@ function EmailPassword() {
       </ScrollView>
       <NextButton
         style={{ marginTop: 50 }}
-        onPress={() => console.log("Next Page Button Pressed")}
+        onPress={() => navigation.navigate("Nickname & Gender")}
       />
     </View>
   );
