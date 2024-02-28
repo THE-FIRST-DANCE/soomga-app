@@ -134,7 +134,11 @@ function Places() {
             : `${location.region} ${location.city} ${location.street}`}
         </Text>
       </View>
-      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        horizontal={true}
+        showsHorizontalScrollIndicator={false}
+        style={{ height: 200 }}
+      >
         {places.map((place) => (
           <Place
             key={place.id}

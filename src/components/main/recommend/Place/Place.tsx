@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     borderRadius: 20,
     overflow: "hidden",
-    elevation: 5,
+    elevation: 7,
   },
   /* 연한 배경색 스타일 */
   whiteBackground: { height: 180, backgroundColor: "white", opacity: 0.6 },

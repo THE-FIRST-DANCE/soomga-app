@@ -55,7 +55,7 @@ function Regions() {
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 20, height: 230 }}
       >
         {regions.map((region) => (
           <Region key={region.id} photo={region.photo} name={region.name} />

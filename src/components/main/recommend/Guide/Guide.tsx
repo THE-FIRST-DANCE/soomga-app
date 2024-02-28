@@ -24,17 +24,7 @@ function Guide({ photo, name, gender, description, stars }: GuideType) {
   return (
     <ImageBackground style={styles.container} source={{ uri: photo }}>
       <View style={styles.whiteBackground}>
-        <View
-          style={{
-            width: 30,
-            height: 30,
-            backgroundColor: guideGender,
-            position: "absolute",
-            right: 20,
-            top: 20,
-            borderRadius: 100,
-          }}
-        />
+        <View style={{ ...styles.guideGender, backgroundColor: guideGender }} />
         <View style={styles.information}>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
             {name}
@@ -72,13 +62,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     borderRadius: 20,
     overflow: "hidden",
-    elevation: 5,
+    elevation: 7,
   },
   /* 연한 배경색 스타일 */
   whiteBackground: {
     height: 270,
     backgroundColor: "white",
     opacity: 0.6,
+  },
+  /* 가이드 성별 View 스타일 */
+  guideGender: {
+    width: 30,
+    height: 30,
+    position: "absolute",
+    right: 20,
+    top: 20,
+    borderRadius: 100,
   },
   /* 가이드 정보 섹션 스타일 */
   information: {
