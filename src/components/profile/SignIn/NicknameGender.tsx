@@ -15,8 +15,15 @@ import { Picker } from "@react-native-picker/picker";
 import InputText from "@profile/InputText";
 import NextButton from "@profile/NextButton";
 
+/* Navigation */
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "@navigation/NavigationProps";
+
 /* vector-icons */
 import { Entypo } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 type onChangeType = (
   event: DateTimePickerEvent,
@@ -50,6 +57,10 @@ function NicknameGender() {
   const handleValueChange: handleValueChangeType = (itemValue, itemIndex) => {
     setSelectedGender(itemValue);
   };
+
+  /* navigation 추가 */
+  const navigation =
+    useNavigation<MyNavigationProp<keyof RootStackParamList>>();
 
   return (
     <View style={{ marginHorizontal: 25 }}>
@@ -98,7 +109,10 @@ function NicknameGender() {
           </View>
         </KeyboardAvoidingView>
       </View>
-      <NextButton style={{ marginTop: 50 }} />
+      <NextButton
+        style={{ marginTop: 50 }}
+        onPress={() => navigation.navigate("Tags Select")}
+      />
     </View>
   );
 }
