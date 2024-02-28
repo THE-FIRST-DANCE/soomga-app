@@ -9,9 +9,11 @@ import { useState } from "react";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 
 /* components */
 import InputText from "@profile/InputText";
+import NextButton from "@profile/NextButton";
 
 /* vector-icons */
 import { Entypo } from "@expo/vector-icons";
@@ -21,9 +23,12 @@ type onChangeType = (
   selectedDate: Date | undefined
 ) => void;
 
+type handleValueChangeType = (itemValue: string, itemIndex: number) => void;
+
 function NicknameGender() {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedGender, setSelectedGender] = useState("남자");
 
   const onChange: onChangeType = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -42,9 +47,13 @@ function NicknameGender() {
     return `${year}-${month}-${day}`;
   };
 
+  const handleValueChange: handleValueChangeType = (itemValue, itemIndex) => {
+    setSelectedGender(itemValue);
+  };
+
   return (
     <View style={{ marginHorizontal: 25 }}>
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <View>
         {/* 제목, 부제목 */}
         <Text style={styles.title}>환영합니다!</Text>
         <Text style={styles.subtitle}>
@@ -76,8 +85,20 @@ function NicknameGender() {
               <Text style={styles.birthDate}>{formatDate(date)}</Text>
             </View>
           </View>
+          <View style={styles.picker}>
+            <Text style={{ fontSize: 20 }}>성별</Text>
+            <Picker
+              selectedValue={selectedGender}
+              onValueChange={handleValueChange}
+              mode="dropdown"
+            >
+              <Picker.Item label="남자" value="male" />
+              <Picker.Item label="여자" value="female" />
+            </Picker>
+          </View>
         </KeyboardAvoidingView>
-      </ScrollView>
+      </View>
+      <NextButton style={{ marginTop: 50 }} />
     </View>
   );
 }
@@ -110,4 +131,6 @@ const styles = StyleSheet.create({
   },
   /* 생년월일 텍스트 스타일 */
   birthDate: { lineHeight: 70, marginLeft: 10, fontSize: 20 },
+  /* 성별 Picker 스타일 */
+  picker: { marginTop: 30, borderBottomWidth: 1.5, width: 320 },
 });
