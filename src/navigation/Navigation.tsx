@@ -14,6 +14,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 /* vector-icons */
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
+import PlanStack from "@/stacks/PlanStack";
 
 /* 하단 내비게이션 바 생성 */
 const Tab = createBottomTabNavigator();
@@ -55,15 +56,17 @@ export default function Navigation() {
             </Stack.Navigator>
           )}
         </Tab.Screen>
+        {/* 플랜 탭 */}
         <Tab.Screen
           name="플랜"
-          component={Plan}
+          component={PlanStack}
           options={{
             tabBarIcon: ({ color }) => (
               <FontAwesome name="paper-plane" size={33} color={color} />
             ),
           }}
         />
+        {/* SOS 탭 */}
         <Tab.Screen
           name="SOS"
           component={Sos}
