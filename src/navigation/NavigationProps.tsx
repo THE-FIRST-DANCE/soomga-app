@@ -6,6 +6,7 @@ export type RootStackParamList = {
   "태그 편집": undefined;
   "여행 일정": undefined;
   "Email & Password": undefined;
+  "Nickname & Gender": undefined;
 };
 
 export type MyNavigationProp<T extends keyof RootStackParamList> =
