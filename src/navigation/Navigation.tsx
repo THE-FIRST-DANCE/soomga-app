@@ -9,6 +9,7 @@ import Schedules from "@profile/Schedules";
 import LogIn from "@login/LogIn";
 import EmailPassword from "@signIn/EmailPassword";
 import NicknameGender from "@signIn/NicknameGender";
+import TagsSelect from "@signIn/TagsSelect";
 
 /* 화면 전환 */
 import { NavigationContainer } from "@react-navigation/native";
@@ -108,6 +109,11 @@ export default function Navigation() {
               <Stack.Screen
                 name="Nickname & Gender"
                 component={NicknameGender}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Tags Select"
+                component={TagsSelect}
                 options={{ headerShown: false }}
               />
             </Stack.Navigator>

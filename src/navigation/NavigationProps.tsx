@@ -7,6 +7,7 @@ export type RootStackParamList = {
   "여행 일정": undefined;
   "Email & Password": undefined;
   "Nickname & Gender": undefined;
+  "Tags Select": undefined;
 };
 
 export type MyNavigationProp<T extends keyof RootStackParamList> =
