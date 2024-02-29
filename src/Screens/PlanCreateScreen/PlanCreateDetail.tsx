@@ -2,6 +2,7 @@ import Screen from "@/components/Screen";
 import { provinces } from "@/data/region";
 import React, { useState } from "react";
 import {
+  Alert,
   Button,
   Modal,
   StyleSheet,
@@ -58,6 +59,11 @@ const PlanCreateDetail = () => {
   };
 
   const onNext = () => {
+    if (!title || !value || !selectedPeriod) {
+      Alert.alert("모든 항목을 입력해주세요");
+      return;
+    }
+
     setPlanInfo(() => ({
       title,
       province: provinces.find((p) => p.value === value)?.label || "",
