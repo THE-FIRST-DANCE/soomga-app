@@ -3,12 +3,17 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { PlaceData } from "@/interface/Plan";
+import { categories } from "@/data/categories";
+import useSubstring from "@/hooks/useSubString";
 
 interface PlaceSelectTabItemProps {
   place: PlaceData;
 }
 
 const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
+  const category = categories.find((c) => c.value === place.category);
+  const name = useSubstring(place.name, 15);
+
   return (
     <View style={styles.container}>
       <Image
@@ -18,9 +23,15 @@ const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
         }}
       />
       <View style={styles.placeInfo}>
-        <Text style={styles.placeName}>{place.name}</Text>
+        <Text style={styles.placeName}>{name}</Text>
         <View style={styles.placeSubInfo}>
-          <Text style={styles.placeCategory}>{place.category}</Text>
+          <Text style={styles.placeCategory}>{category?.label}</Text>
+          <AntDesign
+            style={{ marginBottom: 1, marginLeft: 5 }}
+            name="star"
+            size={16}
+            color={Colors.PRIMARY}
+          />
           <Text style={styles.rating}>{place.rating}</Text>
         </View>
       </View>
@@ -59,11 +70,12 @@ const styles = StyleSheet.create({
   },
   placeCategory: {
     fontSize: 14,
-    marginRight: 5,
+    marginRight: 1,
     color: Colors.GREEN,
   },
   rating: {
     fontSize: 14,
+    marginLeft: 2,
     color: Colors.GRAY_DARK,
   },
   plusButton: {
