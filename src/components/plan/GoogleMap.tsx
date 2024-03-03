@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 interface GoogleMapProps {
@@ -28,16 +28,26 @@ const GoogleMap = ({
   marker = [],
   customMarker = [],
 }: GoogleMapProps) => {
+  const [region, setRegion] = useState({
+    latitude: center.lat,
+    longitude: center.lng,
+    latitudeDelta: 0.0922,
+    longitudeDelta: 0.0421,
+  });
+
+  useEffect(() => {
+    setRegion({
+      ...region,
+      latitude: center.lat,
+      longitude: center.lng,
+    });
+  }, [center]);
+
   return (
     <MapView
       style={{ width: "100%", height: "100%" }}
       provider={PROVIDER_GOOGLE}
-      initialRegion={{
-        latitude: center.lat,
-        longitude: center.lng,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      }}
+      region={region}
     >
       {marker.map((m, index) => (
         <Marker
