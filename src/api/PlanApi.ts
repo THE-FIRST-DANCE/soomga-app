@@ -1,3 +1,4 @@
+import { GooglePlaceResponse, PlaceData } from "@/interface/Plan";
 import axios from "axios";
 
 const api = axios.create({
@@ -12,6 +13,26 @@ export const getPlaceApi = async (category: string, region: string) => {
       region,
     },
   });
+
+  return response.data;
+};
+
+export const getSearchPlaceGoogle = async (
+  query: string,
+  location: string
+): Promise<GooglePlaceResponse> => {
+  const response = await api.get("places/search", {
+    params: {
+      query,
+      location,
+    },
+  });
+
+  return response.data;
+};
+
+export const addPlaceApi = async (data: PlaceData) => {
+  const response = await api.post("places/add", data);
 
   return response.data;
 };
