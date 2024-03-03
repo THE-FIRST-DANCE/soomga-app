@@ -1,6 +1,6 @@
 import Screen from "@/components/Screen";
 import GoogleMap from "@/components/plan/GoogleMap";
-import PlaceSelectedListItem from "@/components/plan/PlaceSelectedListItem";
+import PlaceSelectedListItem from "@/components/place/PlaceSelectedListItem";
 import Colors from "@/modules/Color";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 import { PlanInfo } from "@/state/store/PlanRecoil";

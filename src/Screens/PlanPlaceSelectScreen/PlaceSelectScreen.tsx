@@ -1,5 +1,5 @@
 import Screen from "@/components/Screen";
-import PlaceSelectTab from "@/components/plan/PlaceSelectTab";
+import PlaceSelectTab from "@/components/place/PlaceSelectTab";
 import Colors from "@/modules/Color";
 import { PlanInfo } from "@/state/store/PlanRecoil";
 import React, { useState } from "react";
