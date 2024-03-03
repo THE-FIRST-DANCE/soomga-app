@@ -7,6 +7,7 @@ const Colors = {
   GRAY_MEDIUM: "#E0E0E0",
   GRAY_DARK: "#757575",
   GREEN: "#4CAF50",
+  BLUE: "#2196F3",
 };
 
 export default Colors;
