@@ -1,4 +1,5 @@
 import Screen from "@/components/Screen";
+import PlaceAddTab from "@/components/place/PlaceAddTab";
 import PlaceSelectTab from "@/components/place/PlaceSelectTab";
 import Colors from "@/modules/Color";
 import { PlanInfo } from "@/state/store/PlanRecoil";
@@ -42,9 +43,7 @@ const PlaceSelectScreen = () => {
       {currentTab === "select" ? (
         <PlaceSelectTab region={planInfo.province} />
       ) : (
-        <View>
-          <Text>신규 장소 등록</Text>
-        </View>
+        <PlaceAddTab planInfo={planInfo} />
       )}
     </Screen>
   );
