@@ -45,11 +45,15 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
         ? data
         : places.filter((place) => place.category === currentCategory.value);
 
-    const searchPlaces = filterPlaces.filter((place: PlaceData) =>
-      place.name.includes(searchKeyword)
-    );
+    if (searchKeyword !== "") {
+      const searchPlaces = filterPlaces.filter((place: PlaceData) =>
+        place.name.includes(searchKeyword)
+      );
+      setPlaces(searchPlaces);
+      return;
+    }
 
-    setPlaces(searchPlaces);
+    setPlaces(filterPlaces);
   };
 
   useEffect(() => {
@@ -84,7 +88,7 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
       </View>
 
       <View style={styles.placeList}>
-        {places.length > 0 ? (
+        {places?.length > 0 ? (
           <FlatList
             data={places}
             keyExtractor={(item) => item?.id?.toString() || item.name}
@@ -114,6 +118,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.WHITE,
     padding: 15,
+    shadowColor: Colors.GRAY_DARK,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
   },
   searchInput: {
     borderRadius: 10,
