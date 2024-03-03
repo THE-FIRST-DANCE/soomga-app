@@ -118,6 +118,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.WHITE,
     padding: 15,
+    shadowColor: Colors.GRAY_DARK,
+    shadowOffset: {
+      width: 3,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
   },
   searchInput: {
     borderRadius: 10,
