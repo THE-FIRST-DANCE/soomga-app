@@ -30,7 +30,7 @@ export default Category;
 
 const styles = StyleSheet.create({
   /* 전체 컨테이너 스타일 */
-  container: { marginTop: 20, marginBottom: 20 },
+  container: { marginTop: 10, marginBottom: 20 },
   /* 각 카테고리 제목 스타일 */
   label: { fontSize: 20, fontWeight: "600" },
   /* 각 카테고리 컨테이너 스타일 */
