@@ -33,10 +33,28 @@ type onChangeType = (
 type handleValueChangeType = (itemValue: string, itemIndex: number) => void;
 
 function NicknameGender() {
-  const [date, setDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedGender, setSelectedGender] = useState("남자");
+  /* 닉네임 유효성 검사 */
+  const [nicknameInputValue, setNicknameInputValue] = useState<string>("");
 
+  const handleNicknameInputChange = (text: string) => {
+    setNicknameInputValue(text);
+  };
+
+  /* 닉네임 정규식 */
+  const nicknameRegex = /^[가-힣a-zA-Zㄱ-ㅎ]{2,}$/;
+
+  const isNicknameValid = (nickname: string): boolean => {
+    return nicknameRegex.test(nickname);
+  };
+
+  /* --------------------------------------------------------------------------------- */
+
+  /* 날짜 설정 */
+  const [date, setDate] = useState<Date>(new Date());
+  /* 날짜 선택할 달력 표시 여부 */
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  /* 날짜 선택 후 이벤트 처리 */
   const onChange: onChangeType = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
@@ -54,9 +72,16 @@ function NicknameGender() {
     return `${year}-${month}-${day}`;
   };
 
+  /* --------------------------------------------------------------------------------- */
+
+  /* 성별 설정 */
+  const [selectedGender, setSelectedGender] = useState<string>("남자");
+
   const handleValueChange: handleValueChangeType = (itemValue, itemIndex) => {
     setSelectedGender(itemValue);
   };
+
+  /* --------------------------------------------------------------------------------- */
 
   /* navigation 추가 */
   const navigation =
@@ -74,7 +99,17 @@ function NicknameGender() {
           당신만의 특별한 여행이 펼쳐집니다.
         </Text>
         <KeyboardAvoidingView style={{ marginTop: 30 }}>
-          <InputText title="닉네임" placeholder="닉네임" />
+          <InputText
+            title="닉네임"
+            placeholder="닉네임"
+            onChangeText={handleNicknameInputChange}
+          />
+          {nicknameInputValue !== "" &&
+            !isNicknameValid(nicknameInputValue) && (
+              <Text style={{ color: "red" }}>
+                닉네임은 2글자 이상이어야 합니다.
+              </Text>
+            )}
           <View style={{ marginTop: 30 }}>
             <Text style={{ fontSize: 20 }}>생년월일</Text>
             <View style={styles.birthDateContainer}>
