@@ -1,8 +1,8 @@
 /* Pages */
-import Profile from "@/components/profile/Profile";
-import EmailPassword from "@/components/profile/SignIn/EmailPassword";
-import NicknameGender from "@/components/profile/SignIn/NicknameGender";
-import TagsSelect from "@/components/profile/SignIn/TagsSelect";
+import Profile from "@profile/Profile";
+import EmailPassword from "@signIn/EmailPassword";
+import NicknameGender from "@signIn/NicknameGender";
+import TagsSelect from "@signIn/TagsSelect";
 
 /* Stack Navigator */
 import { createStackNavigator } from "@react-navigation/stack";
@@ -20,17 +20,17 @@ function ProfileStacks() {
       <Stack.Screen
         name="Email & Password"
         component={EmailPassword}
-        options={{ headerShown: false }}
+        options={{ headerTitle: "" }}
       />
       <Stack.Screen
         name="Nickname & Gender"
         component={NicknameGender}
-        options={{ headerShown: false }}
+        options={{ headerTitle: "" }}
       />
       <Stack.Screen
         name="Tags Select"
         component={TagsSelect}
-        options={{ headerShown: false }}
+        options={{ headerTitle: "" }}
       />
     </Stack.Navigator>
   );
