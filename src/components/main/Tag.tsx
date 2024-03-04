@@ -9,7 +9,7 @@ export type TagType = {
 };
 
 function Tag({ name, onPress, usePressedStyle }: TagType) {
-  const [isPressed, setIsPressed] = useState(false);
+  const [isPressed, setIsPressed] = useState<boolean>(false);
 
   const handlePress = () => {
     setIsPressed(!isPressed);

@@ -50,6 +50,7 @@ function Tags() {
               navigation.navigate("태그 편집");
             }
           }}
+          usePressedStyle={false}
         />
       ))}
     </ScrollView>
