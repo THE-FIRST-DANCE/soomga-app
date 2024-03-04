@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 /* components */
 import Tag from "@main/Tag";
@@ -15,11 +15,11 @@ type CategoryType = {
 
 function Category({ label, category }: CategoryType) {
   return (
-    <View style={{ marginTop: 20 }}>
-      <Text style={{ fontSize: 20, fontWeight: "600" }}>{label}</Text>
-      <View style={{ marginTop: 20, flexDirection: "row", flexWrap: "wrap" }}>
+    <View style={styles.container}>
+      <Text style={styles.label}>{label}</Text>
+      <View style={styles.tagsContainer}>
         {category.map((tag) => (
-          <Tag key={tag.id} name={tag.name} />
+          <Tag key={tag.id} name={tag.name} usePressedStyle={true} />
         ))}
       </View>
     </View>
@@ -27,3 +27,12 @@ function Category({ label, category }: CategoryType) {
 }
 
 export default Category;
+
+const styles = StyleSheet.create({
+  /* 전체 컨테이너 스타일 */
+  container: { marginTop: 20, marginBottom: 20 },
+  /* 각 카테고리 제목 스타일 */
+  label: { fontSize: 20, fontWeight: "600" },
+  /* 각 카테고리 컨테이너 스타일 */
+  tagsContainer: { flexDirection: "row", flexWrap: "wrap" },
+});
