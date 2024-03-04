@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "700",
-    marginTop: 100,
+    marginTop: 50,
   },
   /* 부제목 스타일 */
   subtitle: {

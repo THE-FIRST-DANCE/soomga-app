@@ -5,7 +5,6 @@ import {
   ScrollView,
   TouchableOpacity,
 } from "react-native";
-import { useState } from "react";
 
 /* components */
 import Category from "@signIn/Category";
@@ -30,7 +29,7 @@ function TagsSelect() {
           <Text style={styles.finishButton}>완료</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView style={{ height: 460 }} showsVerticalScrollIndicator={false}>
+      <ScrollView style={{ height: 410 }} showsVerticalScrollIndicator={false}>
         <Category label="MBTI" category={tags.mbti} />
         <Category label="엔터테인먼트" category={tags.entertainment} />
         <Category label="취미 & 관심사" category={tags.hobby} />
@@ -54,7 +53,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: "700",
-    marginTop: 100,
+    marginTop: 50,
   },
   /* 부제목 스타일 */
   subtitle: {
