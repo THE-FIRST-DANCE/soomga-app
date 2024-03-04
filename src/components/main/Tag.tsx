@@ -3,18 +3,30 @@ import { Pressable, StyleSheet, Text } from "react-native";
 
 /* props */
 export type TagType = {
-  width?: number;
   name: string;
   onPress?: () => void;
+  usePressedStyle?: boolean;
 };
 
-function Tag({ name, onPress }: TagType) {
+function Tag({ name, onPress, usePressedStyle }: TagType) {
+  const [isPressed, setIsPressed] = useState(false);
+
+  const handlePress = () => {
+    setIsPressed(!isPressed);
+    if (onPress) onPress();
+  };
+
   return (
     <Pressable
-      style={{ ...styles.tag, alignItems: "center" }}
-      onPress={onPress}
+      style={[
+        styles.tag,
+        usePressedStyle && isPressed && styles.pressedTagStyle,
+      ]}
+      onPress={handlePress}
     >
-      <Text>{name}</Text>
+      <Text style={usePressedStyle && isPressed && styles.pressedNameStyle}>
+        {name}
+      </Text>
     </Pressable>
   );
 }
@@ -31,7 +43,16 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     padding: 7,
     height: 35,
-    backgroundColor: "white",
     elevation: 5,
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  /* 태그가 눌렸을 때의 태그 스타일 */
+  pressedTagStyle: {
+    backgroundColor: "#DC2626",
+  },
+  /* 태그가 눌렸을 때 태그 이름 스타일 */
+  pressedNameStyle: {
+    color: "white",
   },
 });
