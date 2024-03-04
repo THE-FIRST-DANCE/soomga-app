@@ -1,3 +1,4 @@
+import PlanConfirmScreen from "@/Screens/PlanConfirmScreen/PlanConfirmScreen";
 import PlanCreateDetail from "@/Screens/PlanCreateScreen/PlanCreateDetail";
 import PlanCreateScreen from "@/Screens/PlanCreateScreen/PlanCreateScreen";
 import PlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlaceSelectScreen";
@@ -9,6 +10,7 @@ export type PlanStackParamList = {
   PlanCreateDetail: undefined;
   PlanPlaceSelectScreen: undefined;
   PlaceSelectScreen: undefined;
+  PlanConfirmScreen: undefined;
 };
 
 const Stack = createStackNavigator<PlanStackParamList>();
@@ -27,6 +29,7 @@ export default function PlanStack() {
         component={PlanPlaceSelectScreen}
       ></Stack.Screen>
       <Stack.Screen name="PlaceSelectScreen" component={PlaceSelectScreen} />
+      <Stack.Screen name="PlanConfirmScreen" component={PlanConfirmScreen} />
     </Stack.Navigator>
   );
 }
