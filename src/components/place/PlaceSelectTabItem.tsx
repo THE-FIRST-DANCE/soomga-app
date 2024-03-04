@@ -5,6 +5,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { PlaceData } from "@/interface/Plan";
 import { categories } from "@/data/categories";
 import useSubstring from "@/hooks/useSubString";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { CurrentPeriod, PeriodPlanRecoil } from "@/state/store/PlanRecoil";
 
 interface PlaceSelectTabItemProps {
   place: PlaceData;
@@ -13,6 +15,53 @@ interface PlaceSelectTabItemProps {
 const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
   const category = categories.find((c) => c.value === place.category);
   const name = useSubstring(place.name, 15);
+
+  const currentPeriod = useRecoilValue(CurrentPeriod);
+  const [planPeriod, setPlanPeriod] = useRecoilState(PeriodPlanRecoil);
+
+  const currentPlan = planPeriod[currentPeriod] || [];
+
+  const checked = currentPlan.some(
+    (item) => item.item.placeId === place.placeId
+  );
+
+  const handleAddList = () => {
+    setPlanPeriod((prev) => {
+      const currentPlan = [...(prev[currentPeriod] || [])];
+
+      if (checked) {
+        // 아이템 삭제 로직
+        const newPlan = currentPlan.filter(
+          (item) => item.item.placeId !== place.placeId
+        );
+        const newPlanOrder = newPlan.map((item, index) => {
+          return {
+            ...item,
+            order: index + 1,
+          };
+        });
+        return {
+          ...prev,
+          [currentPeriod]: newPlanOrder,
+        };
+      } else {
+        // 아이템 추가 로직
+        const newPlan = [
+          ...currentPlan,
+          {
+            item: place,
+            order: currentPlan.length + 1,
+            stayTime: "1시간 0분",
+            checked: true,
+          },
+        ];
+        return {
+          ...prev,
+          [currentPeriod]: newPlan,
+        };
+      }
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -35,8 +84,15 @@ const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
           <Text style={styles.rating}>{place.rating}</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.plusButton}>
-        <AntDesign name="plus" size={16} color="black" />
+      <TouchableOpacity
+        onPress={handleAddList}
+        style={checked ? styles.checkButton : styles.plusButton}
+      >
+        {checked ? (
+          <AntDesign name="check" size={16} color="white" />
+        ) : (
+          <AntDesign name="plus" size={16} color="black" />
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -87,9 +143,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   checkButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 15,
+    width: 30,
+    height: 30,
+    borderRadius: 5,
     backgroundColor: Colors.PRIMARY,
     justifyContent: "center",
     alignItems: "center",

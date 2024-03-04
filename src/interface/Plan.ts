@@ -1,3 +1,5 @@
+import { PeriodList } from "@/state/store/PlanRecoil";
+
 // 장소 검색 결과
 export interface GooglePlaceResponse {
   next_page_token: string;
@@ -26,6 +28,11 @@ export interface GooglePlacePhoto {
   html_attributions: string[];
   photo_reference: string;
   width: number;
+}
+
+export interface PlanListConfirm {
+  planList: PeriodList;
+  transport: string;
 }
 
 // 장소 데이터 타입 (서버)
