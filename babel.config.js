@@ -25,6 +25,8 @@ module.exports = function (api) {
             "@profile/*": "./src/components/profile/*",
             "@login/*": "./src/components/profile/LogIn/*",
             "@signIn/*": "./src/components/profile/SignIn/*",
+            /* data 디렉토리 */
+            "@data/*": "./src/data/*",
             /* navigation 디렉토리 */
             "@navigation/*": "./src/navigation/*",
             /* stacks 디렉토리 */

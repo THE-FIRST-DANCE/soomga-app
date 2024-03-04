@@ -16,6 +16,7 @@
       "@guideMain/*": ["src/components/main/recommend/Guide/*"],
       "@placeMain/*": ["src/components/main/recommend/Place/*"],
       "@regionMain/*": ["src/components/main/recommend/Region/*"],
+      "@data/*": ["src/data/*"],
       /* profile 디렉토리 */
       "@profile/*": ["src/components/profile/*"],
       "@login/*": ["src/components/profile/LogIn/*"],
