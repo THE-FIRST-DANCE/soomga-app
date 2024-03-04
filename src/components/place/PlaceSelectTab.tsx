@@ -14,6 +14,8 @@ import PlaceSelectTabItem from "./PlaceSelectTabItem";
 import { getPlaceApi } from "@/api/PlanApi";
 import { useQuery } from "@tanstack/react-query";
 import { PlaceData } from "@/interface/Plan";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { PlanStackParamList } from "@/stacks/PlanStack";
 
 interface PlaceSelectTabProps {
   region: string;
@@ -23,6 +25,8 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [places, setPlaces] = useState<PlaceData[]>([]);
+
+  const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
   const getPlace = () => {
     return getPlaceApi(currentCategory.value, region);
@@ -43,7 +47,7 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
     const filterPlaces =
       currentCategory.value === "all"
         ? data
-        : places.filter((place) => place.category === currentCategory.value);
+        : places?.filter((place) => place.category === currentCategory.value);
 
     if (searchKeyword !== "") {
       const searchPlaces = filterPlaces.filter((place: PlaceData) =>
@@ -59,6 +63,10 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
   useEffect(() => {
     filterPlaces();
   }, [searchKeyword, currentCategory]);
+
+  const handleConfirm = () => {
+    navigation.navigate("PlanPlaceSelectScreen");
+  };
 
   return (
     <View style={styles.container}>
@@ -99,6 +107,10 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
           <Text>장소가 없습니다.</Text>
         )}
       </View>
+
+      <TouchableOpacity onPress={handleConfirm} style={styles.confirmButton}>
+        <Text style={{ color: Colors.WHITE }}>확인</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -150,6 +162,13 @@ const styles = StyleSheet.create({
   },
   placeList: {
     flex: 1,
-    marginTop: 10,
+    marginVertical: 10,
+  },
+  confirmButton: {
+    backgroundColor: Colors.PRIMARY,
+    padding: 15,
+    borderRadius: 10,
+    alignItems: "center",
+    marginBottom: 20,
   },
 });
