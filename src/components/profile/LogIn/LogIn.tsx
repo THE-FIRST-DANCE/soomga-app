@@ -72,7 +72,7 @@ function LogIn() {
             navigation.navigate("Email & Password");
           }}
         >
-          <Text style={styles.signInText}>회원등록</Text>
+          <Text style={styles.signInText}>회원가입</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{ marginTop: 10 }} activeOpacity={0.6}>
           <Text style={styles.signInText}>비밀번호를 잊어버렸나요?</Text>
