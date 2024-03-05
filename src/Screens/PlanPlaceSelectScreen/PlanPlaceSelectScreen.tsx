@@ -47,6 +47,13 @@ const PlanPlaceSelectScreen = () => {
     });
   };
 
+  const markers = currentPlan.map((item) => {
+    return {
+      lat: item.item.latitude,
+      lng: item.item.longitude,
+    };
+  });
+
   return (
     <Screen title="장소 선택">
       <View style={styles.header}>
@@ -80,6 +87,7 @@ const PlanPlaceSelectScreen = () => {
             lat: planInfo.lat,
             lng: planInfo.lng,
           }}
+          marker={markers}
         />
       </View>
 
