@@ -9,6 +9,7 @@ import React, { useState } from "react";
 import {
   Button,
   Image,
+  Modal,
   StyleSheet,
   Text,
   TextInput,
@@ -18,6 +19,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import useSubstring from "@/hooks/useSubString";
 import { useRecoilState, useRecoilValue } from "recoil";
+import PlaceDetailModal from "../place/PlaceDetailModal";
 
 interface PlaceSelectedListItemProps {
   item: PlanListItem;
@@ -35,6 +37,8 @@ const PlaceSelectedListItem = ({ item }: PlaceSelectedListItemProps) => {
   const [timeMod, setTimeMod] = useState<boolean>(false);
   const [hour, setHour] = useState<number>(1);
   const [minute, setMinute] = useState<number>(0);
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const deleteItem = () => {
     const newPlan = currentPlan.filter(
@@ -105,7 +109,10 @@ const PlaceSelectedListItem = ({ item }: PlaceSelectedListItemProps) => {
           </TouchableOpacity>
         </View>
       ) : (
-        <View style={styles.item}>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.item}
+        >
           <Image
             style={styles.itemImage}
             source={{
@@ -127,8 +134,19 @@ const PlaceSelectedListItem = ({ item }: PlaceSelectedListItemProps) => {
               <AntDesign name="close" size={20} color="black" />
             </TouchableOpacity>
           </View>
-        </View>
+        </TouchableOpacity>
       )}
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <PlaceDetailModal place={item.item} setModalVisible={setModalVisible} />
+      </Modal>
     </View>
   );
 };

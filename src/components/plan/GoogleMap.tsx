@@ -1,5 +1,7 @@
+import Colors from "@/modules/Color";
 import React, { useEffect, useState } from "react";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { Image, Text, View } from "react-native";
+import MapView, { Marker, PROVIDER_GOOGLE, Polyline } from "react-native-maps";
 
 interface GoogleMapProps {
   center?: {
@@ -17,6 +19,7 @@ interface GoogleMapProps {
       lng: number;
     };
     icon: string;
+    title: number;
   }[];
 }
 
@@ -35,13 +38,24 @@ const GoogleMap = ({
     longitudeDelta: 0.0421,
   });
 
+  const [markers, setMarkers] = useState(marker);
+  const [customMarkers, setCustomMarkers] = useState(customMarker);
+
   useEffect(() => {
     setRegion({
       ...region,
       latitude: center.lat,
       longitude: center.lng,
     });
-  }, [center]);
+  }, [JSON.stringify(center)]);
+
+  useEffect(() => {
+    setMarkers(marker);
+  }, [JSON.stringify(marker)]);
+
+  useEffect(() => {
+    setCustomMarkers(customMarker);
+  }, [JSON.stringify(customMarker)]);
 
   return (
     <MapView
@@ -49,7 +63,7 @@ const GoogleMap = ({
       provider={PROVIDER_GOOGLE}
       region={region}
     >
-      {marker.map((m, index) => (
+      {markers.map((m, index) => (
         <Marker
           key={index}
           coordinate={{
@@ -58,6 +72,42 @@ const GoogleMap = ({
           }}
         />
       ))}
+
+      {customMarkers.slice(0, -1).map((item, index) => (
+        <Marker
+          key={index}
+          coordinate={{
+            latitude: item.position.lat,
+            longitude: item.position.lng,
+          }}
+        >
+          <View
+            style={{
+              position: "relative",
+              width: 30,
+              height: 30,
+              alignItems: "center",
+            }}
+          >
+            <Image
+              source={{ uri: item.icon }}
+              style={{ width: "100%", height: "100%", position: "absolute" }}
+            />
+            <Text style={{ color: Colors.PRIMARY, fontSize: 20 }}>
+              {item.title}
+            </Text>
+          </View>
+        </Marker>
+      ))}
+
+      <Polyline
+        coordinates={customMarkers.map((item) => ({
+          latitude: item.position.lat,
+          longitude: item.position.lng,
+        }))}
+        strokeWidth={3}
+        strokeColor={Colors.DANGER}
+      />
     </MapView>
   );
 };

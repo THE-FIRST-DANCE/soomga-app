@@ -1,12 +1,20 @@
 import Colors from "@/modules/Color";
-import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { PlaceData } from "@/interface/Plan";
 import { categories } from "@/data/categories";
 import useSubstring from "@/hooks/useSubString";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { CurrentPeriod, PeriodPlanRecoil } from "@/state/store/PlanRecoil";
+import PlaceDetailModal from "./PlaceDetailModal";
 
 interface PlaceSelectTabItemProps {
   place: PlaceData;
@@ -15,6 +23,8 @@ interface PlaceSelectTabItemProps {
 const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
   const category = categories.find((c) => c.value === place.category);
   const name = useSubstring(place.name, 15);
+
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const currentPeriod = useRecoilValue(CurrentPeriod);
   const [planPeriod, setPlanPeriod] = useRecoilState(PeriodPlanRecoil);
@@ -64,7 +74,12 @@ const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
   };
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      onPress={() => {
+        setModalVisible(true);
+      }}
+      style={styles.container}
+    >
       <Image
         style={styles.placeImage}
         source={{
@@ -94,7 +109,19 @@ const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
           <AntDesign name="plus" size={16} color="black" />
         )}
       </TouchableOpacity>
-    </View>
+
+      {/* 모달 */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <PlaceDetailModal place={place} setModalVisible={setModalVisible} />
+      </Modal>
+    </TouchableOpacity>
   );
 };
 
