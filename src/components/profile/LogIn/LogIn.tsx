@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Linking,
+} from "react-native";
 
 /* components */
 import InputText from "@profile/InputText";
@@ -90,18 +97,26 @@ function LogIn() {
           <Hr />
         </View>
         <View style={styles.socialLoginContainer}>
+          {/* 구글 소셜 로그인 */}
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.socialLoginButton}
+            onPress={() =>
+              Linking.openURL("http://home.juhyeonni.co.kr/auth/google")
+            }
           >
             <Image
               source={require("@assets/googleLogo.png")}
               style={styles.socialLoginImage}
             />
           </TouchableOpacity>
+          {/* 라인 소셜 로그인 */}
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.socialLoginButton}
+            onPress={() =>
+              Linking.openURL("http://home.juhyeonni.co.kr/auth/line")
+            }
           >
             <Image
               source={require("@assets/lineLogo.png")}
