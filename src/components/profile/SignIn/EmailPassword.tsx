@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,8 +10,10 @@ import {
 
 /* components */
 import InputText from "@profile/InputText";
+import NextButton from "@profile/NextButton";
 
 /* Navigation */
+import { useNavigation } from "@react-navigation/native";
 import {
   MyNavigationProp,
   RootStackParamList,
@@ -19,8 +21,6 @@ import {
 
 /* vector-icons */
 import { Feather } from "@expo/vector-icons";
-import NextButton from "../NextButton";
-import { useNavigation } from "@react-navigation/native";
 
 function EmailPassword() {
   /* 비밀번호 표시 여부 설정 */
@@ -35,8 +35,9 @@ function EmailPassword() {
   /* 이메일 유효성 검사 */
   const [emailInputValue, setEmailInputValue] = useState<string>("");
 
-  const handleEmailInputChange = (text: string) => {
-    setEmailInputValue(text);
+  const handleEmailInputChange = (email: string) => {
+    setEmailInputValue(email);
+    console.log(emailInputValue);
   };
 
   /* 이메일 정규식 */
@@ -51,8 +52,9 @@ function EmailPassword() {
   /* 비밀번호 유효성 검사 */
   const [passwordInputValue, setPasswordInputValue] = useState<string>("");
 
-  const handlePasswordInputChange = (text: string) => {
-    setPasswordInputValue(text);
+  const handlePasswordInputChange = (password: string) => {
+    setPasswordInputValue(password);
+    console.log(passwordInputValue);
   };
 
   /* 비밀번호 정규식 */
@@ -68,13 +70,30 @@ function EmailPassword() {
   const [passwordCheckInputValue, setPasswordCheckInputValue] =
     useState<string>("");
 
-  const handlePasswordCheckInputChange = (text: string) => {
-    setPasswordCheckInputValue(text);
+  const handlePasswordCheckInputChange = (passwordCheck: string) => {
+    setPasswordCheckInputValue(passwordCheck);
   };
 
   const isPasswordCheckValid = (): boolean => {
     return passwordInputValue === passwordCheckInputValue;
   };
+
+  /* --------------------------------------------------------------------------------- */
+
+  /* 이메일, 비밀번호, 비밀번호 확인이 모두 유효성 검사를 통과했을 때에만 다음 페이지로 넘어가도록 구현 */
+  const [isNextButtonDisabled, setIsNextButtonDisabled] =
+    useState<boolean>(true);
+
+  useEffect(() => {
+    setIsNextButtonDisabled(
+      emailInputValue === "" ||
+        passwordInputValue === "" ||
+        passwordCheckInputValue === "" ||
+        !isEmailValid(emailInputValue) ||
+        !isPasswordValid(passwordInputValue) ||
+        !isPasswordCheckValid()
+    );
+  }, [emailInputValue, passwordInputValue, passwordCheckInputValue]);
 
   /* --------------------------------------------------------------------------------- */
 
@@ -94,7 +113,7 @@ function EmailPassword() {
           당신만의 특별한 여행이 펼쳐집니다.
         </Text>
         <KeyboardAvoidingView>
-          <View style={{ marginTop: 70 }}>
+          <View style={{ marginTop: 40 }}>
             {/* 이메일 입력창 */}
             <InputText
               title="이메일"
@@ -103,7 +122,7 @@ function EmailPassword() {
             />
             {/* 이메일 유효성 검사 */}
             {emailInputValue !== "" && !isEmailValid(emailInputValue) && (
-              <Text style={{ color: "red" }}>유효한 이메일이 아닙니다.</Text>
+              <Text style={styles.errorMsg}>유효한 이메일이 아닙니다.</Text>
             )}
             {/* 비밀번호 입력창 */}
             <View style={{ flexDirection: "row" }}>
@@ -130,7 +149,7 @@ function EmailPassword() {
             {/* 비밀번호 유효성 검사 */}
             {passwordInputValue !== "" &&
               !isPasswordValid(passwordInputValue) && (
-                <Text style={{ color: "red" }}>
+                <Text style={styles.errorMsg}>
                   비밀번호는 숫자 8자 이상이어야 합니다.
                 </Text>
               )}
@@ -160,16 +179,18 @@ function EmailPassword() {
             </View>
             {/* 비밀번호 확인 유효성 검사 */}
             {passwordInputValue !== "" && !isPasswordCheckValid() && (
-              <Text style={{ color: "red" }}>
-                비밀번호가 일치하지 않습니다.
-              </Text>
+              <Text style={styles.errorMsg}>비밀번호가 일치하지 않습니다.</Text>
             )}
           </View>
         </KeyboardAvoidingView>
       </ScrollView>
       <NextButton
-        style={{ marginTop: 50 }}
+        style={[
+          isNextButtonDisabled ? { opacity: 0.4 } : { opacity: 1 },
+          { marginTop: 40 },
+        ]}
         onPress={() => navigation.navigate("Nickname & Gender")}
+        disabled={isNextButtonDisabled}
       />
     </View>
   );
@@ -193,7 +214,7 @@ const styles = StyleSheet.create({
   soomgaText: {
     color: "#DC2626",
   },
-
   /* 비밀번호 표시 여부 버튼 스타일 */
   visibleButton: { position: "absolute", right: 20, top: 60 },
+  errorMsg: { color: "red" },
 });

@@ -1,11 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
-import { useState } from "react";
+import { View, Text, StyleSheet, KeyboardAvoidingView } from "react-native";
+import { useEffect, useState } from "react";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -20,10 +14,10 @@ import {
   MyNavigationProp,
   RootStackParamList,
 } from "@navigation/NavigationProps";
+import { useNavigation } from "@react-navigation/native";
 
 /* vector-icons */
 import { Entypo } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 
 type onChangeType = (
   event: DateTimePickerEvent,
@@ -46,6 +40,18 @@ function NicknameGender() {
   const isNicknameValid = (nickname: string): boolean => {
     return nicknameRegex.test(nickname);
   };
+
+  /* --------------------------------------------------------------------------------- */
+
+  /* 닉네임이 유효성 검사를 통과했을 때에만 다음 페이지로 넘어가도록 구현 */
+  const [isNextButtonDisabled, setIsNextButtonDisabled] =
+    useState<boolean>(true);
+
+  useEffect(() => {
+    setIsNextButtonDisabled(
+      nicknameInputValue === "" || !isNicknameValid(nicknameInputValue)
+    );
+  }, [nicknameInputValue]);
 
   /* --------------------------------------------------------------------------------- */
 
@@ -145,8 +151,12 @@ function NicknameGender() {
         </KeyboardAvoidingView>
       </View>
       <NextButton
-        style={{ marginTop: 50 }}
+        style={[
+          isNextButtonDisabled ? { opacity: 0.4 } : { opacity: 1 },
+          { marginTop: 40 },
+        ]}
         onPress={() => navigation.navigate("Tags Select")}
+        disabled={isNextButtonDisabled}
       />
     </View>
   );
