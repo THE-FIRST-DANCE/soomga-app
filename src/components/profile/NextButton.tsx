@@ -8,14 +8,16 @@ import { AntDesign } from "@expo/vector-icons";
 type NextButtonType = {
   style?: object;
   onPress?: () => void;
+  disabled?: boolean;
 };
 
-function NextButton({ style, onPress }: NextButtonType) {
+function NextButton({ style, onPress, disabled }: NextButtonType) {
   return (
     <TouchableOpacity
       style={[styles.loginButton, style]}
       activeOpacity={0.6}
       onPress={onPress}
+      disabled={disabled}
     >
       <AntDesign name="arrowright" size={30} color="white" />
     </TouchableOpacity>
