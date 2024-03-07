@@ -36,7 +36,9 @@ const PlanPlaceSelectScreen = () => {
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
   const placeAdd = () => {
-    navigation.navigate("PlaceSelectScreen");
+    navigation.navigate("PlaceSelectScreen", {
+      editMode: false,
+    });
   };
 
   const resetPlan = () => {
