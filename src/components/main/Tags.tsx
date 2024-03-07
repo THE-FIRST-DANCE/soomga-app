@@ -13,7 +13,7 @@ import Tag, { TagType } from "@main/Tag";
 
 function Tags() {
   /* 임시 데이터 */
-  const tags = [
+  const tags: TagType[] = [
     { id: 1, name: "#ISFJ" },
     { id: 2, name: "#Kpop" },
     { id: 3, name: "#인스타그램" },
@@ -44,13 +44,14 @@ function Tags() {
       {allTags.map((tag, index) => (
         <Tag
           key={index + 1}
-          name={tag.name}
           onPress={() => {
             if (index === allTags.length - 1) {
               navigation.navigate("태그 편집");
             }
           }}
           usePressedStyle={false}
+          id={tag.id}
+          name={tag.name}
         />
       ))}
     </ScrollView>
