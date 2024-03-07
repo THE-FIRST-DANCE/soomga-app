@@ -189,7 +189,15 @@ function EmailPassword() {
           isNextButtonDisabled ? { opacity: 0.4 } : { opacity: 1 },
           { marginTop: 40 },
         ]}
-        onPress={() => navigation.navigate("Nickname & Gender")}
+        onPress={() => {
+          const data = {
+            email: emailInputValue,
+            password: passwordInputValue,
+            passwordConfirm: passwordCheckInputValue,
+          };
+
+          navigation.navigate("Nickname & Gender", { data: data });
+        }}
         disabled={isNextButtonDisabled}
       />
     </View>

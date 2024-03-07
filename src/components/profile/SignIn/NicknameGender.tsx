@@ -14,7 +14,7 @@ import {
   MyNavigationProp,
   RootStackParamList,
 } from "@navigation/NavigationProps";
-import { useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 /* vector-icons */
 import { Entypo } from "@expo/vector-icons";
@@ -35,7 +35,7 @@ function NicknameGender() {
   };
 
   /* 닉네임 정규식 */
-  const nicknameRegex = /^[가-힣a-zA-Zㄱ-ㅎ]{2,}$/;
+  const nicknameRegex = /^[가-힣a-zA-Zㄱ-ㅎ0-9]{2,}$/;
 
   const isNicknameValid = (nickname: string): boolean => {
     return nicknameRegex.test(nickname);
@@ -57,6 +57,7 @@ function NicknameGender() {
 
   /* 날짜 설정 */
   const [date, setDate] = useState<Date>(new Date());
+
   /* 날짜 선택할 달력 표시 여부 */
   const [showDatePicker, setShowDatePicker] = useState(false);
 
@@ -92,6 +93,11 @@ function NicknameGender() {
   /* navigation 추가 */
   const navigation =
     useNavigation<MyNavigationProp<keyof RootStackParamList>>();
+
+  /* route 추가 */
+  const route = useRoute<RouteProp<RootStackParamList, "Nickname & Gender">>();
+  const { data } = route.params;
+  const routeData = data;
 
   return (
     <View style={{ marginHorizontal: 25 }}>
@@ -155,7 +161,16 @@ function NicknameGender() {
           isNextButtonDisabled ? { opacity: 0.4 } : { opacity: 1 },
           { marginTop: 40 },
         ]}
-        onPress={() => navigation.navigate("Tags Select")}
+        onPress={() => {
+          const data = {
+            ...routeData,
+            nickname: nicknameInputValue,
+            birthDate: date.toISOString(),
+          };
+
+          console.log(data);
+          navigation.navigate("Tags Select", { data: data });
+        }}
         disabled={isNextButtonDisabled}
       />
     </View>
