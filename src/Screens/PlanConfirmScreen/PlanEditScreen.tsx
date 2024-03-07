@@ -19,6 +19,7 @@ import { usePlanEdit } from "@/hooks/plan/usePlanEdit";
 import PlanEditHeader from "@/components/plan/PlanEditHeader";
 import { ActivityIndicator } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { AntDesign } from "@expo/vector-icons";
 
 const PlanEditScreen = () => {
   type PlanEditScreenRouteProp = RouteProp<
@@ -58,13 +59,15 @@ const PlanEditScreen = () => {
     getIndex,
   }: RenderItemParams<PlanConfirmListItem>) => {
     return (
-      <PlanEditItem
-        index={getIndex()}
-        item={item}
-        drag={drag}
-        isActive={isActive}
-        onRemove={itemRemove}
-      />
+      <>
+        <PlanEditItem
+          index={getIndex()}
+          item={item}
+          drag={drag}
+          isActive={isActive}
+          onRemove={itemRemove}
+        />
+      </>
     );
   };
 
@@ -103,9 +106,11 @@ const PlanEditScreen = () => {
               keyExtractor={(item, index) => `${item.item.id}-item-${index}`}
               data={planList}
               renderItem={planListRenderItem}
-              ItemSeparatorComponent={() => {
-                return <View style={styles.line}></View>;
-              }}
+              ItemSeparatorComponent={() => (
+                <View style={{ alignSelf: "center", marginVertical: 10 }}>
+                  <AntDesign name="arrowdown" size={24} color="black" />
+                </View>
+              )}
               onDragEnd={({ data }) => {
                 updatePlanList(data);
               }}
@@ -201,10 +206,12 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   line: {
+    position: "absolute",
+    bottom: 0,
     width: 2,
-    height: 30,
+    height: "50%",
     backgroundColor: Colors.BLACK,
-    marginVertical: 10,
     alignSelf: "center",
+    marginBottom: 20,
   },
 });
