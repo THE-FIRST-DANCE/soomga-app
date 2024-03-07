@@ -3,7 +3,7 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
 import { useSetRecoilState } from "recoil";
-import { PlanConfirmList } from "@/state/store/PlanRecoil";
+import { PlanConfirmList, PlanInfo } from "@/state/store/PlanRecoil";
 import { PlanConfirmListItem, Plans } from "@/interface/Plan";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { PlanStackParamList } from "@/stacks/PlanStack";
@@ -49,6 +49,7 @@ interface PlanItemProps {
 // 플랜 생성 페이지에서 플랜 리스트 아이템
 const PlanItem = ({ plan }: PlanItemProps) => {
   const setPlanConfirmList = useSetRecoilState(PlanConfirmList);
+  const setPlanInfo = useSetRecoilState(PlanInfo);
 
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
@@ -72,6 +73,14 @@ const PlanItem = ({ plan }: PlanItemProps) => {
         lng: lng || 0,
         period: plan.period,
       },
+    });
+
+    setPlanInfo({
+      title: plan.title,
+      province: plan.region,
+      lat: lat || 0,
+      lng: lng || 0,
+      period: plan.period,
     });
 
     navigation.navigate("PlanConfirmScreen");
