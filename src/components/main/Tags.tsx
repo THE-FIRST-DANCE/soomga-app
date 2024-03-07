@@ -1,29 +1,19 @@
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Dimensions, ScrollView } from "react-native";
 import { useState } from "react";
 
 /* Navigation */
+import { useNavigation } from "@react-navigation/native";
 import {
   MyNavigationProp,
   RootStackParamList,
 } from "@navigation/NavigationProps";
 
-import {
-  StyleSheet,
-  Text,
-  Dimensions,
-  ScrollView,
-  Pressable,
-} from "react-native";
-
-/* props */
-type Tag = {
-  id: number;
-  name: string;
-};
+/* components */
+import Tag, { TagType } from "@main/Tag";
 
 function Tags() {
   /* 임시 데이터 */
-  const tags = [
+  const tags: TagType[] = [
     { id: 1, name: "#ISFJ" },
     { id: 2, name: "#Kpop" },
     { id: 3, name: "#인스타그램" },
@@ -36,7 +26,7 @@ function Tags() {
   const lastIndex = tags.length;
 
   /* 전체 태그 상태 관리 */
-  const [allTags, setAllTags] = useState<Tag[]>([
+  const [allTags, setAllTags] = useState<TagType[]>([
     ...tags,
     { id: lastIndex + 1, name: "..." },
   ]);
@@ -52,17 +42,17 @@ function Tags() {
       style={styles.container}
     >
       {allTags.map((tag, index) => (
-        <Pressable
-          key={tag.id}
-          style={styles.tag}
+        <Tag
+          key={index + 1}
           onPress={() => {
             if (index === allTags.length - 1) {
               navigation.navigate("태그 편집");
             }
           }}
-        >
-          <Text>{tag.name}</Text>
-        </Pressable>
+          usePressedStyle={false}
+          id={tag.id}
+          name={tag.name}
+        />
       ))}
     </ScrollView>
   );
@@ -78,18 +68,6 @@ const styles = StyleSheet.create({
     height: 50,
     marginHorizontal: 10,
     marginTop: 5,
-  },
-  /* 각 태그 스타일 */
-  tag: {
-    borderColor: "#DC2626",
-    borderWidth: 1,
-    borderRadius: 20,
-    marginHorizontal: 3,
-    marginVertical: 5,
-    padding: 7,
-    height: 35,
-    backgroundColor: "white",
-    elevation: 5,
   },
 });
 

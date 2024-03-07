@@ -10,6 +10,8 @@ module.exports = function (api) {
           alias: {
             /* src 전체 디렉토리 */
             "@/*": "./src/*",
+            /* assets 디렉토리 */
+            "@assets/*": "./src/assets/*",
             /* components 전체 디렉토리 */
             "@components/*": "./src/components/*",
             /* main 디렉토리 */
@@ -21,8 +23,14 @@ module.exports = function (api) {
             "@scheduleMain/*": "./src/components/main/Schedule/*",
             /* profile 디렉토리 */
             "@profile/*": "./src/components/profile/*",
+            "@login/*": "./src/components/profile/LogIn/*",
+            "@signIn/*": "./src/components/profile/SignIn/*",
+            /* data 디렉토리 */
+            "@data/*": "./src/data/*",
             /* navigation 디렉토리 */
             "@navigation/*": "./src/navigation/*",
+            /* stacks 디렉토리 */
+            "@stacks/*": "./src/stacks",
           },
         },
       ],

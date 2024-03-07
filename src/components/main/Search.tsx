@@ -19,7 +19,7 @@ type highlightSearchTextType = {
 
 function Search() {
   /* 검색어 */
-  const [searchText, setSearchText] = useState("");
+  const [searchText, setSearchText] = useState<string>("");
 
   /* 임시 데이터 : 백엔드 데이터와 연결 필요 */
   const [data, setData] = useState([
