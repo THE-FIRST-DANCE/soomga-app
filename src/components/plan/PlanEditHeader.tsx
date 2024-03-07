@@ -11,7 +11,7 @@ import { PlaceData } from "@/interface/Plan";
 import Colors from "@/modules/Color";
 
 interface HeaderComponentProps {
-  planPlaceBox: any[];
+  planPlaceBox: PlaceData[];
   setPlanPlaceBox: (data: PlaceData[]) => void;
   placeBoxRemove: (index: number) => void;
   listPlaceAdd: (place: PlaceData) => void;
