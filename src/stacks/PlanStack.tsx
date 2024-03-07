@@ -1,16 +1,26 @@
 import PlanConfirmScreen from "@/Screens/PlanConfirmScreen/PlanConfirmScreen";
+import PlanEditScreen from "@/Screens/PlanConfirmScreen/PlanEditScreen";
 import PlanCreateDetail from "@/Screens/PlanCreateScreen/PlanCreateDetail";
 import PlanCreateScreen from "@/Screens/PlanCreateScreen/PlanCreateScreen";
 import PlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlaceSelectScreen";
 import PlanPlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlanPlaceSelectScreen";
+import { PlanConfirmPeriodList } from "@/interface/Plan";
+import { PlanInfo } from "@/state/store/PlanRecoil";
 import { createStackNavigator } from "@react-navigation/stack";
 
 export type PlanStackParamList = {
   PlanCreateScreen: undefined;
   PlanCreateDetail: undefined;
   PlanPlaceSelectScreen: undefined;
-  PlaceSelectScreen: undefined;
+  PlaceSelectScreen: {
+    editMode?: boolean;
+  };
   PlanConfirmScreen: undefined;
+  PlanEditScreen: {
+    data: PlanConfirmPeriodList;
+    info: PlanInfo;
+    transport: string;
+  };
 };
 
 const Stack = createStackNavigator<PlanStackParamList>();
@@ -30,6 +40,7 @@ export default function PlanStack() {
       ></Stack.Screen>
       <Stack.Screen name="PlaceSelectScreen" component={PlaceSelectScreen} />
       <Stack.Screen name="PlanConfirmScreen" component={PlanConfirmScreen} />
+      <Stack.Screen name="PlanEditScreen" component={PlanEditScreen} />
     </Stack.Navigator>
   );
 }

@@ -13,27 +13,34 @@ import { PlaceData } from "@/interface/Plan";
 import { categories } from "@/data/categories";
 import useSubstring from "@/hooks/useSubString";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { CurrentPeriod, PeriodPlanRecoil } from "@/state/store/PlanRecoil";
+import {
+  CurrentPeriod,
+  PeriodPlanRecoil,
+  PlanPlaceBox,
+} from "@/state/store/PlanRecoil";
 import PlaceDetailModal from "./PlaceDetailModal";
 
 interface PlaceSelectTabItemProps {
   place: PlaceData;
+  editMode?: boolean;
 }
 
-const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
+const PlaceSelectTabItem = ({ place, editMode }: PlaceSelectTabItemProps) => {
   const category = categories.find((c) => c.value === place.category);
   const name = useSubstring(place.name, 15);
 
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+  const [placeBox, setPlaceBox] = useRecoilState(PlanPlaceBox);
 
   const currentPeriod = useRecoilValue(CurrentPeriod);
   const [planPeriod, setPlanPeriod] = useRecoilState(PeriodPlanRecoil);
 
   const currentPlan = planPeriod[currentPeriod] || [];
 
-  const checked = currentPlan.some(
-    (item) => item.item.placeId === place.placeId
-  );
+  const checked = editMode
+    ? placeBox.some((item) => item.placeId === place.placeId)
+    : currentPlan.some((item) => item.item.placeId === place.placeId);
 
   const handleAddList = () => {
     setPlanPeriod((prev) => {
@@ -73,6 +80,16 @@ const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
     });
   };
 
+  const handleAddPlaceBox = () => {
+    setPlaceBox((prev) => {
+      if (checked) {
+        return prev.filter((item) => item.placeId !== place.placeId);
+      } else {
+        return [...prev, place];
+      }
+    });
+  };
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -100,7 +117,7 @@ const PlaceSelectTabItem = ({ place }: PlaceSelectTabItemProps) => {
         </View>
       </View>
       <TouchableOpacity
-        onPress={handleAddList}
+        onPress={editMode ? handleAddPlaceBox : handleAddList}
         style={checked ? styles.checkButton : styles.plusButton}
       >
         {checked ? (

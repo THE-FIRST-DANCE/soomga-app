@@ -2,7 +2,9 @@ import Screen from "@/components/Screen";
 import PlaceAddTab from "@/components/place/PlaceAddTab";
 import PlaceSelectTab from "@/components/place/PlaceSelectTab";
 import Colors from "@/modules/Color";
+import { PlanStackParamList } from "@/stacks/PlanStack";
 import { PlanInfo } from "@/state/store/PlanRecoil";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
@@ -10,6 +12,13 @@ import { useRecoilValue } from "recoil";
 const PlaceSelectScreen = () => {
   const [currentTab, setCurrentTab] = useState<"select" | "new">("select");
   const planInfo = useRecoilValue(PlanInfo);
+
+  type PlanEditScreenRouteProp = RouteProp<
+    PlanStackParamList,
+    "PlaceSelectScreen"
+  >;
+  const route = useRoute<PlanEditScreenRouteProp>();
+  const { editMode } = route.params;
 
   return (
     <Screen title="장소 추가">
@@ -41,7 +50,7 @@ const PlaceSelectScreen = () => {
       </View>
 
       {currentTab === "select" ? (
-        <PlaceSelectTab region={planInfo.province} />
+        <PlaceSelectTab editMode={editMode} region={planInfo.province} />
       ) : (
         <PlaceAddTab planInfo={planInfo} />
       )}

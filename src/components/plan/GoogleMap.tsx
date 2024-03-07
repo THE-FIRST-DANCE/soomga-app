@@ -40,6 +40,12 @@ const GoogleMap = ({
 
   const [markers, setMarkers] = useState(marker);
   const [customMarkers, setCustomMarkers] = useState(customMarker);
+  const [polyline, setPolyline] = useState<
+    {
+      latitude: number;
+      longitude: number;
+    }[]
+  >([]);
 
   useEffect(() => {
     setRegion({
@@ -54,8 +60,25 @@ const GoogleMap = ({
   }, [JSON.stringify(marker)]);
 
   useEffect(() => {
-    setCustomMarkers(customMarker);
+    if (
+      customMarker.length > 1 &&
+      customMarker[0].position.lat ===
+        customMarker[customMarker.length - 1].position.lat &&
+      customMarker[0].position.lng ===
+        customMarker[customMarker.length - 1].position.lng
+    ) {
+      setCustomMarkers(customMarker.slice(0, customMarker.length - 1));
+    } else setCustomMarkers(customMarker);
   }, [JSON.stringify(customMarker)]);
+
+  useEffect(() => {
+    setPolyline(
+      customMarkers.map((item) => ({
+        latitude: item.position.lat,
+        longitude: item.position.lng,
+      }))
+    );
+  }, [JSON.stringify(customMarkers)]);
 
   return (
     <MapView
@@ -73,7 +96,7 @@ const GoogleMap = ({
         />
       ))}
 
-      {customMarkers.slice(0, -1).map((item, index) => (
+      {customMarkers.map((item, index) => (
         <Marker
           key={index}
           coordinate={{
@@ -101,10 +124,7 @@ const GoogleMap = ({
       ))}
 
       <Polyline
-        coordinates={customMarkers.map((item) => ({
-          latitude: item.position.lat,
-          longitude: item.position.lng,
-        }))}
+        coordinates={polyline}
         strokeWidth={3}
         strokeColor={Colors.DANGER}
       />

@@ -85,3 +85,33 @@ export const getTransCoord = async (
     y: response.data.documents[0].y,
   };
 };
+
+export const getPlaceRouteEdit = async ({
+  planList,
+  transport,
+}: PlanListConfirm) => {
+  const data = {
+    list: planList,
+    transport,
+  };
+
+  const response = await api.post("plans/route/edit", data);
+
+  return response.data;
+};
+
+export const savePlan = async (data: any) => {
+  const response = await api.post("plans/save", data);
+
+  return response.data;
+};
+
+export const getPlanList = async (authorId: number) => {
+  const response = await api.get("plans", {
+    params: {
+      authorId,
+    },
+  });
+
+  return response.data;
+};
