@@ -1,9 +1,12 @@
+import { getPlanList } from "@/api/PlanApi";
 import Screen from "@/components/Screen";
 import PlanItem from "@/components/plan/PlanItem";
+import { Plans } from "@/interface/Plan";
 import Colors from "@/modules/Color";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -41,11 +44,24 @@ const styles = StyleSheet.create({
 });
 
 const PlanCreateScreen = () => {
+  const [plans, setPlans] = React.useState<Plans[]>([]);
+
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
   const onPressCreate = () => {
     navigation.navigate("PlanCreateDetail");
   };
+
+  const { data } = useQuery({
+    queryKey: ["plans"],
+    queryFn: () => getPlanList(1),
+  });
+
+  useEffect(() => {
+    if (data) {
+      setPlans(data);
+    }
+  }, [data]);
 
   return (
     <Screen title="플랜 생성">
@@ -60,8 +76,7 @@ const PlanCreateScreen = () => {
 
       {/* 플랜 리스트 */}
       <ScrollView contentContainerStyle={styles.planList}>
-        <PlanItem title="제주도 여행" region="제주도" date="총 2일" />
-        <PlanItem title="제주도 여행" region="제주도" date="총 1일" />
+        {data && plans.map((plan) => <PlanItem key={plan.id} plan={plan} />)}
       </ScrollView>
     </Screen>
   );
