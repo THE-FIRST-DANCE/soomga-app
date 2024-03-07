@@ -1,8 +1,9 @@
 import Screen from "@/components/Screen";
 import GoogleMap from "@/components/plan/GoogleMap";
 import { CurrentPeriod, PlanConfirmList } from "@/state/store/PlanRecoil";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
+  Alert,
   Animated,
   Modal,
   ScrollView,
@@ -15,26 +16,66 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { AntDesign } from "@expo/vector-icons";
 import PlanConfirmItem from "@/components/plan/PlanConfirmItem";
 import Colors from "@/modules/Color";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { PlanStackParamList } from "@/stacks/PlanStack";
+import { PlanConfirmPeriodModal } from "@/components/plan/PlanConfirmPeriodModal";
+import { usePlanList } from "@/hooks/plan/useConfirmPlanList";
+import { useMutation } from "@tanstack/react-query";
+import { savePlan } from "@/api/PlanApi";
+import { ActivityIndicator } from "react-native-paper";
 
 const PlanConfirmScreen = () => {
   const planConfirmList = useRecoilValue(PlanConfirmList);
   const [currentPeriod, setCurrentPeriod] = useRecoilState(CurrentPeriod);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const planList = planConfirmList.periodPlan[currentPeriod] || [];
+  const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
-  const markers =
-    planList &&
-    planList.map((item, index) => {
-      return {
-        position: {
-          lat: item.item.latitude,
-          lng: item.item.longitude,
-        },
-        icon: "https://cdn0.iconfinder.com/data/icons/font-awesome-solid-vol-3/512/map-marker-64.png",
-        title: index + 1,
-      };
+  const { planList, markers } = usePlanList();
+
+  const editHandler = () => {
+    navigation.navigate("PlanEditScreen", {
+      data: planConfirmList.periodPlan,
+      info: planConfirmList.info,
+      transport: planConfirmList.transport,
     });
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: savePlan,
+    onSuccess: () => {
+      setIsLoading(false);
+      navigation.navigate("PlanCreateScreen");
+    },
+  });
+
+  const onSave = () => {
+    Alert.alert("일정을 저장하시겠습니까?", "", [
+      {
+        text: "취소",
+        onPress: () => {
+          return;
+        },
+      },
+      {
+        text: "저장",
+        onPress: () => {
+          const data = {
+            planId: 1,
+            title: planConfirmList.info.title,
+            period: planConfirmList.info.period,
+            region: planConfirmList.info.province,
+            list: planConfirmList.periodPlan,
+            transport: planConfirmList.transport,
+          };
+
+          setIsLoading(true);
+          mutate(data);
+        },
+      },
+    ]);
+  };
 
   return (
     <Screen title="일정 확인">
@@ -60,7 +101,7 @@ const PlanConfirmScreen = () => {
             <AntDesign name="down" size={16} color="black" />
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={editHandler}>
             <Text style={{ fontSize: 16, color: Colors.BLACK }}>편집</Text>
           </TouchableOpacity>
         </View>
@@ -74,71 +115,54 @@ const PlanConfirmScreen = () => {
           }}
         >
           <View style={styles.modalContainer}>
-            <View style={styles.modal}>
-              <TouchableOpacity
-                style={{
-                  position: "absolute",
-                  left: "50%",
-                  top: 5,
-                }}
-              >
-                <AntDesign
-                  name="down"
-                  size={16}
-                  color="black"
-                  onPress={() => setModalVisible(false)}
-                />
-              </TouchableOpacity>
-              <Text style={styles.modalHeaderText}>일정 선택</Text>
-              <ScrollView>
-                {Array.from(
-                  { length: planConfirmList.info.period },
-                  (_, i) => i + 1
-                ).map((item, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={styles.modalList}
-                    onPress={() => {
-                      setCurrentPeriod(item);
-                      setModalVisible(false);
-                    }}
-                  >
-                    <Text
-                      style={[
-                        styles.periodText,
-                        currentPeriod === item && styles.selectedText,
-                      ]}
-                    >
-                      {item} 일차
-                    </Text>
-                    {currentPeriod === item && (
-                      <AntDesign
-                        name="check"
-                        size={20}
-                        color={Colors.PRIMARY}
-                      />
-                    )}
-                  </TouchableOpacity>
-                ))}
-              </ScrollView>
-            </View>
+            <PlanConfirmPeriodModal
+              period={planConfirmList.info.period}
+              setModalVisible={setModalVisible}
+            />
           </View>
         </Modal>
+
+        {isLoading && (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+            }}
+          >
+            <ActivityIndicator size="large" color={Colors.PRIMARY} />
+          </View>
+        )}
 
         <ScrollView>
           <View style={styles.route}>
             {planList.map((item, index) => (
-              <>
-                <PlanConfirmItem
-                  key={`${item.item.id}-${index}`}
-                  index={index}
-                  item={item}
-                />
-                <View key={index} style={{ height: 15 }} />
-              </>
+              <React.Fragment key={`${item.item.id}-${index}`}>
+                <PlanConfirmItem index={index} item={item} />
+                <View style={{ height: 15 }} />
+              </React.Fragment>
             ))}
           </View>
         </ScrollView>
+
+        <TouchableOpacity
+          style={{
+            padding: 10,
+            backgroundColor: Colors.PRIMARY,
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: 5,
+          }}
+          onPress={onSave}
+        >
+          <Text style={{ color: "white", fontSize: 16 }}>저장</Text>
+        </TouchableOpacity>
       </View>
     </Screen>
   );
@@ -162,42 +186,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginBottom: 10,
   },
-  periodText: {
-    fontSize: 20,
-  },
-  selectedText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: Colors.PRIMARY,
-  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  modal: {
-    position: "absolute",
-    bottom: 0,
-    width: "100%",
-    height: "40%",
-    backgroundColor: Colors.WHITE,
-    padding: 20,
-    borderRadius: 10,
-  },
-  modalHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  modalHeaderText: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  modalList: {
-    marginTop: 30,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
   },
 });
