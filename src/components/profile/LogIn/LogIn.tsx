@@ -102,7 +102,9 @@ function LogIn() {
             activeOpacity={0.6}
             style={styles.socialLoginButton}
             onPress={() =>
-              Linking.openURL("http://home.juhyeonni.co.kr/auth/google")
+              Linking.openURL(
+                "http://soomga-lb-493648594.ap-northeast-2.elb.amazonaws.com/auth/google"
+              )
             }
           >
             <Image
@@ -115,7 +117,9 @@ function LogIn() {
             activeOpacity={0.6}
             style={styles.socialLoginButton}
             onPress={() =>
-              Linking.openURL("http://home.juhyeonni.co.kr/auth/line")
+              Linking.openURL(
+                "http://soomga-lb-493648594.ap-northeast-2.elb.amazonaws.com/auth/line"
+              )
             }
           >
             <Image
