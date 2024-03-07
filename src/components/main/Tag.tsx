@@ -3,17 +3,22 @@ import { Pressable, StyleSheet, Text } from "react-native";
 
 /* props */
 export type TagType = {
+  id: number;
   name: string;
-  onPress?: () => void;
+  onPress?: (id: number, name: string) => void;
   usePressedStyle?: boolean;
+  onTagPress?: (id: number, name: string, isPressed: boolean) => void;
 };
 
-function Tag({ name, onPress, usePressedStyle }: TagType) {
+function Tag({ id, name, usePressedStyle, onTagPress }: TagType) {
   const [isPressed, setIsPressed] = useState<boolean>(false);
 
   const handlePress = () => {
     setIsPressed(!isPressed);
-    if (onPress) onPress();
+
+    if (onTagPress) {
+      onTagPress(id, name, !isPressed);
+    }
   };
 
   return (
