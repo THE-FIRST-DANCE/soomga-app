@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 /* components */
 import Tag from "@main/Tag";
 
-type TagType = {
+export type TagType = {
   id: number;
   name: string;
 };
@@ -11,15 +11,22 @@ type TagType = {
 type CategoryType = {
   label: string;
   category: TagType[];
+  onTagPress?: (id: number, name: string, isPressed: boolean) => void;
 };
 
-function Category({ label, category }: CategoryType) {
+function Category({ label, category, onTagPress }: CategoryType) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={styles.tagsContainer}>
         {category.map((tag) => (
-          <Tag key={tag.id} name={tag.name} usePressedStyle={true} />
+          <Tag
+            key={tag.id}
+            id={tag.id}
+            name={tag.name}
+            usePressedStyle={true}
+            onTagPress={onTagPress}
+          />
         ))}
       </View>
     </View>
