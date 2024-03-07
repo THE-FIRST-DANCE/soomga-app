@@ -19,9 +19,10 @@ import { PlanStackParamList } from "@/stacks/PlanStack";
 
 interface PlaceSelectTabProps {
   region: string;
+  editMode?: boolean;
 }
 
-const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
+const PlaceSelectTab = ({ region, editMode }: PlaceSelectTabProps) => {
   const [currentCategory, setCurrentCategory] = useState(categories[0]);
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [places, setPlaces] = useState<PlaceData[]>([]);
@@ -65,6 +66,10 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
   }, [searchKeyword, currentCategory]);
 
   const handleConfirm = () => {
+    if (editMode) {
+      navigation.goBack();
+      return;
+    }
     navigation.navigate("PlanPlaceSelectScreen");
   };
 
@@ -100,7 +105,9 @@ const PlaceSelectTab = ({ region }: PlaceSelectTabProps) => {
           <FlatList
             data={places}
             keyExtractor={(item) => item?.id?.toString() || item.name}
-            renderItem={({ item }) => <PlaceSelectTabItem place={item} />}
+            renderItem={({ item }) => (
+              <PlaceSelectTabItem editMode={editMode} place={item} />
+            )}
             ItemSeparatorComponent={() => <View style={{ height: 15 }} />}
           />
         ) : (
