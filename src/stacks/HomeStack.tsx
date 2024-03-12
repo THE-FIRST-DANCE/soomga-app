@@ -1,6 +1,6 @@
 import Main from "@/Screens/MainScreen/Main";
 import Schedules from "@/Screens/ProfileScreen/Schedules";
-import TagEdit from "@/components/profile/TagEdit";
+import TagEdit from "@/Screens/ProfileScreen/TagEdit";
 
 import { createStackNavigator } from "@react-navigation/stack";
 
