@@ -21,6 +21,7 @@ import {
 
 /* vector-icons */
 import { Feather } from "@expo/vector-icons";
+import TitleSubtitle from "./TitleSubtitle";
 
 function EmailPassword() {
   /* 비밀번호 표시 여부 설정 */
@@ -58,7 +59,7 @@ function EmailPassword() {
   };
 
   /* 비밀번호 정규식 */
-  const passwordRegex = /^\d{8,}$/;
+  const passwordRegex = /^(?=.*[a-zA-Z0-9!@#$%^&*()-_=+{};:'",.<>?/|]).{8,}$/;
 
   const isPasswordValid = (password: string): boolean => {
     return passwordRegex.test(password);
@@ -104,14 +105,7 @@ function EmailPassword() {
   return (
     <View style={{ marginHorizontal: 25 }}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        {/* 제목, 부제목 */}
-        <Text style={styles.title}>환영합니다!</Text>
-        <Text style={styles.subtitle}>
-          여행의 시작, {"\n"}
-          <Text style={styles.soomgaText}>SOOMGA</Text>
-          <Text>와 함께라면</Text> {"\n"}
-          당신만의 특별한 여행이 펼쳐집니다.
-        </Text>
+        <TitleSubtitle />
         <KeyboardAvoidingView>
           <View style={{ marginTop: 40 }}>
             {/* 이메일 입력창 */}
@@ -150,7 +144,7 @@ function EmailPassword() {
             {passwordInputValue !== "" &&
               !isPasswordValid(passwordInputValue) && (
                 <Text style={styles.errorMsg}>
-                  비밀번호는 숫자 8자 이상이어야 합니다.
+                  비밀번호는 영문/숫자/특수문자 포함 8자 이상이어야 합니다.
                 </Text>
               )}
             {/* 비밀번호 확인 입력창 */}
@@ -224,5 +218,5 @@ const styles = StyleSheet.create({
   },
   /* 비밀번호 표시 여부 버튼 스타일 */
   visibleButton: { position: "absolute", right: 20, top: 60 },
-  errorMsg: { color: "red" },
+  errorMsg: { color: "red", fontSize: 13 },
 });

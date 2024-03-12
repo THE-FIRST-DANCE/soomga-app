@@ -7,15 +7,19 @@ export type RootStackParamList = {
   "여행 일정": undefined;
   "Email & Password": undefined;
   "Nickname & Gender": {
-    data: { email: string; password: string; passwordConfirm: string };
-  };
-  "Tags Select": {
     data: {
       email: string;
       password: string;
       passwordConfirm: string;
+    };
+  };
+  "Tags Select": {
+    data: {
+      email: string;
       nickname: string;
-      birthDate: {};
+      password: string;
+      passwordConfirm: string;
+      birthDate: string;
     };
   };
 };

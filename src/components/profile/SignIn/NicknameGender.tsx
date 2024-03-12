@@ -18,6 +18,7 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 
 /* vector-icons */
 import { Entypo } from "@expo/vector-icons";
+import TitleSubtitle from "./TitleSubtitle";
 
 type onChangeType = (
   event: DateTimePickerEvent,
@@ -35,7 +36,7 @@ function NicknameGender() {
   };
 
   /* 닉네임 정규식 */
-  const nicknameRegex = /^[가-힣a-zA-Zㄱ-ㅎ0-9]{2,}$/;
+  const nicknameRegex = /^[가-힣a-zA-Zㄱ-ㅎ0-9]{2,12}$/;
 
   const isNicknameValid = (nickname: string): boolean => {
     return nicknameRegex.test(nickname);
@@ -102,14 +103,7 @@ function NicknameGender() {
   return (
     <View style={{ marginHorizontal: 25 }}>
       <View>
-        {/* 제목, 부제목 */}
-        <Text style={styles.title}>환영합니다!</Text>
-        <Text style={styles.subtitle}>
-          여행의 시작, {"\n"}
-          <Text style={styles.soomgaText}>SOOMGA</Text>
-          <Text>와 함께라면</Text> {"\n"}
-          당신만의 특별한 여행이 펼쳐집니다.
-        </Text>
+        <TitleSubtitle />
         <KeyboardAvoidingView style={{ marginTop: 30 }}>
           <InputText
             title="닉네임"
@@ -119,7 +113,7 @@ function NicknameGender() {
           {nicknameInputValue !== "" &&
             !isNicknameValid(nicknameInputValue) && (
               <Text style={{ color: "red" }}>
-                닉네임은 2글자 이상이어야 합니다.
+                닉네임은 2글자 이상, 12글자 이하여야 합니다.
               </Text>
             )}
           <View style={{ marginTop: 30 }}>

@@ -22,6 +22,25 @@ import {
   RootStackParamList,
 } from "@navigation/NavigationProps";
 
+import { useRecoilState } from "recoil";
+import { AccessTokenAtom } from "@/recoil/AccessTokenAtom";
+import { getLogin, getSignup } from "@/api/LoginSignUp";
+
+import { API_URL } from "@env";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
+
+interface SignupForm {
+  email: string;
+  nickName: string;
+  passwordConfirm: string;
+  password: string;
+}
+
 /* 소셜 로그인 부분 수평선 */
 function Hr() {
   return <View style={{ width: 120, borderTopWidth: 1 }} />;
@@ -34,6 +53,23 @@ function LogIn() {
 
   /* 비밀번호 표시 여부 설정 */
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
+  const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
+  console.log(recoilToken);
+
+  const onSubmitForLogin = async (data: LoginForm) => {
+    console.log(data);
+    try {
+      const loginResult = await getLogin(data.email, data.password);
+      console.log(loginResult.message);
+      const result = await AsyncStorage.getItem("accessToken");
+      setRecoilToken({ ...recoilToken, token: !!result });
+      console.log("리코일 내부 토큰: ", recoilToken);
+      navigation.navigate("Home");
+    } catch (error: any) {
+      console.error("Error During Login", error.response.data.message);
+    }
+  };
 
   return (
     <View style={{ marginHorizontal: 25 }}>
@@ -101,11 +137,9 @@ function LogIn() {
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.socialLoginButton}
-            onPress={() =>
-              Linking.openURL(
-                "http://soomga-lb-493648594.ap-northeast-2.elb.amazonaws.com/auth/google"
-              )
-            }
+            onPress={() => {
+              Linking.openURL(`http://${API_URL}/auth/google`);
+            }}
           >
             <Image
               source={require("@assets/googleLogo.png")}
@@ -116,11 +150,7 @@ function LogIn() {
           <TouchableOpacity
             activeOpacity={0.6}
             style={styles.socialLoginButton}
-            onPress={() =>
-              Linking.openURL(
-                "http://soomga-lb-493648594.ap-northeast-2.elb.amazonaws.com/auth/line"
-              )
-            }
+            onPress={() => Linking.openURL(`http://${API_URL}/auth/line`)}
           >
             <Image
               source={require("@assets/lineLogo.png")}

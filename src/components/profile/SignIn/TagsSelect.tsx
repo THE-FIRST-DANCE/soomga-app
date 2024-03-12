@@ -9,11 +9,28 @@ import {
 /* components */
 import Category from "@signIn/Category";
 import { tags } from "@data/tags";
-import { useState } from "react";
+import TitleSubtitle from "@signIn/TitleSubtitle";
+
+import { getSignup } from "@/api/LoginSignUp";
+
+/* navigation */
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "@navigation/NavigationProps";
 
 type UserTagsType = {
   id: number;
   name: string;
+};
+
+type SignupForm = {
+  email: string;
+  nickname: string;
+  password: string;
+  passwordConfirm: string;
+  birthDate: string;
 };
 
 function TagsSelect() {
@@ -40,16 +57,37 @@ function TagsSelect() {
     }
     console.log(isPressed);
   };
+
+  /* navigation 추가 */
+  const navigation =
+    useNavigation<MyNavigationProp<keyof RootStackParamList>>();
+
+  /* route 추가 */
+  const route = useRoute<RouteProp<RootStackParamList, "Tags Select">>();
+  const { data } = route.params;
+  console.log("68번 라인 데이터", data);
+
+  const onSubmitForSignup = async (data: SignupForm) => {
+    console.log("72번 라인 데이터", data);
+    try {
+      const result = await getSignup(
+        data.email,
+        data.nickname,
+        data.password,
+        data.passwordConfirm,
+        data.birthDate
+      );
+      console.log("80번 라인 데이터", data);
+      console.log(result);
+    } catch (error) {
+      console.log("83번 라인 데이터", data);
+      console.error(error);
+    }
+  };
+
   return (
     <View style={{ marginHorizontal: 25 }}>
-      {/* 제목, 부제목 */}
-      <Text style={styles.title}>환영합니다!</Text>
-      <Text style={styles.subtitle}>
-        여행의 시작, {"\n"}
-        <Text style={styles.soomgaText}>SOOMGA</Text>
-        <Text>와 함께라면</Text> {"\n"}
-        당신만의 특별한 여행이 펼쳐집니다.
-      </Text>
+      <TitleSubtitle />
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text style={styles.tagSelectTitle}>태그 선택</Text>
@@ -57,7 +95,7 @@ function TagsSelect() {
         <TouchableOpacity
           style={{ marginTop: 20, marginRight: 10 }}
           onPress={() => {
-            console.log(userTags);
+            onSubmitForSignup(data);
           }}
         >
           <Text style={styles.finishButton}>완료</Text>
