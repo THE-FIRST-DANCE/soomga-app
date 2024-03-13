@@ -1,11 +1,7 @@
-import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 
 /* Navigation */
-import {
-  MyNavigationProp,
-  RootStackParamList,
-} from "@navigation/NavigationProps";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 import {
   StyleSheet,
@@ -14,36 +10,36 @@ import {
   ScrollView,
   Pressable,
 } from "react-native";
+import { HomeStackParamList } from "@/stacks/HomeStack";
 
 /* props */
-type Tag = {
+type TagType = {
   id: number;
   name: string;
 };
 
-function Tags() {
-  /* 임시 데이터 */
-  const tags = [
-    { id: 1, name: "#ISFJ" },
-    { id: 2, name: "#Kpop" },
-    { id: 3, name: "#인스타그램" },
-    { id: 4, name: "#사진" },
-    { id: 5, name: "#야구" },
-    { id: 6, name: "#볼링" },
-    { id: 7, name: "#프로그래밍" },
-  ];
+/* 임시 데이터 */
+export const tags = [
+  { id: 1, name: "#ISFJ" },
+  { id: 2, name: "#Kpop" },
+  { id: 3, name: "#인스타그램" },
+  { id: 4, name: "#사진" },
+  { id: 5, name: "#야구" },
+  { id: 6, name: "#볼링" },
+  { id: 7, name: "#프로그래밍" },
+];
 
+function Tags() {
   const lastIndex = tags.length;
 
   /* 전체 태그 상태 관리 */
-  const [allTags, setAllTags] = useState<Tag[]>([
+  const [allTags, setAllTags] = useState<TagType[]>([
     ...tags,
     { id: lastIndex + 1, name: "..." },
   ]);
 
   /* navigation 추가 */
-  const navigation =
-    useNavigation<MyNavigationProp<keyof RootStackParamList>>();
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
 
   return (
     <ScrollView
@@ -57,7 +53,7 @@ function Tags() {
           style={styles.tag}
           onPress={() => {
             if (index === allTags.length - 1) {
-              navigation.navigate("태그 편집");
+              navigation.navigate("TagEditScreen");
             }
           }}
         >
@@ -70,14 +66,14 @@ function Tags() {
 
 const screenWidth = Dimensions.get("window").width;
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   /* 태그 컨테이너 스타일 */
   container: {
     flexDirection: "row",
     width: screenWidth - 20,
     height: 50,
     marginHorizontal: 10,
-    marginTop: 5,
+    marginTop: 10,
   },
   /* 각 태그 스타일 */
   tag: {
@@ -85,7 +81,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 20,
     marginHorizontal: 3,
-    marginVertical: 5,
     padding: 7,
     height: 35,
     backgroundColor: "white",
