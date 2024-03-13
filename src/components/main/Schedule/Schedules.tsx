@@ -2,17 +2,14 @@ import { View, Text, StyleSheet } from "react-native";
 import { useState, useEffect } from "react";
 
 /* Navigation */
-import { useNavigation } from "@react-navigation/native";
-import {
-  MyNavigationProp,
-  RootStackParamList,
-} from "@navigation/NavigationProps";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 
 /* Pages */
 import Schedule from "@scheduleMain/Schedule";
 
 /* vector-icons */
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { HomeStackParamList } from "@/stacks/HomeStack";
 
 /* props */
 type ScheduleType = {
@@ -71,8 +68,7 @@ function Schedules() {
   };
 
   /* navigation 추가 */
-  const navigation =
-    useNavigation<MyNavigationProp<keyof RootStackParamList>>();
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
 
   useEffect(() => {
     showNearSchedule();
@@ -93,7 +89,7 @@ function Schedules() {
           size={20}
           color="white"
           style={{ lineHeight: 50, position: "absolute", right: 10 }}
-          onPress={() => navigation.navigate("여행 일정")}
+          onPress={() => navigation.navigate("ScheduleScreen")}
         />
       </View>
       {nearSchedule.map((schedule) => (
