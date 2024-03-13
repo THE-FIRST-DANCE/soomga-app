@@ -1,9 +1,9 @@
 /* Stack Navigator */
-import MatchingPage from "@/Screens/GuideScreen/MatchingScreen";
+import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import { createStackNavigator } from "@react-navigation/stack";
 
 export type GuideStackParamList = {
-  MatchingScreen: undefined;
+  GuideRegionTagSelect: undefined;
 };
 
 const Stack = createStackNavigator();
@@ -15,7 +15,10 @@ export default function GuideStack() {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="MatchingScreen" component={MatchingPage} />
+      <Stack.Screen
+        name="GuideRegionTagSelect"
+        component={GuideRegionTagSelect}
+      />
     </Stack.Navigator>
   );
 }

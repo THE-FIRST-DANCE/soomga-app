@@ -64,7 +64,7 @@ function Guides() {
           activeOpacity={0.5}
           style={styles.moreButton}
           onPress={() => {
-            navigation.navigate("MatchingScreen");
+            navigation.navigate("GuideRegionTagSelect");
           }}
         >
           <Text style={{ color: Colors.WHITE }}>가이드 매칭 →</Text>
