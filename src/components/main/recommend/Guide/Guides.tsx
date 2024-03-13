@@ -8,6 +8,9 @@ import {
 
 /* Pages */
 import Guide from "@guideMain/Guide";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
+import Colors from "@/modules/Color";
 
 function Guides() {
   /* 임시 데이터 */
@@ -50,12 +53,21 @@ function Guides() {
     },
   ];
 
+  /* Navigation */
+  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+
   return (
     <View>
       <View style={styles.titleContainer}>
         <Text style={styles.title}>가이드 추천</Text>
-        <TouchableOpacity activeOpacity={0.5} style={styles.moreButton}>
-          <Text>+ 더보기</Text>
+        <TouchableOpacity
+          activeOpacity={0.5}
+          style={styles.moreButton}
+          onPress={() => {
+            navigation.navigate("MatchingScreen");
+          }}
+        >
+          <Text style={{ color: Colors.WHITE }}>가이드 매칭 →</Text>
         </TouchableOpacity>
       </View>
       <ScrollView
@@ -86,13 +98,14 @@ const styles = StyleSheet.create({
   },
   /* 더보기 버튼 스타일 */
   moreButton: {
+    height: 40,
     marginRight: 10,
     marginTop: 3,
     borderWidth: 1,
     borderRadius: 20,
-    padding: 5,
-    borderColor: "#DC2626",
-    backgroundColor: "white",
+    padding: 10,
+    borderColor: Colors.BASKETBALL_ORANGE,
+    backgroundColor: Colors.BASKETBALL_ORANGE,
     elevation: 5,
   },
   /* 제목 컨테이너 스타일 */
