@@ -62,25 +62,15 @@ function RegionSelect() {
   /* 선택된 지역들 문자열로 표시 */
   const [selectedRegionString, setSelectedRegionString] = useState<string>("");
 
-  const showSelectedRegionsString = () => {
-    selectedRegions.forEach((_, index) => {
-      if (index === 0) {
-        setSelectedRegionString(selectedRegions[index]);
-      } else {
-        if (selectedRegions.length === 0) {
-          setSelectedRegionString("");
-        } else {
-          const selectedRegionNames = regions
-            .filter((_, index) => isRegionSelected[index])
-            .map((region) => region.name);
-          setSelectedRegionString(selectedRegionNames.join(", "));
-        }
-      }
-    });
+  const updateSelectedRegionString = () => {
+    const selectedRegionNames = regions
+      .filter((_, index) => isRegionSelected[index])
+      .map((region) => region.name);
+    setSelectedRegionString(selectedRegionNames.join(", "));
   };
 
-  useEffect(showSelectedRegionsString, []);
-  useEffect(showSelectedRegionsString, [selectedRegions]);
+  useEffect(updateSelectedRegionString, []);
+  useEffect(updateSelectedRegionString, [selectedRegions]);
 
   return (
     <View style={styles.container}>
@@ -119,7 +109,7 @@ function RegionSelect() {
           >
             <Text
               style={{
-                fontSize: index === 0 ? 13 : 15,
+                fontSize: index === 0 ? 12 : 15,
                 lineHeight: 18,
                 color: isRegionSelected[index] ? Colors.WHITE : Colors.BLACK,
               }}
