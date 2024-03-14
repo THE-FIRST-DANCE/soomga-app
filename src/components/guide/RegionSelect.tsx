@@ -24,10 +24,12 @@ function RegionSelect() {
     { id: 17, name: "제주" },
   ];
 
+  /* 지역 선택 여부 */
   const [isRegionSelected, setIsRegionSelected] = useState<boolean[]>(
     regions.map((_, index) => (index === 0 ? true : false))
   );
 
+  /* 선택된 지역 스타일 변경 함수 */
   const toggleRegionSelection = (index: number) => {
     const newSelectedRegions = [...isRegionSelected];
     if (index === 0) {
@@ -40,15 +42,27 @@ function RegionSelect() {
       newSelectedRegions[0] = false;
       newSelectedRegions[index] = !newSelectedRegions[index];
     }
+
+    if (
+      newSelectedRegions.every(
+        (_, index) => newSelectedRegions[index] === false
+      )
+    ) {
+      newSelectedRegions[0] = true;
+    }
+
     setIsRegionSelected(newSelectedRegions);
   };
 
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
+  /* 선택된 지역들 이름 배열 */
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([
+    "모든 지역",
+  ]);
 
-  const [selectedRegionString, setSelectedRegionString] =
-    useState<string>("모든 지역");
+  /* 선택된 지역들 문자열로 표시 */
+  const [selectedRegionString, setSelectedRegionString] = useState<string>("");
 
-  useEffect(() => {
+  const showSelectedRegionsString = () => {
     selectedRegions.forEach((_, index) => {
       if (index === 0) {
         setSelectedRegionString(selectedRegions[index]);
@@ -63,7 +77,10 @@ function RegionSelect() {
         }
       }
     });
-  }, [selectedRegions]);
+  };
+
+  useEffect(showSelectedRegionsString, []);
+  useEffect(showSelectedRegionsString, [selectedRegions]);
 
   return (
     <View style={styles.container}>
