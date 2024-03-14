@@ -1,6 +1,6 @@
 import Colors from "@/modules/Color";
 import { StyleSheet, Text, View } from "react-native";
-import { tags } from "../main/Tags";
+import { tags } from "@/data/tags";
 import { styles as TagStyle } from "../main/Tags";
 
 function TagSettings() {
