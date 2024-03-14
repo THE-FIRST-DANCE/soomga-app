@@ -12,22 +12,13 @@ import {
 } from "react-native";
 import { HomeStackParamList } from "@/stacks/HomeStack";
 
+import { tags } from "@/data/tags";
+
 /* props */
 type TagType = {
   id: number;
   name: string;
 };
-
-/* 임시 데이터 */
-export const tags = [
-  { id: 1, name: "#ISFJ" },
-  { id: 2, name: "#Kpop" },
-  { id: 3, name: "#인스타그램" },
-  { id: 4, name: "#사진" },
-  { id: 5, name: "#야구" },
-  { id: 6, name: "#볼링" },
-  { id: 7, name: "#프로그래밍" },
-];
 
 function Tags() {
   const lastIndex = tags.length;
