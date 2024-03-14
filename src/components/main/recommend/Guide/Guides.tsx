@@ -9,8 +9,8 @@ import {
 /* Pages */
 import Guide from "@guideMain/Guide";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { GuideStackParamList } from "@/stacks/GuideStack";
 import Colors from "@/modules/Color";
+import { HomeStackParamList } from "@/stacks/HomeStack";
 
 function Guides() {
   /* 임시 데이터 */
@@ -54,7 +54,7 @@ function Guides() {
   ];
 
   /* Navigation */
-  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
 
   return (
     <View>
@@ -64,7 +64,7 @@ function Guides() {
           activeOpacity={0.5}
           style={styles.moreButton}
           onPress={() => {
-            navigation.navigate("GuideRegionTagSelect");
+            navigation.navigate("GuideStack");
           }}
         >
           <Text style={{ color: Colors.WHITE }}>가이드 매칭 →</Text>
