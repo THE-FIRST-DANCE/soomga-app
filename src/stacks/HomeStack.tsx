@@ -1,3 +1,4 @@
+import GuideMatchingScreen from "@/Screens/GuideScreen/GuideMatchingScreen";
 import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import MatchingPage from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import Main from "@/Screens/MainScreen/Main";
@@ -7,11 +8,12 @@ import TagEdit from "@/Screens/ProfileScreen/TagEdit";
 export type HomeStackParamList = {
   TagEditScreen: undefined;
   ScheduleScreen: undefined;
-  GuideRegionTagSelect: undefined;
+  GuideStack: undefined;
 };
 
 /* Stack Navigator */
 import { createStackNavigator } from "@react-navigation/stack";
+import GuideStack from "./GuideStack";
 
 const Stack = createStackNavigator();
 
@@ -26,8 +28,8 @@ export default function HomeStack() {
       <Stack.Screen name="TagEditScreen" component={TagEdit} />
       <Stack.Screen name="ScheduleScreen" component={Schedules} />
       <Stack.Screen
-        name="GuideRegionTagSelect"
-        component={GuideRegionTagSelect}
+        name="GuideStack"
+        component={GuideStack}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
