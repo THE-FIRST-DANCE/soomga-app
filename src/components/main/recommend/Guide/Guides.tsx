@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   /* 제목 스타일 */
-  title: { fontWeight: "700", fontSize: 25, marginLeft: 5 },
+  title: { fontWeight: "700", fontSize: 25, marginLeft: 5, lineHeight: 50 },
   guidesContainer: {
     marginTop: 20,
     marginBottom: 20,
