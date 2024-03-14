@@ -1,4 +1,4 @@
-import MatchingPage from "@/Screens/GuideScreen/GuideRegionTagSelect";
+import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import Main from "@/Screens/MainScreen/Main";
 import Schedules from "@/Screens/ProfileScreen/Schedules";
 import TagEdit from "@/Screens/ProfileScreen/TagEdit";
@@ -6,7 +6,7 @@ import TagEdit from "@/Screens/ProfileScreen/TagEdit";
 export type HomeStackParamList = {
   TagEditScreen: undefined;
   ScheduleScreen: undefined;
-  MatchingScreen: undefined;
+  GuideRegionTagSelect: undefined;
 };
 
 /* Stack Navigator */
@@ -25,8 +25,8 @@ export default function HomeStack() {
       <Stack.Screen name="TagEditScreen" component={TagEdit} />
       <Stack.Screen name="ScheduleScreen" component={Schedules} />
       <Stack.Screen
-        name="MatchingScreen"
-        component={MatchingPage}
+        name="GuideRegionTagSelect"
+        component={GuideRegionTagSelect}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
