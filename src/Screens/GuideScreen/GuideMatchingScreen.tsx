@@ -5,6 +5,7 @@ import { StyleSheet, View, Text, ImageBackground } from "react-native";
 import { guides } from "@/data/guides";
 import { tags } from "@/data/tags";
 import { styles as tagStyle } from "@/components/main/Tags";
+import GuideAddButton from "@/components/guide/GuideAddButton";
 function GuideMatchingScreen() {
   const [guideIndex, setGuideIndex] = useState<number>(0);
 
@@ -28,6 +29,7 @@ function GuideMatchingScreen() {
                 </View>
               ))}
             </View>
+            <GuideAddButton />
           </View>
         </ImageBackground>
       </View>
