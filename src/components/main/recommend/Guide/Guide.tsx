@@ -8,6 +8,7 @@ import {
 
 /* vector-icons */
 import { Octicons, AntDesign } from "@expo/vector-icons";
+import Colors from "@/modules/Color";
 
 /* props */
 type GuideType = {
@@ -19,7 +20,7 @@ type GuideType = {
 };
 
 function Guide({ photo, name, gender, description, stars }: GuideType) {
-  const guideGender = gender === "M" ? "#4BB3FF" : "#FF8090";
+  const guideGender = gender === "M" ? Colors.MALE_BLUE : Colors.FEMALE_PINK;
 
   return (
     <ImageBackground style={styles.container} source={{ uri: photo }}>
