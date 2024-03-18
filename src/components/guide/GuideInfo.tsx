@@ -1,11 +1,9 @@
 import { View, Text, ImageBackground, StyleSheet } from "react-native";
+import Colors from "@/modules/Color";
 
 /* vector-icons */
 import { MaterialIcons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
-
-import { guides } from "@/data/guides";
-import Colors from "@/modules/Color";
 
 type GuideInfoType = {
   guide: {
@@ -63,7 +61,7 @@ function GuideInfo({ guide }: GuideInfoType) {
             backgroundColor:
               guide.gender === "M" ? Colors.MALE_BLUE : Colors.FEMALE_PINK,
           }}
-        ></View>
+        />
       </ImageBackground>
       <View>
         <Text style={{ fontSize: 40 }}>{guide.name}</Text>
@@ -84,7 +82,9 @@ function GuideInfo({ guide }: GuideInfoType) {
               color="black"
               style={styles.marginRight5}
             />
-            <Text>{guide.language.join(", ")}</Text>
+            <Text style={{ fontSize: 12, lineHeight: 25 }}>
+              {guide.language.join(", ")}
+            </Text>
           </View>
         </View>
       </View>
