@@ -20,16 +20,7 @@ function TagSettings() {
             {tags.length}개 선택
           </Text>
         </View>
-        <View
-          style={{
-            backgroundColor: Colors.BASKETBALL_ORANGE,
-            width: 70,
-            height: 35,
-            borderRadius: 5,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View style={styles.button}>
           <Text style={{ color: Colors.WHITE }}>태그 설정</Text>
         </View>
       </View>
@@ -55,5 +46,13 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  button: {
+    backgroundColor: Colors.BASKETBALL_ORANGE,
+    width: 70,
+    height: 35,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
