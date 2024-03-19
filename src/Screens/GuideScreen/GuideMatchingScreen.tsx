@@ -14,11 +14,16 @@ export type GuideType = {
   id: number;
   photo: string;
   name: string;
-  birthDate: Date;
+  birthDate: string;
   gender: string;
   description: string;
   stars: number;
+  region: string;
   language: string[];
+  tags: {
+    id: number;
+    name: string;
+  }[];
 };
 
 function GuideMatchingScreen() {
@@ -67,8 +72,8 @@ function GuideMatchingScreen() {
             {/* 가이드 태그 */}
             <View style={styles.guideTagContainer}>
               {guide.tags.map((tag) => (
-                <View key={tag} style={styles.guideTag}>
-                  <Text style={styles.tagText}>{tag}</Text>
+                <View key={tag.id} style={styles.guideTag}>
+                  <Text style={styles.tagText}>{tag.name}</Text>
                 </View>
               ))}
             </View>
