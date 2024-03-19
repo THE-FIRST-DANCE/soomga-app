@@ -10,7 +10,7 @@ type GuideInfoType = {
     id: number;
     photo: string;
     name: string;
-    birthDate: Date;
+    birthDate: string;
     gender: string;
     description: string;
     stars: number;
@@ -19,12 +19,16 @@ type GuideInfoType = {
 };
 
 function GuideInfo({ guide }: GuideInfoType) {
-  const calculateAgeRange = (birthDate: Date) => {
+  const calculateAgeRange = (birthDate: string) => {
+    const birthDateObj = new Date(birthDate);
     const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const month = today.getMonth() - birthDate.getMonth();
+    let age = today.getFullYear() - birthDateObj.getFullYear();
+    const month = today.getMonth() - birthDateObj.getMonth();
 
-    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+    if (
+      month < 0 ||
+      (month === 0 && today.getDate() < birthDateObj.getDate())
+    ) {
       age--;
     }
 
