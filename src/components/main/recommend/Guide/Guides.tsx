@@ -36,16 +36,19 @@ function Guides() {
         showsHorizontalScrollIndicator={false}
         style={styles.guidesContainer}
       >
-        {guides.map((guide) => (
-          <Guide
-            key={guide.id}
-            photo={guide.photo}
-            gender={guide.gender}
-            name={guide.name}
-            description={guide.description}
-            stars={guide.stars}
-          />
-        ))}
+        {guides.map(
+          (guide, index) =>
+            index < 5 && (
+              <Guide
+                key={guide.id}
+                photo={guide.photo}
+                gender={guide.gender}
+                name={guide.name}
+                description={guide.description}
+                stars={guide.stars}
+              />
+            )
+        )}
       </ScrollView>
     </View>
   );
