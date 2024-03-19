@@ -1,7 +1,18 @@
 import { guides } from "@/data/guides";
-import { Modal, View, ImageBackground, Text, StyleSheet } from "react-native";
-import Colors from "@/modules/Color";
+import {
+  Modal,
+  View,
+  ImageBackground,
+  Text,
+  StyleSheet,
+  Pressable,
+} from "react-native";
+
 import { GuideType } from "@/Screens/GuideScreen/GuideMatchingScreen";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
+
+import Colors from "@/modules/Color";
 
 type GuideModalType = {
   addedGuides: GuideType[];
@@ -9,6 +20,8 @@ type GuideModalType = {
 };
 
 function GuideModal({ addedGuides, modalVisible }: GuideModalType) {
+  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+
   return (
     /* 가이드 정보 보기 / 가이드 더 찾아보기 선택하는 모달 */
     <Modal animationType="fade" visible={modalVisible}>
@@ -39,14 +52,18 @@ function GuideModal({ addedGuides, modalVisible }: GuideModalType) {
             </Text>
           </View>
           <View style={{ marginTop: 30, alignItems: "center" }}>
-            <View
+            <Pressable
               style={{
                 ...styles.button,
                 backgroundColor: Colors.BASKETBALL_ORANGE,
               }}
+              onPress={() => {
+                navigation.navigate("GuideListScreen", { addedGuides });
+                console.log(addedGuides);
+              }}
             >
               <Text style={{ color: "white" }}>가이드 정보 보기</Text>
-            </View>
+            </Pressable>
             <View style={styles.button}>
               <Text style={{ color: Colors.BASKETBALL_ORANGE }}>
                 가이드 더 찾아보기
