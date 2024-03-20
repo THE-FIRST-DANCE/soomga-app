@@ -132,7 +132,7 @@ export default GuideListInfo;
 const styles = StyleSheet.create({
   /* 전체 container */
   container: {
-    width: "90%",
+    width: 360,
     height: 200,
     marginVertical: 10,
     marginHorizontal: 15,
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   guideImage: { width: 70, height: 70, borderRadius: 100 },
   /* 가이드 횟수, 평점 container */
   guideNumberStars: {
-    width: "70%",
+    width: "80%",
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -160,8 +160,8 @@ const styles = StyleSheet.create({
   /* 가이드 팔로우 버튼 */
   followButton: {
     position: "absolute",
-    top: 10,
-    right: 20,
+    top: -10,
+    right: -10,
     width: 40,
     height: 40,
     borderRadius: 100,
