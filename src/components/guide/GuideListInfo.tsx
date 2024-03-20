@@ -101,7 +101,7 @@ function GuideListInfo({ guide }: { guide: GuideType }) {
             key={tag.id}
             style={{ ...tagStyle.tag, height: 30, marginVertical: 2 }}
           >
-            <Text style={{ fontSize: 10, fontWeight: "bold" }}>{tag.name}</Text>
+            <Text style={{ fontSize: 10 }}>{tag.name}</Text>
           </View>
         ))}
       </ScrollView>
