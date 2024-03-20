@@ -33,7 +33,7 @@ const PlaceSelectTab = ({ region, editMode }: PlaceSelectTabProps) => {
     return getPlaceApi(currentCategory.value, region);
   };
 
-  const { isLoading, data } = useQuery({
+  const { data } = useQuery({
     queryKey: ["places"],
     queryFn: getPlace,
   });
