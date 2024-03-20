@@ -8,7 +8,7 @@ import {
   Pressable,
 } from "react-native";
 
-import { GuideType } from "@/Screens/GuideScreen/GuideMatchingScreen";
+import { GuideType } from "@/components/guide/GuideMatchingModal";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
 
@@ -16,15 +16,15 @@ import Colors from "@/modules/Color";
 
 type GuideModalType = {
   addedGuides: GuideType[];
-  modalVisible: boolean;
+  isConfirmModalVisible: boolean;
 };
 
-function GuideModal({ addedGuides, modalVisible }: GuideModalType) {
+function GuideModal({ addedGuides, isConfirmModalVisible }: GuideModalType) {
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
   return (
     /* 가이드 정보 보기 / 가이드 더 찾아보기 선택하는 모달 */
-    <Modal animationType="fade" visible={modalVisible}>
+    <Modal animationType="fade" visible={isConfirmModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
           <View style={styles.guidePhotos}>

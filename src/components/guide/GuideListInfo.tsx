@@ -10,7 +10,7 @@ import {
 } from "react-native";
 
 import Colors from "@/modules/Color";
-import { GuideType } from "@/Screens/GuideScreen/GuideMatchingScreen";
+import { GuideType } from "@/components/guide/GuideMatchingModal";
 import { calculateAgeRange } from "./GuideInfo";
 import { styles as tagStyle } from "../main/Tags";
 
