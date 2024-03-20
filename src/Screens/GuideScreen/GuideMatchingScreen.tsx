@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   /* 가이드 태그 container 스타일 */
   guideTagContainer: {
     flexDirection: "row",
-    width: "90%",
+    width: "100%",
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
