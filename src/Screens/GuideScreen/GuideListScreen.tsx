@@ -1,20 +1,50 @@
 import Screen from "@/components/Screen";
-import { useState } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { useRef, useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  Dimensions,
+} from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
 import Colors from "@/modules/Color";
 import GuideListInfo from "@/components/guide/GuideListInfo";
 
 function GuideListScreen() {
+  /* 매칭 페이지에서 추가한 가이드들 */
   const route = useRoute<RouteProp<GuideStackParamList>>();
-
   const addGuides = route.params?.addedGuides;
 
+  /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
 
-  const handleCurrentTab = (tabName: string) => {
+  /* ScrollView에 대한 ref 생성 */
+  const scrollViewRef = useRef<ScrollView>(null);
+  const layoutWidth = Dimensions.get("window").width;
+
+  /* 탭을 누를 때 현재 탭 업데이트 */
+  const handleTabPress = (tabName: string, index: number) => {
     setCurrentTab(tabName);
+    /* 해당 페이지로 스크롤 */
+    scrollViewRef.current?.scrollTo({ x: index * layoutWidth, animated: true });
+  };
+
+  /* 왼쪽/오른쪽으로 스크롤할 시 탭 변경 */
+  const handlePageChange = (event: any) => {
+    const { contentOffset, layoutMeasurement } = event.nativeEvent;
+    const pageWidth = layoutMeasurement.width;
+    const currentPage = Math.floor(contentOffset.x / pageWidth);
+
+    if (currentPage === 0) {
+      setCurrentTab("기본정보");
+    } else if (currentPage === 1) {
+      setCurrentTab("플랜");
+    } else {
+      setCurrentTab("서비스");
+    }
   };
 
   return (
@@ -22,7 +52,7 @@ function GuideListScreen() {
       <View style={styles.tabBar}>
         <View style={{ flexDirection: "row", height: 40 }}>
           {/* 기본정보 탭 */}
-          <Pressable onPress={() => handleCurrentTab("기본정보")}>
+          <Pressable onPress={() => handleTabPress("기본정보", 0)}>
             <Text
               style={{
                 ...styles.tabStyle,
@@ -34,7 +64,7 @@ function GuideListScreen() {
             </Text>
           </Pressable>
           {/* 플랜 탭 */}
-          <Pressable onPress={() => handleCurrentTab("플랜")}>
+          <Pressable onPress={() => handleTabPress("플랜", 1)}>
             <Text
               style={{
                 ...styles.tabStyle,
@@ -45,7 +75,7 @@ function GuideListScreen() {
             </Text>
           </Pressable>
           {/* 서비스 탭 */}
-          <Pressable onPress={() => handleCurrentTab("서비스")}>
+          <Pressable onPress={() => handleTabPress("서비스", 2)}>
             <Text
               style={{
                 ...styles.tabStyle,
@@ -61,10 +91,29 @@ function GuideListScreen() {
           <Text style={{ lineHeight: 30 }}>{addGuides?.length}명 선택함</Text>
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {addGuides?.map((guide, index) => (
-          <GuideListInfo key={index} guide={guide} />
-        ))}
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal={true}
+        pagingEnabled={true}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ width: "300%" }}
+        onScroll={handlePageChange}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {addGuides?.map((guide, index) => (
+            <GuideListInfo key={index} guide={guide} />
+          ))}
+        </ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {addGuides?.map((guide, index) => (
+            <GuideListInfo key={index} guide={guide} />
+          ))}
+        </ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {addGuides?.map((guide, index) => (
+            <GuideListInfo key={index} guide={guide} />
+          ))}
+        </ScrollView>
       </ScrollView>
     </Screen>
   );
