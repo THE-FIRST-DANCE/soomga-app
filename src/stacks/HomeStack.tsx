@@ -1,6 +1,3 @@
-import GuideMatchingScreen from "@/Screens/GuideScreen/GuideMatchingScreen";
-import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
-import MatchingPage from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import Main from "@/Screens/MainScreen/Main";
 import Schedules from "@/Screens/ProfileScreen/Schedules";
 import TagEdit from "@/Screens/ProfileScreen/TagEdit";
