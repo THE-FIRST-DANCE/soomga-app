@@ -2,26 +2,31 @@ import { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Colors from "@/modules/Color";
 import { styles as TagStyle } from "../main/Tags";
+import { guides, GuideType } from "@/data/guides";
 
-function RegionSelect() {
+function RegionSelect({
+  setGuidesInSelectedRegions,
+}: {
+  setGuidesInSelectedRegions: (value: GuideType[]) => void;
+}) {
   const regions = [
-    { id: 1, name: "모든 지역" },
-    { id: 2, name: "서울" },
-    { id: 3, name: "인천" },
-    { id: 4, name: "부산" },
-    { id: 5, name: "대구" },
-    { id: 6, name: "대전" },
-    { id: 7, name: "광주" },
-    { id: 8, name: "울산" },
-    { id: 9, name: "경기" },
-    { id: 10, name: "강원" },
-    { id: 11, name: "충남" },
-    { id: 12, name: "충북" },
-    { id: 13, name: "경북" },
-    { id: 14, name: "경남" },
-    { id: 15, name: "전북" },
-    { id: 16, name: "전남" },
-    { id: 17, name: "제주" },
+    { id: 1, name: "모든 지역", fullName: "모든 지역" },
+    { id: 2, name: "서울", fullName: "서울특별시" },
+    { id: 3, name: "인천", fullName: "인천광역시" },
+    { id: 4, name: "부산", fullName: "부산광역시" },
+    { id: 5, name: "대구", fullName: "대구광역시" },
+    { id: 6, name: "대전", fullName: "대전광역시" },
+    { id: 7, name: "광주", fullName: "광주광역시" },
+    { id: 8, name: "울산", fullName: "울산광역시" },
+    { id: 9, name: "경기", fullName: "경기도" },
+    { id: 10, name: "강원", fullName: "강원도" },
+    { id: 11, name: "충남", fullName: "충청남도" },
+    { id: 12, name: "충북", fullName: "충청북도" },
+    { id: 13, name: "경북", fullName: "경상북도" },
+    { id: 14, name: "경남", fullName: "경상남도" },
+    { id: 15, name: "전북", fullName: "전라북도" },
+    { id: 16, name: "전남", fullName: "전라남도" },
+    { id: 17, name: "제주", fullName: "제주특별자치도" },
   ];
 
   /* 지역 선택 여부 */
@@ -55,9 +60,7 @@ function RegionSelect() {
   };
 
   /* 선택된 지역들 이름 배열 */
-  const [selectedRegions, setSelectedRegions] = useState<string[]>([
-    "모든 지역",
-  ]);
+  const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
 
   /* 선택된 지역들 문자열로 표시 */
   const [selectedRegionString, setSelectedRegionString] = useState<string>("");
@@ -71,6 +74,13 @@ function RegionSelect() {
 
   useEffect(updateSelectedRegionString, []);
   useEffect(updateSelectedRegionString, [selectedRegions]);
+  useEffect(() => {
+    const guidesInSelectedRegions =
+      selectedRegions.length === 0
+        ? guides
+        : guides.filter((guide) => selectedRegions.includes(guide.region));
+    setGuidesInSelectedRegions(guidesInSelectedRegions);
+  }, [selectedRegions]);
 
   return (
     <View style={styles.container}>
@@ -94,17 +104,18 @@ function RegionSelect() {
               toggleRegionSelection(index);
               if (index === 0) {
                 setSelectedRegions([]);
-                setSelectedRegionString(region.name);
+                setSelectedRegionString(region.fullName);
               } else {
                 setSelectedRegions((prevRegions) => {
-                  if (prevRegions.includes(region.name)) {
-                    return prevRegions.filter((item) => item !== region.name);
+                  if (prevRegions.includes(region.fullName)) {
+                    return prevRegions.filter(
+                      (item) => item !== region.fullName
+                    );
                   } else {
-                    return [...prevRegions, region.name];
+                    return [...prevRegions, region.fullName];
                   }
                 });
               }
-              console.log(selectedRegions);
             }}
           >
             <Text
