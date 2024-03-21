@@ -1,29 +1,28 @@
 import { View } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+/* components */
 import Screen from "@/components/Screen";
 import RegionSelect from "@/components/guide/RegionSelect";
 import TagSettings from "@/components/guide/TagSettings";
 import MatchingButton from "@/components/guide/MatchingButton";
 import GuideModal from "@/components/guide/GuideModal";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { GuideStackParamList } from "@/stacks/GuideStack";
-import { guides } from "@/data/guides";
+import { GuideType } from "@/data/guides";
 
 function GuideRegionTagSelect() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
-
-  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+  const [guidesInSelectedRegions, setGuidesInSelectedRegions] = useState<
+    GuideType[]
+  >([]);
 
   return (
     <Screen title="가이드 매칭">
-      <RegionSelect />
+      <RegionSelect setGuidesInSelectedRegions={setGuidesInSelectedRegions} />
       <TagSettings />
       <View style={{ alignItems: "flex-end", padding: 25 }}>
         <MatchingButton
           onPress={() => {
             setIsModalVisible(true);
-            // navigation.navigate("GuideListScreen", { guides });
           }}
         />
       </View>
@@ -31,6 +30,7 @@ function GuideRegionTagSelect() {
         <GuideModal
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
+          guidesInSelectedRegions={guidesInSelectedRegions}
         />
       )}
     </Screen>
