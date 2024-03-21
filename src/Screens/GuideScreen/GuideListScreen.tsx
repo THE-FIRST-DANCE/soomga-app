@@ -8,18 +8,13 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { GuideStackParamList } from "@/stacks/GuideStack";
+import { guides } from "@/data/guides";
 import Colors from "@/modules/Color";
 import GuideListInfo from "@/components/guide/GuideListInfo";
 import GuideListPlan from "@/components/guide/GuideListPlan";
 import GuideListService from "@/components/guide/GuideListService";
 
 function GuideListScreen() {
-  /* 매칭 페이지에서 추가한 가이드들 */
-  const route = useRoute<RouteProp<GuideStackParamList>>();
-  const addGuides = route.params?.addedGuides;
-
   /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
 
@@ -50,7 +45,7 @@ function GuideListScreen() {
   };
 
   return (
-    <Screen>
+    <Screen title="추천 가이드">
       <View style={styles.tabBar}>
         <View style={{ flexDirection: "row", height: 40 }}>
           {/* 기본정보 탭 */}
@@ -89,9 +84,6 @@ function GuideListScreen() {
             </Text>
           </Pressable>
         </View>
-        <View>
-          <Text style={{ lineHeight: 30 }}>{addGuides?.length}명 선택함</Text>
-        </View>
       </View>
       <ScrollView
         ref={scrollViewRef}
@@ -102,17 +94,17 @@ function GuideListScreen() {
         onScroll={handlePageChange}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {addGuides?.map((guide, index) => (
+          {guides.map((guide, index) => (
             <GuideListInfo key={index} guide={guide} />
           ))}
         </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {addGuides?.map((guide, index) => (
+          {guides.map((guide, index) => (
             <GuideListPlan key={index} guide={guide} />
           ))}
         </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {addGuides?.map((guide, index) => (
+          {guides.map((guide, index) => (
             <GuideListService key={index} guide={guide} />
           ))}
         </ScrollView>
