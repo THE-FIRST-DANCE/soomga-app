@@ -2,17 +2,13 @@
 import { createStackNavigator } from "@react-navigation/stack";
 
 /* pages */
-import GuideMatchingScreen, {
-  GuideType,
-} from "@/components/guide/GuideMatchingModal";
+import { GuideType } from "@/data/guides";
 import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import GuideListScreen from "@/Screens/GuideScreen/GuideListScreen";
 
 export type GuideStackParamList = {
   GuideRegionTagSelect: undefined;
-  GuideListScreen: {
-    addedGuides: GuideType[];
-  };
+  GuideListScreen: undefined;
 };
 
 const Stack = createStackNavigator();
