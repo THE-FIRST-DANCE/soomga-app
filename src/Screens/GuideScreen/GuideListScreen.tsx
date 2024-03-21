@@ -13,8 +13,13 @@ import Colors from "@/modules/Color";
 import GuideListInfo from "@/components/guide/GuideListInfo";
 import GuideListPlan from "@/components/guide/GuideListPlan";
 import GuideListService from "@/components/guide/GuideListService";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
 
 function GuideListScreen() {
+  const route = useRoute<RouteProp<GuideStackParamList>>();
+  const guidesInSelectedRegions = route.params?.guidesInSelectedRegions || [];
+
   /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
 
@@ -94,17 +99,17 @@ function GuideListScreen() {
         onScroll={handlePageChange}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          {guides.map((guide, index) => (
+          {guidesInSelectedRegions.map((guide, index) => (
             <GuideListInfo key={index} guide={guide} />
           ))}
         </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {guides.map((guide, index) => (
+          {guidesInSelectedRegions.map((guide, index) => (
             <GuideListPlan key={index} guide={guide} />
           ))}
         </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false}>
-          {guides.map((guide, index) => (
+          {guidesInSelectedRegions.map((guide, index) => (
             <GuideListService key={index} guide={guide} />
           ))}
         </ScrollView>
