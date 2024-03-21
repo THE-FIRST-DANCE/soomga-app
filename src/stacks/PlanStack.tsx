@@ -4,7 +4,7 @@ import PlanCreateDetail from "@/Screens/PlanCreateScreen/PlanCreateDetail";
 import PlanCreateScreen from "@/Screens/PlanCreateScreen/PlanCreateScreen";
 import PlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlaceSelectScreen";
 import PlanPlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlanPlaceSelectScreen";
-import { PlanConfirmPeriodList } from "@/interface/Plan";
+import { PlanConfirmPeriodList, Plans } from "@/interface/Plan";
 import { PlanInfo } from "@/state/store/PlanRecoil";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -15,7 +15,9 @@ export type PlanStackParamList = {
   PlaceSelectScreen: {
     editMode?: boolean;
   };
-  PlanConfirmScreen: undefined;
+  PlanConfirmScreen: {
+    data?: Plans;
+  };
   PlanEditScreen: {
     data: PlanConfirmPeriodList;
     info: PlanInfo;

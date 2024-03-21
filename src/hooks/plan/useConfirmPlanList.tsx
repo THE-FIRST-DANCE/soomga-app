@@ -21,5 +21,5 @@ export const usePlanList = () => {
     [planList]
   );
 
-  return { planList, markers };
+  return { markers };
 };

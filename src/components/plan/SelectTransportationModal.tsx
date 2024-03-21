@@ -46,7 +46,7 @@ const SelectTransportationModal = ({
       });
       setLoading(false);
       modalClose();
-      navigation.navigate("PlanConfirmScreen");
+      navigation.navigate("PlanConfirmScreen", {});
     },
   });
 
