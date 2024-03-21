@@ -1,3 +1,19 @@
+export type GuideType = {
+  id: number;
+  photo: string;
+  name: string;
+  birthDate: string;
+  gender: string;
+  description: string;
+  stars: number;
+  region: string;
+  language: string[];
+  tags: {
+    id: number;
+    name: string;
+  }[];
+};
+
 export const guides = [
   {
     id: 1,
@@ -121,7 +137,7 @@ export const guides = [
     name: "가을",
     birthDate: new Date("2002-09-24T00:00:00.000Z").toISOString(),
     gender: "F",
-    description: "I'm Armamenter!",
+    description: "I'm Gaeul!",
     stars: 4.6,
     region: "인천광역시",
     language: ["한국어", "English"],
