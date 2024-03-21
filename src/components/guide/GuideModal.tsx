@@ -1,4 +1,11 @@
-import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Modal,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { guides, GuideType } from "@/data/guides";
 import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -22,7 +29,26 @@ function GuideModal({
     <Modal animationType="fade" visible={isModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
-          <Text style={{ fontWeight: "bold", fontSize: 28 }}>
+          <View style={styles.guidePhotos}>
+            {guidesInSelectedRegions.map((guide, index) =>
+              index < 3 ? (
+                index === 1 ? (
+                  <Image
+                    key={index}
+                    source={{ uri: guide.photo }}
+                    style={[styles.guidePhoto, { width: 70, height: 70 }]}
+                  />
+                ) : (
+                  <Image
+                    key={index}
+                    source={{ uri: guide.photo }}
+                    style={[styles.guidePhoto, { marginTop: 20 }]}
+                  />
+                )
+              ) : null
+            )}
+          </View>
+          <Text style={{ fontWeight: "bold", fontSize: 28, marginTop: 10 }}>
             선택할 차례입니다!
           </Text>
           <View style={{ marginTop: 30, alignItems: "center" }}>
@@ -76,9 +102,10 @@ const styles = StyleSheet.create({
   },
   /* 각 가이드 사진 */
   guidePhoto: {
-    width: 45,
-    height: 45,
+    width: 50,
+    height: 50,
     marginHorizontal: -10,
+    borderRadius: 100,
   },
   /* 각 가이드 정보 보기, 가이드 더 찾아보기 버튼 스타일 */
   button: {
