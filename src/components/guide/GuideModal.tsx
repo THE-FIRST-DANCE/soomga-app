@@ -1,5 +1,5 @@
 import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { guides } from "@/data/guides";
+import { guides, GuideType } from "@/data/guides";
 import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
@@ -7,9 +7,14 @@ import { GuideStackParamList } from "@/stacks/GuideStack";
 type GuideModalType = {
   isModalVisible: boolean;
   setIsModalVisible: (value: boolean) => void;
+  guidesInSelectedRegions: GuideType[];
 };
 
-function GuideModal({ isModalVisible, setIsModalVisible }: GuideModalType) {
+function GuideModal({
+  isModalVisible,
+  setIsModalVisible,
+  guidesInSelectedRegions,
+}: GuideModalType) {
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
   return (
@@ -29,7 +34,9 @@ function GuideModal({ isModalVisible, setIsModalVisible }: GuideModalType) {
               }}
               onPress={() => {
                 setIsModalVisible(false);
-                navigation.navigate("GuideListScreen");
+                navigation.navigate("GuideListScreen", {
+                  guidesInSelectedRegions,
+                });
                 console.log(guides);
               }}
             >
@@ -37,7 +44,7 @@ function GuideModal({ isModalVisible, setIsModalVisible }: GuideModalType) {
             </TouchableOpacity>
             <View style={styles.button}>
               <Text style={{ color: Colors.BASKETBALL_ORANGE }}>
-                필터로 검색하기
+                전체 리스트 보기
               </Text>
             </View>
           </View>
