@@ -1,72 +1,43 @@
+import { Modal, View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { guides } from "@/data/guides";
-import {
-  Modal,
-  View,
-  ImageBackground,
-  Text,
-  StyleSheet,
-  Pressable,
-} from "react-native";
-
-import { GuideType } from "@/components/guide/GuideMatchingModal";
+import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
 
-import Colors from "@/modules/Color";
-
 type GuideModalType = {
-  addedGuides: GuideType[];
-  isConfirmModalVisible: boolean;
+  isModalVisible: boolean;
+  setIsModalVisible: (value: boolean) => void;
 };
 
-function GuideModal({ addedGuides, isConfirmModalVisible }: GuideModalType) {
+function GuideModal({ isModalVisible, setIsModalVisible }: GuideModalType) {
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
   return (
     /* 가이드 정보 보기 / 가이드 더 찾아보기 선택하는 모달 */
-    <Modal animationType="fade" visible={isConfirmModalVisible}>
+    <Modal animationType="fade" visible={isModalVisible}>
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
-          <View style={styles.guidePhotos}>
-            {addedGuides.map((guide) => (
-              <ImageBackground
-                style={styles.guidePhoto}
-                imageStyle={{ borderRadius: 100 }}
-                key={guide.id}
-                source={{ uri: guide.photo }}
-              />
-            ))}
-          </View>
-          <View
-            style={{
-              justifyContent: "center",
-              alignItems: "center",
-              marginTop: 30,
-            }}
-          >
-            <Text style={{ fontWeight: "bold", fontSize: 28 }}>
-              선택할 차례입니다!
-            </Text>
-            <Text style={{ color: Colors.GRAY_DARK, marginTop: 10 }}>
-              {guides.length}명 중 {addedGuides.length}명을 선택하셨습니다!
-            </Text>
-          </View>
+          <Text style={{ fontWeight: "bold", fontSize: 28 }}>
+            선택할 차례입니다!
+          </Text>
           <View style={{ marginTop: 30, alignItems: "center" }}>
-            <Pressable
+            <TouchableOpacity
+              activeOpacity={0.7}
               style={{
                 ...styles.button,
                 backgroundColor: Colors.BASKETBALL_ORANGE,
               }}
               onPress={() => {
-                navigation.navigate("GuideListScreen", { addedGuides });
-                console.log(addedGuides);
+                setIsModalVisible(false);
+                navigation.navigate("GuideListScreen");
+                console.log(guides);
               }}
             >
-              <Text style={{ color: "white" }}>가이드 정보 보기</Text>
-            </Pressable>
+              <Text style={{ color: "white" }}>가이드 추천 받기</Text>
+            </TouchableOpacity>
             <View style={styles.button}>
               <Text style={{ color: Colors.BASKETBALL_ORANGE }}>
-                가이드 더 찾아보기
+                필터로 검색하기
               </Text>
             </View>
           </View>
@@ -87,6 +58,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Colors.WHITE,
     elevation: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
   /* 선택된 가이드 이미지 스타일 */
   guidePhotos: {
