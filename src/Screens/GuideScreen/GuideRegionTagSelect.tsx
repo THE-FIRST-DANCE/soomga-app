@@ -27,7 +27,12 @@ function GuideRegionTagSelect() {
           }}
         />
       </View>
-      {isModalVisible && <GuideModal isModalVisible={isModalVisible} />}
+      {isModalVisible && (
+        <GuideModal
+          isModalVisible={isModalVisible}
+          setIsModalVisible={setIsModalVisible}
+        />
+      )}
     </Screen>
   );
 }
