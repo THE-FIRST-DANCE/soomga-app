@@ -8,7 +8,9 @@ import GuideListScreen from "@/Screens/GuideScreen/GuideListScreen";
 
 export type GuideStackParamList = {
   GuideRegionTagSelect: undefined;
-  GuideListScreen: undefined;
+  GuideListScreen: {
+    guidesInSelectedRegions: GuideType[];
+  };
 };
 
 const Stack = createStackNavigator();
