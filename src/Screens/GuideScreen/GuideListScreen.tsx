@@ -13,6 +13,7 @@ import { GuideStackParamList } from "@/stacks/GuideStack";
 import Colors from "@/modules/Color";
 import GuideListInfo from "@/components/guide/GuideListInfo";
 import GuideListPlan from "@/components/guide/GuideListPlan";
+import GuideListService from "@/components/guide/GuideListService";
 
 function GuideListScreen() {
   /* 매칭 페이지에서 추가한 가이드들 */
@@ -112,7 +113,7 @@ function GuideListScreen() {
         </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false}>
           {addGuides?.map((guide, index) => (
-            <GuideListInfo key={index} guide={guide} />
+            <GuideListService key={index} guide={guide} />
           ))}
         </ScrollView>
       </ScrollView>
