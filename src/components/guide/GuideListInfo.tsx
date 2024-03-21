@@ -17,6 +17,18 @@ import { styles as tagStyle } from "../main/Tags";
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
 
+const VerticalProgressBar = ({ progress }: { progress: number }) => {
+  const reversedProgress = 100 - progress;
+
+  return (
+    <View style={styles.progressBarContainer}>
+      <View
+        style={[styles.progressBar, { height: `${reversedProgress}%` }]}
+      ></View>
+    </View>
+  );
+};
+
 function GuideListInfo({ guide }: { guide: GuideType }) {
   /* 가이드 팔로우 여부 */
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
@@ -49,11 +61,19 @@ function GuideListInfo({ guide }: { guide: GuideType }) {
         );
   };
 
+  const progress = Math.floor(Math.random() * 101);
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <View style={{ flex: 1, alignItems: "center" }}>
-          <Image source={{ uri: guide.photo }} style={styles.guideImage} />
+          <View style={{ flexDirection: "row" }}>
+            <Image source={{ uri: guide.photo }} style={styles.guideImage} />
+            <View style={{ alignItems: "center" }}>
+              <Text style={{ fontSize: 9 }}>{progress}℃</Text>
+              <VerticalProgressBar progress={progress} />
+            </View>
+          </View>
           <Text style={{ fontSize: 18 }}>{guide.name}</Text>
           <Text style={{ color: Colors.GRAY_DARK, fontSize: 12 }}>
             n시간 전 접속
@@ -144,6 +164,23 @@ const styles = StyleSheet.create({
   },
   /* 가이드 이미지 */
   guideImage: { width: 70, height: 70, borderRadius: 100 },
+  /* 온도 바 */
+  progressBarContainer: {
+    width: 5,
+    height: 60,
+    backgroundColor: Colors.BASKETBALL_ORANGE,
+    borderWidth: 0.7,
+    borderRadius: 10,
+    overflow: "hidden",
+  },
+  emptyBar: {
+    flex: 1,
+  },
+  progressBar: {
+    backgroundColor: Colors.WHITE,
+    width: "100%",
+  },
+
   /* 가이드 횟수, 평점 container */
   guideNumberStars: {
     width: "80%",
