@@ -8,7 +8,6 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-import { guides } from "@/data/guides";
 import Colors from "@/modules/Color";
 import GuideListInfo from "@/components/guide/GuideListInfo";
 import GuideListPlan from "@/components/guide/GuideListPlan";
@@ -89,6 +88,7 @@ function GuideListScreen() {
             </Text>
           </Pressable>
         </View>
+        <Text>{guidesInSelectedRegions.length}명 추천됨</Text>
       </View>
       <ScrollView
         ref={scrollViewRef}
