@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, Pressable, Alert, StyleSheet, Image } from "react-native";
 import Colors from "@/modules/Color";
-import { GuideType } from "./GuideMatchingModal";
+import { GuideType } from "@/data/guides";
 
 /* vector-icons */
 import { SimpleLineIcons, MaterialIcons } from "@expo/vector-icons";
