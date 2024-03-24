@@ -1,3 +1,8 @@
+export type TagType = {
+  id: number;
+  name: string;
+};
+
 export const tags = [
   { id: 1, name: "#ISFJ" },
   { id: 2, name: "#Kpop" },
