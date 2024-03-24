@@ -5,11 +5,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { GuideType } from "@/data/guides";
 import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import GuideListScreen from "@/Screens/GuideScreen/GuideListScreen";
+import { TagType } from "@/data/tags";
 
 export type GuideStackParamList = {
   GuideRegionTagSelect: undefined;
   GuideListScreen: {
     guidesInSelectedRegions: GuideType[];
+    userTags: TagType[];
   };
 };
 
