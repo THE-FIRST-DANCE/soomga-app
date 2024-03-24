@@ -10,17 +10,20 @@ import { guides, GuideType } from "@/data/guides";
 import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
+import { tags, TagType } from "@/data/tags";
 
 type GuideModalType = {
   isModalVisible: boolean;
   setIsModalVisible: (value: boolean) => void;
   guidesInSelectedRegions: GuideType[];
+  userTags: TagType[];
 };
 
 function GuideModal({
   isModalVisible,
   setIsModalVisible,
   guidesInSelectedRegions,
+  userTags,
 }: GuideModalType) {
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
@@ -62,8 +65,9 @@ function GuideModal({
                 setIsModalVisible(false);
                 navigation.navigate("GuideListScreen", {
                   guidesInSelectedRegions,
+                  userTags,
                 });
-                console.log(guides);
+                console.log(guidesInSelectedRegions);
               }}
             >
               <Text style={{ color: "white" }}>가이드 추천 받기</Text>
