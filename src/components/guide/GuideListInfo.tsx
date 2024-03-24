@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -16,20 +16,25 @@ import { styles as tagStyle } from "../main/Tags";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { TagType } from "@/data/tags";
 
 const VerticalProgressBar = ({ progress }: { progress: number }) => {
   const reversedProgress = 100 - progress;
 
   return (
     <View style={styles.progressBarContainer}>
-      <View
-        style={[styles.progressBar, { height: `${reversedProgress}%` }]}
-      ></View>
+      <View style={[styles.progressBar, { height: `${reversedProgress}%` }]} />
     </View>
   );
 };
 
-function GuideListInfo({ guide }: { guide: GuideType }) {
+function GuideListInfo({
+  guide,
+  userTags,
+}: {
+  guide: GuideType;
+  userTags: TagType[];
+}) {
   /* 가이드 팔로우 여부 */
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
@@ -62,6 +67,45 @@ function GuideListInfo({ guide }: { guide: GuideType }) {
   };
 
   const progress = Math.floor(Math.random() * 101);
+
+  const [guideTagsWithUsers, setGuideTagsWithUsers] = useState<TagType[]>([]);
+  const [highlightedTags, setHighlightedTags] = useState<boolean[]>([]);
+
+  const checkSameTags = () => {
+    const isSameTag = guide.tags.map((tag) => false);
+    const newHighlightedTags: boolean[] = [];
+
+    guide.tags.forEach((tag, index) => {
+      userTags.forEach((userTag) => {
+        if (tag.name === userTag.name) {
+          isSameTag[index] = true;
+        }
+      });
+    });
+
+    const newGuideTags: TagType[] = [];
+
+    guide.tags.forEach((tag, index) => {
+      if (isSameTag[index]) {
+        newGuideTags.push(tag);
+        newHighlightedTags.push(true);
+      }
+    });
+
+    guide.tags.forEach((tag, index) => {
+      if (!isSameTag[index]) {
+        newGuideTags.push(tag);
+        newHighlightedTags.push(false);
+      }
+    });
+
+    setGuideTagsWithUsers(newGuideTags);
+    setHighlightedTags(newHighlightedTags);
+  };
+
+  useEffect(() => {
+    checkSameTags();
+  }, [guide.tags, userTags]);
 
   return (
     <View style={styles.container}>
@@ -116,12 +160,26 @@ function GuideListInfo({ guide }: { guide: GuideType }) {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tagsContainer}
       >
-        {guide.tags.map((tag) => (
+        {guideTagsWithUsers.map((tag, index) => (
           <View
             key={tag.id}
-            style={{ ...tagStyle.tag, height: 30, marginVertical: 2 }}
+            style={{
+              ...tagStyle.tag,
+              height: 30,
+              marginVertical: 2,
+              backgroundColor: highlightedTags[index]
+                ? Colors.BASKETBALL_ORANGE
+                : Colors.WHITE,
+            }}
           >
-            <Text style={{ fontSize: 10 }}>{tag.name}</Text>
+            <Text
+              style={{
+                color: highlightedTags[index] ? Colors.WHITE : Colors.BLACK,
+                fontSize: 10,
+              }}
+            >
+              {tag.name}
+            </Text>
           </View>
         ))}
       </ScrollView>
