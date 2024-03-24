@@ -7,13 +7,21 @@ import RegionSelect from "@/components/guide/RegionSelect";
 import TagSettings from "@/components/guide/TagSettings";
 import MatchingButton from "@/components/guide/MatchingButton";
 import GuideModal from "@/components/guide/GuideModal";
+
+/* data */
 import { GuideType } from "@/data/guides";
+import { tags, TagType } from "@/data/tags";
 
 function GuideRegionTagSelect() {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [guidesInSelectedRegions, setGuidesInSelectedRegions] = useState<
     GuideType[]
   >([]);
+  const [userTags, setUserTags] = useState<TagType[]>([]);
+
+  useEffect(() => {
+    setUserTags(tags);
+  });
 
   return (
     <Screen title="가이드 매칭">
@@ -31,6 +39,7 @@ function GuideRegionTagSelect() {
           isModalVisible={isModalVisible}
           setIsModalVisible={setIsModalVisible}
           guidesInSelectedRegions={guidesInSelectedRegions}
+          userTags={userTags}
         />
       )}
     </Screen>
