@@ -6,14 +6,7 @@ import { styles as TagStyle } from "../main/Tags";
 function TagSettings() {
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingVertical: 10,
-          marginTop: 20,
-        }}
-      >
+      <View style={styles.titleContainer}>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text style={styles.title}>선택된 태그</Text>
           <Text style={{ lineHeight: 40, marginLeft: 5 }}>
@@ -41,6 +34,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 0.5,
     paddingHorizontal: 30,
+  },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingVertical: 10,
+    marginTop: 20,
   },
   title: {
     fontSize: 25,
