@@ -18,6 +18,9 @@ import { GuideStackParamList } from "@/stacks/GuideStack";
 function GuideListScreen() {
   const route = useRoute<RouteProp<GuideStackParamList>>();
   const guidesInSelectedRegions = route.params?.guidesInSelectedRegions || [];
+  const userTags = route.params?.userTags || [];
+
+  // console.log(userTags);
 
   /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
@@ -100,7 +103,7 @@ function GuideListScreen() {
       >
         <ScrollView showsVerticalScrollIndicator={false}>
           {guidesInSelectedRegions.map((guide, index) => (
-            <GuideListInfo key={index} guide={guide} />
+            <GuideListInfo key={index} guide={guide} userTags={userTags} />
           ))}
         </ScrollView>
         <ScrollView showsVerticalScrollIndicator={false}>
