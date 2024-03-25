@@ -83,7 +83,9 @@ const PlanItem = ({ plan }: PlanItemProps) => {
       period: plan.period,
     });
 
-    navigation.navigate("PlanConfirmScreen");
+    navigation.navigate("PlanConfirmScreen", {
+      data: plan,
+    });
   };
 
   return (

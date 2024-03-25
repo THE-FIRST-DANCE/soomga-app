@@ -2,12 +2,13 @@ import {
   GooglePlaceResponse,
   PlaceData,
   PlanListConfirm,
+  Plans,
 } from "@/interface/Plan";
 import axios from "axios";
 import { EXPO_PUBLIC_KAKAO_API } from "@env";
 
-const api = axios.create({
-  baseURL: "http://192.168.0.20:3000/",
+export const api = axios.create({
+  baseURL: "http://localhost:3000/",
   withCredentials: true,
 });
 
@@ -112,6 +113,18 @@ export const getPlanList = async (authorId: number) => {
       authorId,
     },
   });
+
+  return response.data;
+};
+
+export const getPlanById = async (planId: number) => {
+  const response = await api.get(`plans/${planId}`);
+
+  return response.data;
+};
+
+export const getPlanByUserId = async (userId: number): Promise<Plans[]> => {
+  const response = await api.get(`plans/user/${userId}`);
 
   return response.data;
 };
