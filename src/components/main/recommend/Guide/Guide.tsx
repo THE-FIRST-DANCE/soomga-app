@@ -41,7 +41,7 @@ function Guide({ photo, name, gender, description, stars }: GuideType) {
             {name}
           </Text>
           <View style={{ flexDirection: "row" }}>
-            <AntDesign name="star" size={18} color="#ffd900" />
+            <AntDesign name="star" size={18} color={Colors.STAR_YELLOW} />
             <Text style={{ marginLeft: 3 }}>{stars}</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
