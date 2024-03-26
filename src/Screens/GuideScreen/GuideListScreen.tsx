@@ -14,13 +14,16 @@ import GuideListPlan from "@/components/guide/GuideListPlan";
 import GuideListService from "@/components/guide/GuideListService";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
+import { FontAwesome } from "@expo/vector-icons";
+import GuideFilter from "@/components/guide/GuideFilter";
 
 function GuideListScreen() {
   const route = useRoute<RouteProp<GuideStackParamList>>();
+
   const guidesInSelectedRegions = route.params?.guidesInSelectedRegions || [];
   const userTags = route.params?.userTags || [];
 
-  // console.log(userTags);
+  const isRecommended = route.params?.isRecommended;
 
   /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
@@ -50,6 +53,8 @@ function GuideListScreen() {
       setCurrentTab("서비스");
     }
   };
+
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   return (
     <Screen title="추천 가이드">
@@ -91,7 +96,19 @@ function GuideListScreen() {
             </Text>
           </Pressable>
         </View>
-        <Text>{guidesInSelectedRegions.length}명 추천됨</Text>
+        {isRecommended ? (
+          <Text>{guidesInSelectedRegions.length}명 추천됨</Text>
+        ) : (
+          <Pressable
+            style={{ flexDirection: "row" }}
+            onPress={() => {
+              setIsFilterVisible(true);
+            }}
+          >
+            <FontAwesome name="filter" size={20} color="black" />
+            <Text style={{ marginLeft: 5 }}>필터</Text>
+          </Pressable>
+        )}
       </View>
       <ScrollView
         ref={scrollViewRef}
@@ -117,6 +134,12 @@ function GuideListScreen() {
           ))}
         </ScrollView>
       </ScrollView>
+      {isFilterVisible && (
+        <GuideFilter
+          isFilterVisible={isFilterVisible}
+          setIsFilterVisible={setIsFilterVisible}
+        />
+      )}
     </Screen>
   );
 }
