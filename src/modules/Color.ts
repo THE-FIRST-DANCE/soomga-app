@@ -11,6 +11,7 @@ const Colors = {
   BASKETBALL_ORANGE: "#DC2626",
   MALE_BLUE: "#4BB3FF",
   FEMALE_PINK: "#FF8090",
+  STAR_YELLOW: "#FFD900",
 };
 
 export default Colors;
