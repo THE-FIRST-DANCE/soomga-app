@@ -66,7 +66,7 @@ function GuideListInfo({
         );
   };
 
-  const progress = Math.floor(Math.random() * 101);
+  const progress = Math.floor(Math.random() * 101) + 1;
 
   const [guideTagsWithUsers, setGuideTagsWithUsers] = useState<TagType[]>([]);
   const [highlightedTags, setHighlightedTags] = useState<boolean[]>([]);
@@ -129,7 +129,7 @@ function GuideListInfo({
             <View style={{ alignItems: "center" }}>
               <Text>가이드 횟수</Text>
               <Text style={{ fontWeight: "bold" }}>
-                {Math.floor(Math.random() * 10000)}
+                {Math.floor(Math.random() * 100) + 1}
               </Text>
             </View>
             <View style={{ alignItems: "center" }}>
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
   followButton: {
     position: "absolute",
     top: -10,
-    right: -10,
+    right: 0,
     width: 40,
     height: 40,
     borderRadius: 100,
