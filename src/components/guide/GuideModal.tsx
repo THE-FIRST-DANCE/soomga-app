@@ -5,12 +5,15 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
+  Pressable,
 } from "react-native";
-import { guides, GuideType } from "@/data/guides";
+import { TagType } from "@/data/tags";
+import { GuideType } from "@/data/guides";
 import Colors from "@/modules/Color";
+
+/* Navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
-import { tags, TagType } from "@/data/tags";
 
 type GuideModalType = {
   isModalVisible: boolean;
@@ -66,17 +69,29 @@ function GuideModal({
                 navigation.navigate("GuideListScreen", {
                   guidesInSelectedRegions,
                   userTags,
+                  isRecommended: true,
                 });
                 console.log(guidesInSelectedRegions);
               }}
             >
               <Text style={{ color: "white" }}>가이드 추천 받기</Text>
             </TouchableOpacity>
-            <View style={styles.button}>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                setIsModalVisible(false);
+                navigation.navigate("GuideListScreen", {
+                  guidesInSelectedRegions,
+                  userTags,
+                  isRecommended: false,
+                });
+                console.log(guidesInSelectedRegions);
+              }}
+            >
               <Text style={{ color: Colors.BASKETBALL_ORANGE }}>
                 전체 리스트 보기
               </Text>
-            </View>
+            </Pressable>
           </View>
         </View>
       </View>
