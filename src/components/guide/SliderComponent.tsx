@@ -1,6 +1,6 @@
 import { Slider } from "@miblanchard/react-native-slider";
 import { View, Text, StyleSheet } from "react-native";
-import { Colors } from "react-native/Libraries/NewAppScreen";
+import Colors from "@/modules/Color";
 
 interface SliderProps {
   caption: string;
