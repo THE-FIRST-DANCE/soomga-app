@@ -12,6 +12,7 @@ export type GuideStackParamList = {
   GuideListScreen: {
     guidesInSelectedRegions: GuideType[];
     userTags: TagType[];
+    isRecommended: boolean;
   };
 };
 
