@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { styles as TagStyle } from "../main/Tags";
+import { styles as TagStyle } from "@main/Tags";
 import Colors from "@/modules/Color";
 import { useState } from "react";
 

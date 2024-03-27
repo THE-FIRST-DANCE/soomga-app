@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Colors from "@/modules/Color";
-import { styles as TagStyle } from "../main/Tags";
+import { styles as TagStyle } from "@main/Tags";
 import { guides, GuideType } from "@/data/guides";
 
 function RegionSelect({
