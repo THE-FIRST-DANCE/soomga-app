@@ -15,12 +15,12 @@ import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
 
-type GuideModalType = {
+interface GuideModalType {
   isModalVisible: boolean;
   setIsModalVisible: (value: boolean) => void;
   guidesInSelectedRegions: GuideType[];
   userTags: TagType[];
-};
+}
 
 function GuideModal({
   isModalVisible,
