@@ -6,7 +6,7 @@ export type GuideType = {
   birthDate: string;
   gender: string;
   description: string;
-  stars: number;
+  rating: number;
   temp: number;
   guideCount: number;
   language: string[];
@@ -26,7 +26,7 @@ export const guides = [
     birthDate: new Date("2004-05-07T00:00:00.000Z").toISOString(),
     gender: "여자",
     description: "I'm Minji!",
-    stars: 4.8,
+    rating: 5.0,
     temp: 92,
     guideCount: 80,
     language: ["한국어", "English"],
@@ -51,7 +51,7 @@ export const guides = [
     birthDate: new Date("2004-10-06T00:00:00.000Z").toISOString(),
     gender: "남자",
     description: "I'm Hanni!",
-    stars: 4.3,
+    rating: 3.5,
     temp: 60,
     guideCount: 40,
     language: ["한국어", "English", "Vietnamese"],
@@ -76,7 +76,7 @@ export const guides = [
     birthDate: new Date("2005-04-11T00:00:00.000Z").toISOString(),
     gender: "여자",
     description: "I'm Danielle!",
-    stars: 4.6,
+    rating: 4.4,
     temp: 77,
     guideCount: 77,
     language: ["한국어", "English"],
@@ -101,7 +101,7 @@ export const guides = [
     birthDate: new Date("2006-05-15T00:00:00.000Z").toISOString(),
     gender: "남자",
     description: "I'm Haerin!",
-    stars: 4.1,
+    rating: 2.3,
     temp: 65,
     guideCount: 40,
     language: ["한국어", "English"],
@@ -126,7 +126,7 @@ export const guides = [
     birthDate: new Date("2008-04-21T00:00:00.000Z").toISOString(),
     gender: "여자",
     description: "I'm Hyein!",
-    stars: 4.8,
+    rating: 4.4,
     temp: 75,
     guideCount: 80,
     language: ["한국어", "English"],
@@ -151,7 +151,7 @@ export const guides = [
     birthDate: new Date("2002-09-24T00:00:00.000Z").toISOString(),
     gender: "여자",
     description: "I'm Gaeul!",
-    stars: 4.6,
+    rating: 1.9,
     temp: 45,
     guideCount: 20,
     language: ["한국어", "English"],
@@ -176,7 +176,7 @@ export const guides = [
     birthDate: new Date("2003-09-01T00:00:00.000Z").toISOString(),
     gender: "남자",
     description: "I'm Yujin!",
-    stars: 4.3,
+    rating: 2.8,
     temp: 50,
     guideCount: 50,
     language: ["한국어", "English"],
@@ -201,7 +201,7 @@ export const guides = [
     birthDate: new Date("2004-02-03T00:00:00.000Z").toISOString(),
     gender: "남자",
     description: "I'm Rei!",
-    stars: 4.1,
+    rating: 3.5,
     temp: 34,
     guideCount: 30,
     language: ["한국어", "日本語", "English"],
@@ -226,7 +226,7 @@ export const guides = [
     birthDate: new Date("2004-11-21T00:00:00.000Z").toISOString(),
     gender: "남자",
     description: "I'm Liz!",
-    stars: 4.3,
+    rating: 4.0,
     temp: 45,
     guideCount: 40,
     language: ["한국어", "English"],
@@ -251,7 +251,7 @@ export const guides = [
     birthDate: new Date("2007-02-21T00:00:00.000Z").toISOString(),
     gender: "여자",
     description: "I'm Leeseo!",
-    stars: 4.6,
+    rating: 1.2,
     temp: 88,
     guideCount: 50,
     language: ["한국어", "English"],
