@@ -130,7 +130,7 @@ function GuideListInfo({
             </View>
             <View style={{ alignItems: "center" }}>
               <Text>평점</Text>
-              <Text style={{ fontWeight: "bold" }}>{guide.stars}</Text>
+              <Text style={{ fontWeight: "bold" }}>{guide.rating}</Text>
             </View>
           </View>
           {/* 지역, 나이대, 사용 언어 */}
