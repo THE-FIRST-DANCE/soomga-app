@@ -16,13 +16,13 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
 import { FontAwesome } from "@expo/vector-icons";
 import GuideFilter from "@/components/guide/GuideFilter";
+import { GuideType } from "@/data/guides";
 
 function GuideListScreen() {
   const route = useRoute<RouteProp<GuideStackParamList>>();
 
   const guidesInSelectedRegions = route.params?.guidesInSelectedRegions || [];
   const userTags = route.params?.userTags || [];
-
   const isRecommended = route.params?.isRecommended;
 
   /* 현재 탭 */
@@ -32,7 +32,7 @@ function GuideListScreen() {
   const scrollViewRef = useRef<ScrollView>(null);
   const layoutWidth = Dimensions.get("window").width;
 
-  /* 탭을 누를 때 현재 탭 업데이트 */
+  /* 탭 누르면 현재 탭 업데이트 */
   const handleTabPress = (tabName: string, index: number) => {
     setCurrentTab(tabName);
     /* 해당 페이지로 스크롤 */
@@ -54,7 +54,13 @@ function GuideListScreen() {
     }
   };
 
+  /* 필터 모달 표시 여부 */
   const [isFilterVisible, setIsFilterVisible] = useState(false);
+
+  /* 필터링된 가이드 저장할 변수 */
+  const [guidesToRender, setGuidesToRender] = useState<GuideType[]>(
+    guidesInSelectedRegions
+  );
 
   return (
     <Screen title="추천 가이드">
@@ -97,7 +103,7 @@ function GuideListScreen() {
           </Pressable>
         </View>
         {isRecommended ? (
-          <Text>{guidesInSelectedRegions.length}명 추천됨</Text>
+          <Text>{guidesToRender.length}명 추천됨</Text>
         ) : (
           <Pressable
             style={{ flexDirection: "row" }}
@@ -118,18 +124,21 @@ function GuideListScreen() {
         contentContainerStyle={{ width: "300%" }}
         onScroll={handlePageChange}
       >
+        {/* 가이드 정보 */}
         <ScrollView showsVerticalScrollIndicator={false}>
-          {guidesInSelectedRegions.map((guide, index) => (
+          {guidesToRender.map((guide, index) => (
             <GuideListInfo key={index} guide={guide} userTags={userTags} />
           ))}
         </ScrollView>
+        {/* 가이드 플랜 */}
         <ScrollView showsVerticalScrollIndicator={false}>
-          {guidesInSelectedRegions.map((guide, index) => (
+          {guidesToRender.map((guide, index) => (
             <GuideListPlan key={index} guide={guide} />
           ))}
         </ScrollView>
+        {/* 가이드 서비스 */}
         <ScrollView showsVerticalScrollIndicator={false}>
-          {guidesInSelectedRegions.map((guide, index) => (
+          {guidesToRender.map((guide, index) => (
             <GuideListService key={index} guide={guide} />
           ))}
         </ScrollView>
@@ -139,6 +148,8 @@ function GuideListScreen() {
           isFilterVisible={isFilterVisible}
           setIsFilterVisible={setIsFilterVisible}
           guidesInSelectedRegions={guidesInSelectedRegions}
+          guidesToRender={guidesToRender}
+          setGuidesToRender={setGuidesToRender}
         />
       )}
     </Screen>
@@ -148,6 +159,7 @@ function GuideListScreen() {
 export default GuideListScreen;
 
 const styles = StyleSheet.create({
+  /* 탭 바 스타일 */
   tabBar: {
     justifyContent: "space-between",
     width: "90%",
@@ -159,6 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  /* 각 탭 텍스트 스타일 */
   tabStyle: {
     marginHorizontal: 10,
     fontSize: 20,
