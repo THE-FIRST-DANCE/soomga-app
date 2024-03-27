@@ -6,28 +6,100 @@ import {
   View,
   ScrollView,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Colors from "@/modules/Color";
 import { AntDesign } from "@expo/vector-icons";
 import CheckboxComponent from "./CheckboxComponent";
 import SliderComponent from "./SliderComponent";
 import SelectComponent, { SelectContainer } from "./SelectComponent";
+import { GuideType } from "@/data/guides";
+import { calculateAgeRange } from "./GuideInfo";
+
+interface GuideFilterProps {
+  isFilterVisible: boolean;
+  setIsFilterVisible: (value: boolean) => void;
+  guidesInSelectedRegions: GuideType[];
+}
 
 function GuideFilter({
   isFilterVisible,
   setIsFilterVisible,
-}: {
-  isFilterVisible: boolean;
-  setIsFilterVisible: (value: boolean) => void;
-}) {
-  const [ageRange, setAgeRange] = useState<number[]>([20, 40]);
-  const [tempRange, setTempRange] = useState<number[]>([30, 70]);
-  const [guideCountRange, setGuideCountRange] = useState<number[]>([10, 80]);
-  const [gender, setGender] = useState<string>("");
+  guidesInSelectedRegions,
+}: GuideFilterProps) {
+  /* 나이 */
+  const [ageRange, setAgeRange] = useState<number[]>([0, 70]);
+
+  /* 온도 */
+  const [tempRange, setTempRange] = useState<number[]>([0, 100]);
+
+  /* 가이드 횟수 */
+  const [guideCountRange, setGuideCountRange] = useState<number[]>([0, 100]);
+
+  /* 언어 */
+  const allLangs = ["모든 언어", "한국어", "English", "日本語"];
   const [langs, setLangs] = useState<string[]>([]);
+
+  /* 성별 */
+  const allGenders = ["모든 성별", "남자", "여자"];
+  const [genders, setGenders] = useState<string[]>([]);
+
+  /* TODO: 일본어, 영어 자격증 필터 추가 */
+
+  /* 평점 */
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>(
     new Array(5).fill(false)
   );
+
+  const handleGuideListWithAgeRange = () => {
+    /* 필터 */
+    const filteredGuides = guidesInSelectedRegions.filter((guide) => {
+      /* 나이 필터 */
+      const guideAgeRange = parseInt(
+        calculateAgeRange(guide.birthDate).split("대")[0]
+      );
+      const ageFilter =
+        guideAgeRange >= ageRange[0] && guideAgeRange <= ageRange[1];
+
+      /* 온도 필터 */
+      const tempFilter =
+        guide.temp >= tempRange[0] && guide.temp <= tempRange[1];
+
+      /* 가이드 횟수 필터 */
+      const guideCountFilter =
+        guide.guideCount >= guideCountRange[0] &&
+        guide.guideCount <= guideCountRange[1];
+
+      /* 언어 필터 */
+      const langFilter =
+        langs.length === 0 ||
+        langs.some((item) => guide.language.includes(item));
+
+      /* 성별 필터 */
+      const genderFilter =
+        genders.length === 0 ||
+        genders.some((item) => guide.gender.includes(item));
+
+      return (
+        ageFilter &&
+        tempFilter &&
+        guideCountFilter &&
+        langFilter &&
+        genderFilter
+      );
+    });
+
+    console.log("45th line: ", filteredGuides);
+    return filteredGuides;
+  };
+
+  useEffect(() => {
+    handleGuideListWithAgeRange();
+  }, [ageRange, tempRange, guideCountRange, langs, genders]);
+
+  useEffect(() => {
+    console.log("langs: ", langs);
+    console.log("genders: ", genders);
+  }, [langs, genders]);
 
   return (
     <Modal animationType="slide" transparent={true} visible={isFilterVisible}>
@@ -66,22 +138,61 @@ function GuideFilter({
           />
           <SelectContainer title="언어">
             <SelectComponent
-              certificates={["모든 언어", "한국어", "English", "日本語"]}
+              certificates={allLangs}
+              onPress={(index: number) => {
+                if (index === 0) {
+                  setLangs([]);
+                } else {
+                  setLangs((prevLangs) => {
+                    if (prevLangs.includes(allLangs[index])) {
+                      return prevLangs.filter(
+                        (item) => item !== allLangs[index]
+                      );
+                    } else {
+                      return [...prevLangs, allLangs[index]];
+                    }
+                  });
+                }
+              }}
             />
           </SelectContainer>
           <SelectContainer title="성별">
-            <SelectComponent certificates={["모든 성별", "남자", "여자"]} />
+            <SelectComponent
+              certificates={["모든 성별", "남자", "여자"]}
+              onPress={(index: number) => {
+                if (index === 0) {
+                  setGenders([]);
+                } else {
+                  setGenders((prevGenders) => {
+                    if (prevGenders.includes(allGenders[index])) {
+                      return prevGenders.filter(
+                        (item) => item !== allGenders[index]
+                      );
+                    } else {
+                      return [...prevGenders, allGenders[index]];
+                    }
+                  });
+                }
+              }}
+            />
           </SelectContainer>
           <SelectContainer title="자격증">
             <SelectComponent
               caption="日本語  🇯🇵"
-              certificates={["N1", "N2", "N3", "N4", "N5"]}
-              style={{ width: 50 }}
+              certificates={["모든 자격증", "N1", "N2", "N3", "N4", "N5"]}
+              onPress={() => {}}
             />
             <SelectComponent
               caption="English  🇬🇧"
-              certificates={["900>", "800>", "700>", "600>", "<600"]}
-              style={{ width: 50 }}
+              certificates={[
+                "모든 자격증",
+                "900>",
+                "800>",
+                "700>",
+                "600>",
+                "<600",
+              ]}
+              onPress={() => {}}
             />
           </SelectContainer>
           <View style={{ marginBottom: 20 }}>
