@@ -8,23 +8,29 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import Colors from "@/modules/Color";
-import { AntDesign } from "@expo/vector-icons";
 import CheckboxComponent from "./CheckboxComponent";
 import SliderComponent from "./SliderComponent";
 import SelectComponent, { SelectContainer } from "./SelectComponent";
 import { GuideType } from "@/data/guides";
 import { calculateAgeRange } from "./GuideInfo";
 
+/* vector-icons */
+import { AntDesign } from "@expo/vector-icons";
+
 interface GuideFilterProps {
   isFilterVisible: boolean;
   setIsFilterVisible: (value: boolean) => void;
   guidesInSelectedRegions: GuideType[];
+  guidesToRender: GuideType[];
+  setGuidesToRender: (value: GuideType[]) => void;
 }
 
 function GuideFilter({
   isFilterVisible,
   setIsFilterVisible,
   guidesInSelectedRegions,
+  guidesToRender,
+  setGuidesToRender,
 }: GuideFilterProps) {
   /* 나이 */
   const [ageRange, setAgeRange] = useState<number[]>([0, 70]);
@@ -52,9 +58,12 @@ function GuideFilter({
 
   const [selectedRating, setSelectedRating] = useState<number[]>([]);
 
-  const handleGuideListWithAgeRange = () => {
-    /* 필터 */
-    const filteredGuides = guidesInSelectedRegions.filter((guide) => {
+  /* 필터링된 가이드 정보 저장 */
+  const [filteredGuides, setFilteredGuides] = useState<GuideType[]>([]);
+
+  /* 필터 모달에서 필터링한 조건에 따라 가이드 리스트 조정 */
+  const handleGuideListWithFilter = () => {
+    const newFilteredGuides = guidesInSelectedRegions.filter((guide) => {
       /* 나이 필터 */
       const guideAgeRange = parseInt(
         calculateAgeRange(guide.birthDate).split("대")[0]
@@ -100,18 +109,12 @@ function GuideFilter({
       );
     });
 
-    console.log("45th line: ", filteredGuides);
-    return filteredGuides;
+    return newFilteredGuides;
   };
 
   useEffect(() => {
-    handleGuideListWithAgeRange();
+    setFilteredGuides(handleGuideListWithFilter());
   }, [ageRange, tempRange, guideCountRange, langs, genders, selectedRating]);
-
-  useEffect(() => {
-    console.log(isCheckedArray);
-    console.log(selectedRating);
-  }, [isCheckedArray, selectedRating]);
 
   return (
     <Modal animationType="slide" transparent={true} visible={isFilterVisible}>
@@ -246,7 +249,10 @@ function GuideFilter({
         {/* 모달 닫는 버튼 */}
         <Pressable
           style={styles.closeButton}
-          onPress={() => setIsFilterVisible(false)}
+          onPress={() => {
+            setIsFilterVisible(false);
+            setGuidesToRender(filteredGuides);
+          }}
         >
           <AntDesign name="close" size={30} color="black" />
         </Pressable>
