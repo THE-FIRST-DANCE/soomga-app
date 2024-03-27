@@ -138,6 +138,7 @@ function GuideListScreen() {
         <GuideFilter
           isFilterVisible={isFilterVisible}
           setIsFilterVisible={setIsFilterVisible}
+          guidesInSelectedRegions={guidesInSelectedRegions}
         />
       )}
     </Screen>
