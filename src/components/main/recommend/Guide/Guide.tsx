@@ -20,7 +20,7 @@ type GuideType = {
 };
 
 function Guide({ photo, name, gender, description, stars }: GuideType) {
-  const guideGender = gender === "M" ? Colors.MALE_BLUE : Colors.FEMALE_PINK;
+  const guideGender = gender === "남자" ? Colors.MALE_BLUE : Colors.FEMALE_PINK;
 
   return (
     <ImageBackground style={styles.container} source={{ uri: photo }}>
