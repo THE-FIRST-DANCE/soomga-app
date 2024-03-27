@@ -24,7 +24,7 @@ function SliderComponent({
       <Text style={styles.caption}>{caption}</Text>
       <View style={styles.sliderContainer}>
         <Text style={{ fontSize: 20 }}>
-          {range[0]}　　 ~ 　　 {range[1]}
+          {range[0]}　　 ~ 　　{range[1]}
         </Text>
         <Slider
           containerStyle={{ width: 300 }}
