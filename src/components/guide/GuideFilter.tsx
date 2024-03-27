@@ -8,11 +8,15 @@ import {
 } from "react-native";
 import { useEffect, useState } from "react";
 import Colors from "@/modules/Color";
-import CheckboxComponent from "./CheckboxComponent";
-import SliderComponent from "./SliderComponent";
-import SelectComponent, { SelectContainer } from "./SelectComponent";
 import { GuideType } from "@/data/guides";
-import { calculateAgeRange } from "./GuideInfo";
+
+/* components */
+import { calculateAgeRange } from "@components/guide/GuideListInfo";
+import CheckboxComponent from "@components/guide/CheckboxComponent";
+import SliderComponent from "@components/guide/SliderComponent";
+import SelectComponent, {
+  SelectContainer,
+} from "@components/guide/SelectComponent";
 
 /* vector-icons */
 import { AntDesign } from "@expo/vector-icons";
