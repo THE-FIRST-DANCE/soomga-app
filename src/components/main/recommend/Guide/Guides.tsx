@@ -45,7 +45,7 @@ function Guides() {
                 gender={guide.gender}
                 name={guide.name}
                 description={guide.description}
-                stars={guide.stars}
+                rating={guide.rating}
               />
             )
         )}
