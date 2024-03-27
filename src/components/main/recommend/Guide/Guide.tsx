@@ -16,10 +16,10 @@ type GuideType = {
   name: string;
   gender: string;
   description: string;
-  stars: number;
+  rating: number;
 };
 
-function Guide({ photo, name, gender, description, stars }: GuideType) {
+function Guide({ photo, name, gender, description, rating }: GuideType) {
   const guideGender = gender === "남자" ? Colors.MALE_BLUE : Colors.FEMALE_PINK;
 
   return (
@@ -42,7 +42,7 @@ function Guide({ photo, name, gender, description, stars }: GuideType) {
           </Text>
           <View style={{ flexDirection: "row" }}>
             <AntDesign name="star" size={18} color={Colors.STAR_YELLOW} />
-            <Text style={{ marginLeft: 3 }}>{stars}</Text>
+            <Text style={{ marginLeft: 3 }}>{rating}</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Octicons name="note" size={15} color="black" />
