@@ -130,7 +130,9 @@ function GuideListInfo({
             </View>
             <View style={{ alignItems: "center" }}>
               <Text>평점</Text>
-              <Text style={{ fontWeight: "bold" }}>{guide.rating}</Text>
+              <Text style={{ fontWeight: "bold" }}>
+                {guide.rating.toFixed(1)}
+              </Text>
             </View>
           </View>
           {/* 지역, 나이대, 사용 언어 */}
@@ -214,7 +216,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     backgroundColor: Colors.WHITE,
     borderRadius: 20,
-    elevation: 20,
+    elevation: 5,
   },
   /* 가이드 이미지 */
   guideImage: { width: 70, height: 70, borderRadius: 100 },

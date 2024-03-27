@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     backgroundColor: Colors.WHITE,
     borderRadius: 20,
-    elevation: 20,
+    elevation: 5,
   },
   guideContainer: { flex: 0.8, alignItems: "center", justifyContent: "center" },
   /* 가이드 이미지 */
