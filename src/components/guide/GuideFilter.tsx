@@ -50,6 +50,8 @@ function GuideFilter({
     new Array(5).fill(false)
   );
 
+  const [selectedRating, setSelectedRating] = useState<number[]>([]);
+
   const handleGuideListWithAgeRange = () => {
     /* 필터 */
     const filteredGuides = guidesInSelectedRegions.filter((guide) => {
@@ -79,12 +81,22 @@ function GuideFilter({
         genders.length === 0 ||
         genders.some((item) => guide.gender.includes(item));
 
+      /* 평점 필터 */
+      const ratingFilter =
+        selectedRating.length === 0 ||
+        selectedRating.some((item) => {
+          const lowerBound = item;
+          const upperBound = item + 1;
+          return guide.rating >= lowerBound && guide.rating < upperBound;
+        });
+
       return (
         ageFilter &&
         tempFilter &&
         guideCountFilter &&
         langFilter &&
-        genderFilter
+        genderFilter &&
+        ratingFilter
       );
     });
 
@@ -94,12 +106,12 @@ function GuideFilter({
 
   useEffect(() => {
     handleGuideListWithAgeRange();
-  }, [ageRange, tempRange, guideCountRange, langs, genders]);
+  }, [ageRange, tempRange, guideCountRange, langs, genders, selectedRating]);
 
   useEffect(() => {
-    console.log("langs: ", langs);
-    console.log("genders: ", genders);
-  }, [langs, genders]);
+    console.log(isCheckedArray);
+    console.log(selectedRating);
+  }, [isCheckedArray, selectedRating]);
 
   return (
     <Modal animationType="slide" transparent={true} visible={isFilterVisible}>
@@ -179,7 +191,14 @@ function GuideFilter({
           <SelectContainer title="자격증">
             <SelectComponent
               caption="日本語  🇯🇵"
-              certificates={["모든 자격증", "N1", "N2", "N3", "N4", "N5"]}
+              certificates={[
+                "모든 자격증",
+                "    N1    ",
+                "    N2    ",
+                "    N3    ",
+                "    N4    ",
+                "    N5    ",
+              ]}
               onPress={() => {}}
             />
             <SelectComponent
@@ -207,6 +226,16 @@ function GuideFilter({
                     const newIsCheckedArray = [...isCheckedArray];
                     newIsCheckedArray[index] = !newIsCheckedArray[index];
                     setIsCheckedArray(newIsCheckedArray);
+
+                    setSelectedRating((prevSelectedRating) => {
+                      if (newIsCheckedArray[index]) {
+                        return [...prevSelectedRating, 5 - index];
+                      } else {
+                        return prevSelectedRating.filter(
+                          (rating) => rating !== 5 - index
+                        );
+                      }
+                    });
                   }}
                 />
               ))}
