@@ -1,11 +1,7 @@
 import { TouchableOpacity, StyleSheet, Text } from "react-native";
 import Colors from "@/modules/Color";
 
-type MatchingButtonType = {
-  onPress: () => void;
-};
-
-function MatchingButton({ onPress }: MatchingButtonType) {
+function MatchingButton({ onPress }: {onPress: () => void}) {
   return (
     <TouchableOpacity
       style={styles.container}
