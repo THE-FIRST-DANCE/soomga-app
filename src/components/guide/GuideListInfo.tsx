@@ -18,7 +18,7 @@ import { styles as tagStyle } from "../main/Tags";
 import { SimpleLineIcons } from "@expo/vector-icons";
 import { TagType } from "@/data/tags";
 
-const VerticalProgressBar = ({ progress }: { progress: number }) => {
+const TempBar = ({ progress }: { progress: number }) => {
   const reversedProgress = 100 - progress;
 
   return (
@@ -66,8 +66,6 @@ function GuideListInfo({
         );
   };
 
-  const progress = Math.floor(Math.random() * 101) + 1;
-
   const [guideTagsWithUsers, setGuideTagsWithUsers] = useState<TagType[]>([]);
   const [highlightedTags, setHighlightedTags] = useState<boolean[]>([]);
 
@@ -114,8 +112,8 @@ function GuideListInfo({
           <View style={{ flexDirection: "row" }}>
             <Image source={{ uri: guide.photo }} style={styles.guideImage} />
             <View style={{ alignItems: "center" }}>
-              <Text style={{ fontSize: 9 }}>{progress}℃</Text>
-              <VerticalProgressBar progress={progress} />
+              <Text style={{ fontSize: 9 }}>{guide.temp}℃</Text>
+              <TempBar progress={guide.temp} />
             </View>
           </View>
           <Text style={{ fontSize: 18 }}>{guide.name}</Text>
@@ -128,9 +126,7 @@ function GuideListInfo({
           <View style={styles.guideNumberStars}>
             <View style={{ alignItems: "center" }}>
               <Text>가이드 횟수</Text>
-              <Text style={{ fontWeight: "bold" }}>
-                {Math.floor(Math.random() * 100) + 1}
-              </Text>
+              <Text style={{ fontWeight: "bold" }}>{guide.guideCount}</Text>
             </View>
             <View style={{ alignItems: "center" }}>
               <Text>평점</Text>
