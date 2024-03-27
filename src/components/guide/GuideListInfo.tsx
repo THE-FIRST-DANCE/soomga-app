@@ -11,8 +11,7 @@ import {
 
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
-import { calculateAgeRange } from "./GuideInfo";
-import { styles as tagStyle } from "../main/Tags";
+import { styles as tagStyle } from "@main/Tags";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -26,6 +25,33 @@ const TempBar = ({ progress }: { progress: number }) => {
       <View style={[styles.progressBar, { height: `${reversedProgress}%` }]} />
     </View>
   );
+};
+
+/* 나이대 계산 함수 */
+export const calculateAgeRange = (birthDate: string) => {
+  const birthDateObj = new Date(birthDate);
+  const today = new Date();
+  let age = today.getFullYear() - birthDateObj.getFullYear();
+  const month = today.getMonth() - birthDateObj.getMonth();
+
+  if (month < 0 || (month === 0 && today.getDate() < birthDateObj.getDate())) {
+    age--;
+  }
+
+  const ageRange =
+    age >= 10 && age < 20
+      ? "10대"
+      : age >= 20 && age < 30
+      ? "20대"
+      : age >= 30 && age < 40
+      ? "30대"
+      : age >= 40 && age < 50
+      ? "40대"
+      : age >= 50 && age < 60
+      ? "50대"
+      : "60대 이상";
+
+  return ageRange;
 };
 
 function GuideListInfo({
