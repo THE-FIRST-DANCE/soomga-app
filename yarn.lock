@@ -3758,15 +3758,27 @@ expo-font@~11.10.2:
   dependencies:
     fontfaceobserver "^2.1.0"
 
+expo-image-loader@~4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.6.0.tgz#ca7d4fdf53125bff2091d3a2c34a3155f10df147"
+  integrity sha512-RHQTDak7/KyhWUxikn2yNzXL7i2cs16cMp6gEAgkHOjVhoCJQoOJ0Ljrt4cKQ3IowxgCuOrAgSUzGkqs7omj8Q==
+
+expo-image-picker@^14.7.1:
+  version "14.7.1"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-14.7.1.tgz#c51faff3a3fbffc6ae93d7155370beb1a2d2baea"
+  integrity sha512-ILQVOJgI3aEzrDmCFGDPtpAepYkn8mot8G7vfQ51BfFdQbzL6N3Wm1fS/ofdWlAZJl/qT2DwaIh5xYmf3SyGZA==
+  dependencies:
+    expo-image-loader "~4.6.0"
+
 expo-keep-awake@~12.8.2:
   version "12.8.2"
   resolved "https://registry.npmjs.org/expo-keep-awake/-/expo-keep-awake-12.8.2.tgz"
   integrity sha512-uiQdGbSX24Pt8nGbnmBtrKq6xL/Tm3+DuDRGBk/3ZE/HlizzNosGRIufIMJ/4B4FRw4dw8KU81h2RLuTjbay6g==
 
-expo-location@~16.5.3:
-  version "16.5.3"
-  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-16.5.3.tgz#074335b1800ff71afe9e5ffbe8e858f652fceb61"
-  integrity sha512-V+84TZIa5MWpIXPvurnlJS9VxuxF1d3ajufUeq2sTgUkI/PP0aLHwyk5wg05C4CwuvwoiaVV80WyEL23j1Mz0w==
+expo-location@~16.5.5:
+  version "16.5.5"
+  resolved "https://registry.yarnpkg.com/expo-location/-/expo-location-16.5.5.tgz#3db84f5fecf8cbfdff1e3dbe06fdc823a56bc02c"
+  integrity sha512-dXEd1HaZgdi6yHVF8R+SMnGlKDYrD+Hkkzd/b9edjMSUBLxF2y824AFSSNUf6BVOM53tJBOFEELneXkU1uj9nA==
 
 expo-modules-autolinking@1.10.2:
   version "1.10.2"
@@ -5971,6 +5983,13 @@ react-native-swipe-gestures@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/react-native-swipe-gestures/-/react-native-swipe-gestures-1.0.5.tgz#a172cb0f3e7478ccd681fd36b8bfbcdd098bde7c"
   integrity sha512-Ns7Bn9H/Tyw278+5SQx9oAblDZ7JixyzeOczcBK8dipQk2pD7Djkcfnf1nB/8RErAmMLL9iXgW0QHqiII8AhKw==
+
+react-native-swiper@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-swiper/-/react-native-swiper-1.6.0.tgz#59fdbdf95addee49630312f27077622c27776819"
+  integrity sha512-OnkTTZi+9uZUgy0uz1I9oYDhCU3z36lZn+LFsk9FXPRelxb/KeABzvPs3r3SrHWy1aA67KGtSFj0xNK2QD0NJQ==
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native@*:
   version "0.73.5"
