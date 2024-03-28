@@ -25,7 +25,6 @@ interface GuideFilterProps {
   isFilterVisible: boolean;
   setIsFilterVisible: (value: boolean) => void;
   guidesInSelectedRegions: GuideType[];
-  guidesToRender: GuideType[];
   setGuidesToRender: (value: GuideType[]) => void;
 }
 
@@ -33,7 +32,6 @@ function GuideFilter({
   isFilterVisible,
   setIsFilterVisible,
   guidesInSelectedRegions,
-  guidesToRender,
   setGuidesToRender,
 }: GuideFilterProps) {
   /* 나이 */
@@ -123,7 +121,18 @@ function GuideFilter({
   return (
     <Modal animationType="slide" transparent={true} visible={isFilterVisible}>
       <View style={styles.container}>
-        <Text style={styles.title}>필터</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>필터</Text>
+          <Text
+            style={[styles.caption, { color: Colors.BASKETBALL_ORANGE }]}
+            onPress={() => {
+              setIsFilterVisible(false);
+              setGuidesToRender(filteredGuides);
+            }}
+          >
+            확인
+          </Text>
+        </View>
         <ScrollView
           contentContainerStyle={{ marginBottom: 10 }}
           showsVerticalScrollIndicator={false}
@@ -253,10 +262,7 @@ function GuideFilter({
         {/* 모달 닫는 버튼 */}
         <Pressable
           style={styles.closeButton}
-          onPress={() => {
-            setIsFilterVisible(false);
-            setGuidesToRender(filteredGuides);
-          }}
+          onPress={() => setIsFilterVisible(false)}
         >
           <AntDesign name="close" size={30} color="black" />
         </Pressable>
@@ -274,10 +280,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "white",
   },
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 60,
+  },
   title: {
     fontSize: 30,
     fontWeight: "bold",
-    marginTop: 60,
   },
   caption: { margin: 5, fontSize: 20, fontWeight: "bold" },
   selectContainer: {
@@ -289,7 +299,7 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: "absolute",
-    right: 20,
+    left: 20,
     top: 20,
     justifyContent: "center",
     alignItems: "center",
