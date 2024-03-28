@@ -177,7 +177,7 @@ function GuideFilter({
           />
           <SelectContainer title="언어">
             <SelectComponent
-              certificates={allLangs}
+              items={allLangs}
               onPress={(index: number) => {
                 if (index === 0) {
                   setLangs([]);
@@ -197,7 +197,7 @@ function GuideFilter({
           </SelectContainer>
           <SelectContainer title="성별">
             <SelectComponent
-              certificates={["모든 성별", "남자", "여자"]}
+              items={["모든 성별", "남자", "여자"]}
               onPress={(index: number) => {
                 if (index === 0) {
                   setGenders([]);
@@ -218,7 +218,7 @@ function GuideFilter({
           <SelectContainer title="자격증">
             <SelectComponent
               caption="日本語  🇯🇵"
-              certificates={[
+              items={[
                 "모든 자격증",
                 "    N1    ",
                 "    N2    ",
@@ -230,14 +230,7 @@ function GuideFilter({
             />
             <SelectComponent
               caption="English  🇬🇧"
-              certificates={[
-                "모든 자격증",
-                "900>",
-                "800>",
-                "700>",
-                "600>",
-                "<600",
-              ]}
+              items={["모든 자격증", "900>", "800>", "700>", "600>", "<600"]}
               onPress={() => {}}
             />
           </SelectContainer>

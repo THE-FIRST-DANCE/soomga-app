@@ -6,7 +6,7 @@ import { useState } from "react";
 /* 버튼으로 선택하는 항목(언어, 성별, 자격증) */
 interface SelectProps {
   caption?: string;
-  certificates: string[];
+  items: string[];
   onPress: (index: number) => void;
 }
 
@@ -27,9 +27,9 @@ export function SelectContainer({
   );
 }
 
-function SelectComponent({ caption, certificates, onPress }: SelectProps) {
+function SelectComponent({ caption, items, onPress }: SelectProps) {
   const [isSelectedArray, setIsSelectedArray] = useState<boolean[]>(
-    certificates.map((_, index) => (index === 0 ? true : false))
+    items.map((_, index) => (index === 0 ? true : false))
   );
 
   /* 선택된 항목 스타일 변경 함수 */
@@ -58,7 +58,7 @@ function SelectComponent({ caption, certificates, onPress }: SelectProps) {
         <View
           style={{ flexDirection: "row", marginVertical: 10, flexWrap: "wrap" }}
         >
-          {certificates.map((certificate, index) => (
+          {items.map((item, index) => (
             <Pressable
               key={index}
               style={[
@@ -81,7 +81,7 @@ function SelectComponent({ caption, certificates, onPress }: SelectProps) {
                   color: isSelectedArray[index] ? Colors.WHITE : Colors.BLACK,
                 }}
               >
-                {certificate}
+                {item}
               </Text>
             </Pressable>
           ))}
