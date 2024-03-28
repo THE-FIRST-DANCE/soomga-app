@@ -6,37 +6,27 @@ import { GuideType } from "@/data/guides";
 /* vector-icons */
 import { SimpleLineIcons, MaterialIcons } from "@expo/vector-icons";
 
+/* 가이드 팔로우 Confirm */
+export const checkFollow = ({
+  isFollowed,
+  setIsFollowed,
+}: {
+  isFollowed: boolean;
+  setIsFollowed: (Value: boolean) => void;
+}) => {
+  Alert.alert("가이드 팔로우", "가이드 팔로우를 취소하시겠습니까?", [
+    {
+      text: "취소",
+      onPress: () => console.log("Cancel Pressed"),
+      style: "cancel",
+    },
+    { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
+  ]);
+};
+
 function GuideListPlan({ guide }: { guide: GuideType }) {
   /* 가이드 팔로우 여부 */
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
-
-  /* 가이드 팔로우 confirm */
-  const checkFollow = () => {
-    isFollowed
-      ? Alert.alert(
-          "가이드 팔로우 취소",
-          `${guide.name} 가이드 팔로우를 취소하시겠습니까?`,
-          [
-            {
-              text: "취소",
-              style: "cancel",
-            },
-            { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
-          ]
-        )
-      : Alert.alert(
-          "가이드 팔로우",
-          `${guide.name} 가이드를 팔로우하시겠습니까?`,
-          [
-            {
-              text: "취소",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel",
-            },
-            { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
-          ]
-        );
-  };
 
   return (
     <View style={styles.container}>
@@ -86,7 +76,9 @@ function GuideListPlan({ guide }: { guide: GuideType }) {
       </View>
       {/* 팔로우 버튼 */}
       <Pressable
-        onPress={checkFollow}
+        onPress={() => {
+          checkFollow({ isFollowed, setIsFollowed });
+        }}
         style={{
           ...styles.followButton,
           backgroundColor: isFollowed ? Colors.BASKETBALL_ORANGE : Colors.WHITE,

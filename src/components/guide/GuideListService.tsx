@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, Alert, StyleSheet, Image } from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
+import { checkFollow } from "@components/guide/GuideListPlan";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
@@ -9,34 +10,6 @@ import { SimpleLineIcons } from "@expo/vector-icons";
 function GuideListService({ guide }: { guide: GuideType }) {
   /* 가이드 팔로우 여부 */
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
-
-  /* 가이드 팔로우 confirm */
-  const checkFollow = () => {
-    isFollowed
-      ? Alert.alert(
-          "가이드 팔로우 취소",
-          `${guide.name} 가이드 팔로우를 취소하시겠습니까?`,
-          [
-            {
-              text: "취소",
-              style: "cancel",
-            },
-            { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
-          ]
-        )
-      : Alert.alert(
-          "가이드 팔로우",
-          `${guide.name} 가이드를 팔로우하시겠습니까?`,
-          [
-            {
-              text: "취소",
-              onPress: () => console.log("Cancel Pressed"),
-              style: "cancel",
-            },
-            { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
-          ]
-        );
-  };
 
   return (
     <View style={styles.container}>
@@ -71,7 +44,9 @@ function GuideListService({ guide }: { guide: GuideType }) {
       </View>
       {/* 팔로우 버튼 */}
       <Pressable
-        onPress={checkFollow}
+        onPress={() => {
+          checkFollow({ isFollowed, setIsFollowed });
+        }}
         style={{
           ...styles.followButton,
           backgroundColor: isFollowed ? Colors.BASKETBALL_ORANGE : Colors.WHITE,
