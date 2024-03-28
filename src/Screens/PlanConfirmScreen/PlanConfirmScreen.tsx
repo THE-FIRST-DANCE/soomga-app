@@ -16,13 +16,19 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { AntDesign } from "@expo/vector-icons";
 import PlanConfirmItem from "@/components/plan/PlanConfirmItem";
 import Colors from "@/modules/Color";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 import { PlanConfirmPeriodModal } from "@/components/plan/PlanConfirmPeriodModal";
 import { usePlanList } from "@/hooks/plan/useConfirmPlanList";
 import { useMutation } from "@tanstack/react-query";
 import { savePlan } from "@/api/PlanApi";
 import { ActivityIndicator } from "react-native-paper";
+import { usePlanConfirm } from "@/hooks/plan/usePlanConfirm";
 
 const PlanConfirmScreen = () => {
   const planConfirmList = useRecoilValue(PlanConfirmList);
@@ -30,9 +36,18 @@ const PlanConfirmScreen = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  type PlanEditScreenRouteProp = RouteProp<
+    PlanStackParamList,
+    "PlanConfirmScreen"
+  >;
+  const route = useRoute<PlanEditScreenRouteProp>();
+  const { data } = route.params; // 여행 정보
+
+  const { confirmList, planList } = usePlanConfirm(data ? data : null);
+
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
-  const { planList, markers } = usePlanList();
+  const { markers } = usePlanList();
 
   const editHandler = () => {
     navigation.navigate("PlanEditScreen", {
@@ -77,13 +92,17 @@ const PlanConfirmScreen = () => {
     ]);
   };
 
+  if (!confirmList) {
+    return <Text>로딩중</Text>;
+  }
+
   return (
     <Screen title="일정 확인">
       <View style={styles.map}>
         <GoogleMap
           center={{
-            lat: planConfirmList.info.lat,
-            lng: planConfirmList.info.lng,
+            lat: confirmList.info.lat,
+            lng: confirmList.info.lng,
           }}
           customMarker={markers}
         />
@@ -116,7 +135,7 @@ const PlanConfirmScreen = () => {
         >
           <View style={styles.modalContainer}>
             <PlanConfirmPeriodModal
-              period={planConfirmList.info.period}
+              period={confirmList.info.period}
               setModalVisible={setModalVisible}
             />
           </View>

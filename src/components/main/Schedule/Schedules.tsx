@@ -3,13 +3,18 @@ import { useState, useEffect } from "react";
 
 /* Navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  MyNavigationProp,
+  RootStackParamList,
+} from "@navigation/NavigationProps";
 
 /* Pages */
 import Schedule from "@scheduleMain/Schedule";
 
 /* vector-icons */
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { HomeStackParamList } from "@/stacks/HomeStack";
+import { ScheduleStackParamList } from "@/stacks/ScheduleStack";
+import { MainStackParamList } from "@/stacks/MainStack";
 
 /* props */
 type ScheduleType = {
@@ -68,7 +73,7 @@ function Schedules() {
   };
 
   /* navigation 추가 */
-  const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   useEffect(() => {
     showNearSchedule();
@@ -89,7 +94,7 @@ function Schedules() {
           size={20}
           color="white"
           style={{ lineHeight: 50, position: "absolute", right: 10 }}
-          onPress={() => navigation.navigate("ScheduleScreen")}
+          onPress={() => navigation.navigate("ScheduleStack")}
         />
       </View>
       {nearSchedule.map((schedule) => (

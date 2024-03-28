@@ -2,15 +2,16 @@ import Main from "@/Screens/MainScreen/Main";
 import Schedules from "@/Screens/ProfileScreen/Schedules";
 import TagEdit from "@/Screens/ProfileScreen/TagEdit";
 
+/* Stack Navigator */
+import GuideStack from "./GuideStack";
+/* Stack Navigator */
+import { createStackNavigator } from "@react-navigation/stack";
+
 export type HomeStackParamList = {
   TagEditScreen: undefined;
   ScheduleScreen: undefined;
   GuideStack: undefined;
 };
-
-/* Stack Navigator */
-import { createStackNavigator } from "@react-navigation/stack";
-import GuideStack from "./GuideStack";
 
 const Stack = createStackNavigator();
 
