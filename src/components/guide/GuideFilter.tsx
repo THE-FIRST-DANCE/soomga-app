@@ -1,11 +1,4 @@
-import {
-  Modal,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-} from "react-native";
+import { Pressable, StyleSheet, Text, View, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
@@ -17,6 +10,7 @@ import SliderComponent from "@components/guide/SliderComponent";
 import SelectComponent, {
   SelectContainer,
 } from "@components/guide/SelectComponent";
+import GlobalModal from "@components/Modal";
 
 /* vector-icons */
 import { AntDesign } from "@expo/vector-icons";
@@ -32,9 +26,9 @@ import {
 
 interface GuideFilterProps {
   isFilterVisible: boolean;
-  setIsFilterVisible: (value: boolean) => void;
+  setIsFilterVisible: React.Dispatch<React.SetStateAction<boolean>>;
   guidesInSelectedRegions: GuideType[];
-  setGuidesToRender: (value: GuideType[]) => void;
+  setGuidesToRender: React.Dispatch<React.SetStateAction<GuideType[]>>;
 }
 
 function GuideFilter({
@@ -130,7 +124,12 @@ function GuideFilter({
   }, [ageRange, tempRange, guideCountRange, langs, genders, selectedRating]);
 
   return (
-    <Modal animationType="slide" transparent={true} visible={isFilterVisible}>
+    <GlobalModal
+      visible={isFilterVisible}
+      setVisible={setIsFilterVisible}
+      animation="slide"
+      type="full"
+    >
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>필터</Text>
@@ -213,25 +212,19 @@ function GuideFilter({
                   });
                 }
               }}
+              viewStyle={{ paddingHorizontal: 20 }}
             />
           </SelectContainer>
           <SelectContainer title="자격증">
             <SelectComponent
               caption="日本語  🇯🇵"
-              items={[
-                "모든 자격증",
-                "    N1    ",
-                "    N2    ",
-                "    N3    ",
-                "    N4    ",
-                "    N5    ",
-              ]}
-              onPress={() => {}}
+              items={["모든 자격증", "N1", "N2", "N3", "N4", "N5"]}
+              viewStyle={{ paddingHorizontal: 20 }}
             />
             <SelectComponent
               caption="English  🇬🇧"
               items={["모든 자격증", "900>", "800>", "700>", "600>", "<600"]}
-              onPress={() => {}}
+              viewStyle={{ paddingHorizontal: 10 }}
             />
           </SelectContainer>
           <View style={{ marginBottom: 20 }}>
@@ -271,7 +264,7 @@ function GuideFilter({
           <AntDesign name="close" size={30} color="black" />
         </Pressable>
       </View>
-    </Modal>
+    </GlobalModal>
   );
 }
 
@@ -280,8 +273,6 @@ export default GuideFilter;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 30,
-    justifyContent: "center",
     backgroundColor: "white",
   },
   titleContainer: {
@@ -303,8 +294,8 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: "absolute",
-    left: 20,
-    top: 20,
+    left: 0,
+    top: 0,
     justifyContent: "center",
     alignItems: "center",
   },

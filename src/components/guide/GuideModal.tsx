@@ -1,5 +1,5 @@
 import {
-  Modal,
+  // Modal,
   View,
   Text,
   StyleSheet,
@@ -14,10 +14,10 @@ import Colors from "@/modules/Color";
 /* Navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { GuideStackParamList } from "@/stacks/GuideStack";
-
+import GlobalModal from "@components/Modal";
 interface GuideModalType {
   isModalVisible: boolean;
-  setIsModalVisible: (value: boolean) => void;
+  setIsModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
   guidesInSelectedRegions: GuideType[];
   userTags: TagType[];
 }
@@ -31,8 +31,11 @@ function GuideModal({
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
   return (
-    /* 가이드 정보 보기 / 가이드 더 찾아보기 선택하는 모달 */
-    <Modal animationType="fade" visible={isModalVisible}>
+    <GlobalModal
+      visible={isModalVisible}
+      setVisible={setIsModalVisible}
+      type="full"
+    >
       <View style={styles.modalContainer}>
         <View style={styles.modal}>
           <View style={styles.guidePhotos}>
@@ -95,7 +98,7 @@ function GuideModal({
           </View>
         </View>
       </View>
-    </Modal>
+    </GlobalModal>
   );
 }
 export default GuideModal;
