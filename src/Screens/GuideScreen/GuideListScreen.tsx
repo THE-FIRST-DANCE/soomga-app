@@ -1,4 +1,3 @@
-import Screen from "@/components/Screen";
 import { useRef, useState } from "react";
 import {
   View,
@@ -8,15 +7,21 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+
 import Colors from "@/modules/Color";
+import { GuideType } from "@/data/guides";
+
+/* navigation */
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
+
+/* components */
+import Screen from "@/components/Screen";
 import GuideListInfo from "@/components/guide/GuideListInfo";
 import GuideListPlan from "@/components/guide/GuideListPlan";
 import GuideListService from "@/components/guide/GuideListService";
-import { RouteProp, useRoute } from "@react-navigation/native";
-import { GuideStackParamList } from "@/stacks/GuideStack";
 import { FontAwesome } from "@expo/vector-icons";
 import GuideFilter from "@/components/guide/GuideFilter";
-import { GuideType } from "@/data/guides";
 
 function GuideListScreen() {
   const route = useRoute<RouteProp<GuideStackParamList>>();
@@ -148,7 +153,6 @@ function GuideListScreen() {
           isFilterVisible={isFilterVisible}
           setIsFilterVisible={setIsFilterVisible}
           guidesInSelectedRegions={guidesInSelectedRegions}
-          guidesToRender={guidesToRender}
           setGuidesToRender={setGuidesToRender}
         />
       )}
