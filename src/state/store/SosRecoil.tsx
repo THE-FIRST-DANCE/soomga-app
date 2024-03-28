@@ -1,3 +1,4 @@
+import { AcessStatus } from "@/interface/share";
 import { atom } from "recoil";
 
 export interface SosContent {
@@ -6,6 +7,7 @@ export interface SosContent {
     latitude: number;
     longitude: number;
   };
+  status: string;
 }
 
 export const SosContent = atom<SosContent>({
@@ -16,5 +18,6 @@ export const SosContent = atom<SosContent>({
       latitude: 0,
       longitude: 0,
     },
+    status: "PUBLIC",
   },
 });

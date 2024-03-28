@@ -78,6 +78,7 @@ const SosMapScreen = () => {
 
     addMutate({
       content: sosContent.content,
+      status: sosContent.status,
       lat: marker[0].lat,
       lng: marker[0].lng,
     });

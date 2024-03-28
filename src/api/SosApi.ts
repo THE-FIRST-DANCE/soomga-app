@@ -4,6 +4,7 @@ interface SosContent {
   content: string;
   lat: number;
   lng: number;
+  status: string;
 }
 
 export const addSos = async (createSosDto: SosContent) => {
