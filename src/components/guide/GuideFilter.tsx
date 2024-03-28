@@ -20,6 +20,15 @@ import SelectComponent, {
 
 /* vector-icons */
 import { AntDesign } from "@expo/vector-icons";
+import { useRecoilState } from "recoil";
+import {
+  ageRangeState,
+  tempRangeState,
+  guideCountRangeState,
+  langsState,
+  gendersState,
+  selectedRatingState,
+} from "@/state/store/GuideFilterRecoil";
 
 interface GuideFilterProps {
   isFilterVisible: boolean;
@@ -35,21 +44,22 @@ function GuideFilter({
   setGuidesToRender,
 }: GuideFilterProps) {
   /* 나이 */
-  const [ageRange, setAgeRange] = useState<number[]>([0, 70]);
+  const [ageRange, setAgeRange] = useRecoilState(ageRangeState);
 
   /* 온도 */
-  const [tempRange, setTempRange] = useState<number[]>([0, 100]);
+  const [tempRange, setTempRange] = useRecoilState(tempRangeState);
 
   /* 가이드 횟수 */
-  const [guideCountRange, setGuideCountRange] = useState<number[]>([0, 100]);
+  const [guideCountRange, setGuideCountRange] =
+    useRecoilState(guideCountRangeState);
 
   /* 언어 */
   const allLangs = ["모든 언어", "한국어", "English", "日本語"];
-  const [langs, setLangs] = useState<string[]>([]);
+  const [langs, setLangs] = useRecoilState(langsState);
 
   /* 성별 */
   const allGenders = ["모든 성별", "남자", "여자"];
-  const [genders, setGenders] = useState<string[]>([]);
+  const [genders, setGenders] = useRecoilState(gendersState);
 
   /* TODO: 일본어, 영어 자격증 필터 추가 */
 
@@ -58,7 +68,8 @@ function GuideFilter({
     new Array(5).fill(false)
   );
 
-  const [selectedRating, setSelectedRating] = useState<number[]>([]);
+  const [selectedRating, setSelectedRating] =
+    useRecoilState(selectedRatingState);
 
   /* 필터링된 가이드 정보 저장 */
   const [filteredGuides, setFilteredGuides] = useState<GuideType[]>([]);
@@ -160,7 +171,7 @@ function GuideFilter({
             caption="가이드 횟수"
             minimumValue={0}
             maximumValue={100}
-            step={10}
+            step={1}
             range={guideCountRange}
             setRange={setGuideCountRange}
           />
