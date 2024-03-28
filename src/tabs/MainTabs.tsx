@@ -1,15 +1,14 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-/* Pages */
-import Sos from "@components/Sos";
-import Chat from "@components/Chat";
-import Profile from "@profile/Profile";
+
+/* stacks */
+import PlanStack from "@/stacks/PlanStack";
+import HomeStack from "@/stacks/HomeStack";
+import SosStack from "@/stacks/SosStack";
+import Chat from "@/Screens/ChatScreen/Chat";
+import Profile from "@/Screens/ProfileScreen/Profile";
 
 /* vector-icons */
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
-import PlanStack from "@/stacks/PlanStack";
-import { createStackNavigator } from "@react-navigation/stack";
-import HomeStack from "@/stacks/HomeStack";
-import SosStack from "@/stacks/SosStack";
 
 export default function MainTabs() {
   const Tab = createBottomTabNavigator();
