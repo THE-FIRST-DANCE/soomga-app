@@ -9,6 +9,7 @@ import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import PlanStack from "@/stacks/PlanStack";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeStack from "@/stacks/HomeStack";
+import SosStack from "@/stacks/SosStack";
 
 export default function MainTabs() {
   const Tab = createBottomTabNavigator();
@@ -47,7 +48,7 @@ export default function MainTabs() {
       {/* SOS 탭 */}
       <Tab.Screen
         name="SOS"
-        component={Sos}
+        component={SosStack}
         options={{
           tabBarIcon: ({ color }) => (
             <Entypo name="warning" size={35} color={color} />

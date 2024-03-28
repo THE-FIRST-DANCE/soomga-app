@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   },
   right: {
     flex: 1,
+    justifyContent: "center",
   },
   headerTitle: {
     fontSize: 16,
@@ -42,10 +43,11 @@ const styles = StyleSheet.create({
 
 interface ScreenProps {
   title?: string;
+  right?: React.ReactNode;
   children?: React.ReactNode;
 }
 
-const Screen = ({ title, children }: ScreenProps) => {
+const Screen = ({ title, children, right }: ScreenProps) => {
   const { goBack, canGoBack } = useNavigation();
   const onPreeBack = useCallback(() => {
     goBack();
@@ -68,7 +70,7 @@ const Screen = ({ title, children }: ScreenProps) => {
         <View style={styles.center}>
           <Text style={styles.headerTitle}>{title}</Text>
         </View>
-        <View style={styles.right} />
+        <View style={styles.right}>{right && right}</View>
       </View>
       <View style={styles.body}>{children}</View>
     </SafeAreaView>

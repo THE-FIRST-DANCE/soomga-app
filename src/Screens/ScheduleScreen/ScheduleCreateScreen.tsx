@@ -8,6 +8,7 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -50,7 +51,7 @@ const ScheduleCreateScreen = () => {
     editEvent ? format(editEvent.start, "hh:mmaaaaa'm'") : "00:00am"
   );
   const [endTime, setEndTime] = useState<string>(
-    editEvent ? format(editEvent.end, "hh:mmaaaaa'm'") : "23:30pm"
+    editEvent ? format(editEvent.end, "hh:mmaaaaa'm'") : "11:30pm"
   );
 
   const [isAlramModalVisible, setAlramModalVisible] = useState(false);
@@ -114,8 +115,6 @@ const ScheduleCreateScreen = () => {
       }
     }
 
-    console.log(startTime);
-
     const formatTime = (time: string) => {
       const timeArr = time.split(":");
       const hour = Number(timeArr[0]);
@@ -171,7 +170,7 @@ const ScheduleCreateScreen = () => {
 
   return (
     <Screen>
-      <View style={styles.Conatiner}>
+      <ScrollView style={styles.Conatiner}>
         <TextInput
           style={styles.TitleInput}
           placeholder="제목"
@@ -244,7 +243,7 @@ const ScheduleCreateScreen = () => {
           selectedPlan={selectedPlan}
           setSelectedPlan={setSelectedPlan}
         />
-      </View>
+      </ScrollView>
 
       {/* 취소, 저장 버튼 */}
       <View style={styles.Confirm}>
@@ -272,7 +271,6 @@ export default ScheduleCreateScreen;
 const styles = StyleSheet.create({
   Conatiner: {
     flex: 1,
-    alignItems: "center",
     paddingHorizontal: 20,
   },
   Section: {
