@@ -8,6 +8,7 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -169,7 +170,7 @@ const ScheduleCreateScreen = () => {
 
   return (
     <Screen>
-      <View style={styles.Conatiner}>
+      <ScrollView style={styles.Conatiner}>
         <TextInput
           style={styles.TitleInput}
           placeholder="제목"
@@ -242,7 +243,7 @@ const ScheduleCreateScreen = () => {
           selectedPlan={selectedPlan}
           setSelectedPlan={setSelectedPlan}
         />
-      </View>
+      </ScrollView>
 
       {/* 취소, 저장 버튼 */}
       <View style={styles.Confirm}>
@@ -270,7 +271,6 @@ export default ScheduleCreateScreen;
 const styles = StyleSheet.create({
   Conatiner: {
     flex: 1,
-    alignItems: "center",
     paddingHorizontal: 20,
   },
   Section: {
