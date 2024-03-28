@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, ViewStyle } from "react-native";
 import { styles as TagStyle } from "@main/Tags";
 import Colors from "@/modules/Color";
 import { useState } from "react";
@@ -7,7 +7,8 @@ import { useState } from "react";
 interface SelectProps {
   caption?: string;
   items: string[];
-  onPress: (index: number) => void;
+  onPress?: (index: number) => void;
+  viewStyle?: ViewStyle;
 }
 
 export function SelectContainer({
@@ -27,7 +28,7 @@ export function SelectContainer({
   );
 }
 
-function SelectComponent({ caption, items, onPress }: SelectProps) {
+function SelectComponent({ caption, items, onPress, viewStyle }: SelectProps) {
   const [isSelectedArray, setIsSelectedArray] = useState<boolean[]>(
     items.map((_, index) => (index === 0 ? true : false))
   );
@@ -70,10 +71,11 @@ function SelectComponent({ caption, items, onPress }: SelectProps) {
                     ? Colors.BASKETBALL_ORANGE
                     : Colors.WHITE,
                 },
+                index !== 0 && viewStyle,
               ]}
               onPress={() => {
                 toggleSelection(index);
-                onPress(index);
+                onPress && onPress(index);
               }}
             >
               <Text
