@@ -50,7 +50,7 @@ const ScheduleCreateScreen = () => {
     editEvent ? format(editEvent.start, "hh:mmaaaaa'm'") : "00:00am"
   );
   const [endTime, setEndTime] = useState<string>(
-    editEvent ? format(editEvent.end, "hh:mmaaaaa'm'") : "23:30pm"
+    editEvent ? format(editEvent.end, "hh:mmaaaaa'm'") : "11:30pm"
   );
 
   const [isAlramModalVisible, setAlramModalVisible] = useState(false);
@@ -113,8 +113,6 @@ const ScheduleCreateScreen = () => {
         }
       }
     }
-
-    console.log(startTime);
 
     const formatTime = (time: string) => {
       const timeArr = time.split(":");
