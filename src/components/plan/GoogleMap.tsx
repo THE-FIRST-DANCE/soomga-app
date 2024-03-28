@@ -21,6 +21,9 @@ interface GoogleMapProps {
     icon: string;
     title: number;
   }[];
+  children?: React.ReactNode;
+  setMarker?: (marker: { lat: number; lng: number }[]) => void;
+  moveMark?: boolean;
 }
 
 const GoogleMap = ({
@@ -30,6 +33,8 @@ const GoogleMap = ({
   },
   marker = [],
   customMarker = [],
+  setMarker,
+  moveMark,
 }: GoogleMapProps) => {
   const [region, setRegion] = useState({
     latitude: center.lat,
@@ -82,7 +87,7 @@ const GoogleMap = ({
 
   return (
     <MapView
-      style={{ width: "100%", height: "100%" }}
+      style={{ width: "100%", height: "100%", position: "relative" }}
       provider={PROVIDER_GOOGLE}
       region={region}
     >
@@ -92,6 +97,30 @@ const GoogleMap = ({
           coordinate={{
             latitude: m.lat,
             longitude: m.lng,
+          }}
+          draggable={moveMark}
+          onDragEnd={(e) => {
+            setMarkers(
+              markers.map((item, i) =>
+                i === index
+                  ? {
+                      lat: e.nativeEvent.coordinate.latitude,
+                      lng: e.nativeEvent.coordinate.longitude,
+                    }
+                  : item
+              )
+            );
+            setMarker &&
+              setMarker(
+                markers.map((item, i) =>
+                  i === index
+                    ? {
+                        lat: e.nativeEvent.coordinate.latitude,
+                        lng: e.nativeEvent.coordinate.longitude,
+                      }
+                    : item
+                )
+              );
           }}
         />
       ))}
