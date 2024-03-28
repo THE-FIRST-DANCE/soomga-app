@@ -6,12 +6,19 @@ interface ModalProps {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
   type?: "full" | "bottom" | "center";
+  animation?: "fade" | "slide";
 }
 
-const GlobalModal = ({ visible, setVisible, children, type }: ModalProps) => {
+const GlobalModal = ({
+  visible,
+  setVisible,
+  children,
+  type,
+  animation,
+}: ModalProps) => {
   return (
     <Modal
-      animationType="fade"
+      animationType={animation ? animation : "fade"}
       transparent={true}
       visible={visible}
       onRequestClose={() => setVisible(false)}
@@ -43,7 +50,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalFull: {
     width: "100%",

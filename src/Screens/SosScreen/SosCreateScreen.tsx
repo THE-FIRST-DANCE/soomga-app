@@ -18,11 +18,15 @@ import { SosStackParamList } from "@/stacks/SosStack";
 import * as ImagePicker from "expo-image-picker";
 import { useSetRecoilState } from "recoil";
 import { SosContent } from "@/state/store/SosRecoil";
+import { Status } from "@/modules/Status";
+import GlobalModal from "@/components/Modal";
 
 const SosCreateScreen = () => {
   const [content, setContent] = useState<string>("");
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+  const [sosStatus, setSosStatus] = useState<string>("PUBLIC");
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   const setSosContent = useSetRecoilState(SosContent);
 
@@ -60,6 +64,7 @@ const SosCreateScreen = () => {
 
     setSosContent((prev) => ({
       ...prev,
+      status: sosStatus,
       content,
     }));
 
@@ -114,6 +119,90 @@ const SosCreateScreen = () => {
       </ScrollView>
 
       <KeyboardAvoidingView>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.statusBar}
+        >
+          {Status.find((item) => item.value === sosStatus) && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <Image
+                source={{
+                  uri: Status.find((item) => item.value === sosStatus)?.icon,
+                }}
+                style={{ width: 24, height: 24 }}
+              />
+              <Text>
+                {Status.find((item) => item.value === sosStatus)?.larvel}
+              </Text>
+            </View>
+          )}
+        </TouchableOpacity>
+
+        <GlobalModal
+          type="bottom"
+          animation="slide"
+          visible={modalVisible}
+          setVisible={setModalVisible}
+        >
+          <View style={{ padding: 10 }}>
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                marginBottom: 20,
+              }}
+            >
+              게시물을 볼 수 있는 사람
+            </Text>
+
+            <Text
+              style={{
+                fontSize: 14,
+                marginBottom: 10,
+                color: Colors.GRAY_DARK,
+              }}
+            >
+              이 게시물을 볼 수 있는 사람을 선택해주세요. 선택한 사람에게만
+              게시물이 보여집니다.
+            </Text>
+
+            {Status.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => {
+                  setSosStatus(item.value);
+                  setModalVisible(false);
+                }}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingVertical: 20,
+                }}
+              >
+                <Image
+                  source={{ uri: item.icon }}
+                  style={{ width: 24, height: 24 }}
+                />
+                <Text style={{ marginLeft: 10 }}>{item.larvel}</Text>
+                {sosStatus === item.value && (
+                  <Image
+                    source={{
+                      uri: "https://cdn-icons-png.flaticon.com/512/845/845646.png",
+                    }}
+                    style={{ width: 20, height: 20, marginLeft: 10 }}
+                  />
+                )}
+              </TouchableOpacity>
+            ))}
+          </View>
+        </GlobalModal>
+
         <View style={styles.toolBar}>
           <TouchableOpacity onPress={uploadImage} style={{ marginRight: 10 }}>
             <Ionicons name="images-outline" size={32} color="black" />
@@ -147,5 +236,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderTopWidth: 1,
     borderTopColor: Colors.GRAY_MEDIUM,
+  },
+  statusBar: {
+    borderTopWidth: 1,
+    borderTopColor: Colors.GRAY_MEDIUM,
+    height: 40,
+    justifyContent: "center",
+    padding: 10,
   },
 });
