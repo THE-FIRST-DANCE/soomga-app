@@ -9,6 +9,8 @@ interface SelectProps {
   items: string[];
   onPress?: (index: number) => void;
   viewStyle?: ViewStyle;
+  isItemSelected: boolean[];
+  setIsItemSelected: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
 export function SelectContainer({
@@ -28,28 +30,33 @@ export function SelectContainer({
   );
 }
 
-function SelectComponent({ caption, items, onPress, viewStyle }: SelectProps) {
-  const [isSelectedArray, setIsSelectedArray] = useState<boolean[]>(
-    items.map((_, index) => (index === 0 ? true : false))
-  );
-
+function SelectComponent({
+  caption,
+  items,
+  onPress,
+  viewStyle,
+  isItemSelected,
+  setIsItemSelected,
+}: SelectProps) {
   /* 선택된 항목 스타일 변경 함수 */
   const toggleSelection = (index: number) => {
-    const newIsSelected = [...isSelectedArray];
+    const newIsItemSelected = [...isItemSelected];
     if (index === 0) {
-      newIsSelected.forEach((_, idx) => {
-        newIsSelected[idx] = idx === 0;
+      newIsItemSelected.forEach((_, idx) => {
+        newIsItemSelected[idx] = idx === 0;
       });
     } else {
-      newIsSelected[0] = false;
-      newIsSelected[index] = !newIsSelected[index];
+      newIsItemSelected[0] = false;
+      newIsItemSelected[index] = !newIsItemSelected[index];
     }
 
-    if (newIsSelected.every((_, index) => newIsSelected[index] === false)) {
-      newIsSelected[0] = true;
+    if (
+      newIsItemSelected.every((_, index) => newIsItemSelected[index] === false)
+    ) {
+      newIsItemSelected[0] = true;
     }
 
-    setIsSelectedArray(newIsSelected);
+    setIsItemSelected(newIsItemSelected);
   };
 
   return (
@@ -67,7 +74,7 @@ function SelectComponent({ caption, items, onPress, viewStyle }: SelectProps) {
                 {
                   margin: 5,
                   alignItems: "center",
-                  backgroundColor: isSelectedArray[index]
+                  backgroundColor: isItemSelected[index]
                     ? Colors.BASKETBALL_ORANGE
                     : Colors.WHITE,
                 },
@@ -80,7 +87,7 @@ function SelectComponent({ caption, items, onPress, viewStyle }: SelectProps) {
             >
               <Text
                 style={{
-                  color: isSelectedArray[index] ? Colors.WHITE : Colors.BLACK,
+                  color: isItemSelected[index] ? Colors.WHITE : Colors.BLACK,
                 }}
               >
                 {item}

@@ -14,14 +14,23 @@ import GlobalModal from "@components/Modal";
 
 /* vector-icons */
 import { AntDesign } from "@expo/vector-icons";
-import { useRecoilState } from "recoil";
+
+/* recoil */
+import { useRecoilState, useResetRecoilState } from "recoil";
 import {
-  ageRangeState,
-  tempRangeState,
-  guideCountRangeState,
-  langsState,
-  gendersState,
-  selectedRatingState,
+  AgeRangeState,
+  TempRangeState,
+  GuideCountRangeState,
+  LangsState,
+  GendersState,
+  SelectedRatingState,
+  IsLangsSelectedState,
+  IsGendersSelectedState,
+  IsRatingSelectedState,
+  JpnCertificateState,
+  IsJpnCertificateSelectedState,
+  EngCertificateState,
+  IsEngCertificateSelectedState,
 } from "@/state/store/GuideFilterRecoil";
 
 interface GuideFilterProps {
@@ -38,32 +47,55 @@ function GuideFilter({
   setGuidesToRender,
 }: GuideFilterProps) {
   /* 나이 */
-  const [ageRange, setAgeRange] = useRecoilState(ageRangeState);
+  const [ageRange, setAgeRange] = useRecoilState(AgeRangeState);
 
   /* 온도 */
-  const [tempRange, setTempRange] = useRecoilState(tempRangeState);
+  const [tempRange, setTempRange] = useRecoilState(TempRangeState);
 
   /* 가이드 횟수 */
   const [guideCountRange, setGuideCountRange] =
-    useRecoilState(guideCountRangeState);
+    useRecoilState(GuideCountRangeState);
 
   /* 언어 */
   const allLangs = ["모든 언어", "한국어", "English", "日本語"];
-  const [langs, setLangs] = useRecoilState(langsState);
+  const [langs, setLangs] = useRecoilState(LangsState);
+  const [isLangsSelected, setIsLangsSelected] =
+    useRecoilState(IsLangsSelectedState);
 
   /* 성별 */
   const allGenders = ["모든 성별", "남자", "여자"];
-  const [genders, setGenders] = useRecoilState(gendersState);
-
-  /* TODO: 일본어, 영어 자격증 필터 추가 */
-
-  /* 평점 */
-  const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>(
-    new Array(5).fill(false)
+  const [genders, setGenders] = useRecoilState(GendersState);
+  const [isGendersSelected, setIsGendersSelected] = useRecoilState(
+    IsGendersSelectedState
   );
 
+  /* 일본어 자격증 */
+  const allJpnCertificates = ["모든 자격증", "N1", "N2", "N3", "N4", "N5"];
+  const [jpnCertificates, setJpnCertificates] =
+    useRecoilState(JpnCertificateState);
+  const [isJpnCertificatesSelected, setIsJpnCertificatesSelected] =
+    useRecoilState(IsJpnCertificateSelectedState);
+
+  /* 영어 자격증 */
+  const allEngCertificates = [
+    "모든 자격증",
+    "900>",
+    "800>",
+    "700>",
+    "600>",
+    "<600",
+  ];
+  const [engCertificates, setEngCertificates] =
+    useRecoilState(EngCertificateState);
+  const [isEngCertificatesSelected, setIsEngCertificatesSelected] =
+    useRecoilState(IsEngCertificateSelectedState);
+
+  /* 평점 */
   const [selectedRating, setSelectedRating] =
-    useRecoilState(selectedRatingState);
+    useRecoilState(SelectedRatingState);
+  const [isRatingSelected, setIsRatingSelected] = useRecoilState(
+    IsRatingSelectedState
+  );
 
   /* 필터링된 가이드 정보 저장 */
   const [filteredGuides, setFilteredGuides] = useState<GuideType[]>([]);
@@ -192,11 +224,13 @@ function GuideFilter({
                   });
                 }
               }}
+              isItemSelected={isLangsSelected}
+              setIsItemSelected={setIsLangsSelected}
             />
           </SelectContainer>
           <SelectContainer title="성별">
             <SelectComponent
-              items={["모든 성별", "남자", "여자"]}
+              items={allGenders}
               onPress={(index: number) => {
                 if (index === 0) {
                   setGenders([]);
@@ -212,36 +246,42 @@ function GuideFilter({
                   });
                 }
               }}
+              isItemSelected={isGendersSelected}
+              setIsItemSelected={setIsGendersSelected}
               viewStyle={{ paddingHorizontal: 20 }}
             />
           </SelectContainer>
           <SelectContainer title="자격증">
             <SelectComponent
               caption="日本語  🇯🇵"
-              items={["모든 자격증", "N1", "N2", "N3", "N4", "N5"]}
+              items={allJpnCertificates}
               viewStyle={{ paddingHorizontal: 20 }}
+              isItemSelected={isJpnCertificatesSelected}
+              setIsItemSelected={setIsJpnCertificatesSelected}
             />
             <SelectComponent
               caption="English  🇬🇧"
-              items={["모든 자격증", "900>", "800>", "700>", "600>", "<600"]}
+              items={allEngCertificates}
               viewStyle={{ paddingHorizontal: 10 }}
+              isItemSelected={isEngCertificatesSelected}
+              setIsItemSelected={setIsEngCertificatesSelected}
             />
           </SelectContainer>
           <View style={{ marginBottom: 20 }}>
             <Text style={styles.caption}>평점</Text>
             <View style={styles.selectContainer}>
-              {isCheckedArray.map((isChecked, index) => (
+              {isRatingSelected.map((isChecked, index) => (
                 <CheckboxComponent
                   key={index}
                   isChecked={isChecked}
-                  count={isCheckedArray.length - index}
+                  count={isRatingSelected.length - index}
                   onPress={() => {
-                    const newIsCheckedArray = [...isCheckedArray];
-                    newIsCheckedArray[index] = !newIsCheckedArray[index];
-                    setIsCheckedArray(newIsCheckedArray);
+                    const newIsRatingSelected = [...isRatingSelected];
+                    newIsRatingSelected[index] = !newIsRatingSelected[index];
+                    setIsRatingSelected(newIsRatingSelected);
 
                     setSelectedRating((prevSelectedRating) => {
-                      if (newIsCheckedArray[index]) {
+                      if (newIsRatingSelected[index]) {
                         return [...prevSelectedRating, 5 - index];
                       } else {
                         return prevSelectedRating.filter(
@@ -250,6 +290,8 @@ function GuideFilter({
                       }
                     });
                   }}
+                  isItemSelected={isRatingSelected}
+                  setIsItemSelected={setIsRatingSelected}
                 />
               ))}
             </View>

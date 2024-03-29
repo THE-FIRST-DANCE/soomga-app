@@ -8,9 +8,17 @@ interface CheckboxProps {
   isChecked: boolean;
   count: number;
   onPress: () => void;
+  isItemSelected: boolean[];
+  setIsItemSelected: React.Dispatch<React.SetStateAction<boolean[]>>;
 }
 
-function CheckboxComponent({ isChecked, count, onPress }: CheckboxProps) {
+function CheckboxComponent({
+  isChecked,
+  count,
+  onPress,
+  isItemSelected,
+  setIsItemSelected,
+}: CheckboxProps) {
   return (
     <View style={{ flexDirection: "row", marginVertical: 5 }}>
       {isChecked ? (
