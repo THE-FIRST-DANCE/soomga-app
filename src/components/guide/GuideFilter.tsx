@@ -155,6 +155,41 @@ function GuideFilter({
     setFilteredGuides(handleGuideListWithFilter());
   }, [ageRange, tempRange, guideCountRange, langs, genders, selectedRating]);
 
+  /* 필터 초기화 */
+  const resetAgeRange = useResetRecoilState(AgeRangeState);
+  const resetTempRange = useResetRecoilState(TempRangeState);
+  const resetGuideCountRange = useResetRecoilState(GuideCountRangeState);
+  const resetLangs = useResetRecoilState(LangsState);
+  const resetIsLangsSelected = useResetRecoilState(IsLangsSelectedState);
+  const resetGenders = useResetRecoilState(GendersState);
+  const resetIsGendersSelected = useResetRecoilState(IsGendersSelectedState);
+  const resetJpnCertificates = useResetRecoilState(JpnCertificateState);
+  const resetIsJpnCertificatesSelected = useResetRecoilState(
+    IsJpnCertificateSelectedState
+  );
+  const resetEngCertificates = useResetRecoilState(EngCertificateState);
+  const resetIsEngCertificatesSelected = useResetRecoilState(
+    IsEngCertificateSelectedState
+  );
+  const resetSelectedRating = useResetRecoilState(SelectedRatingState);
+  const resetIsRatingSelected = useResetRecoilState(IsRatingSelectedState);
+
+  const resetFilter = () => {
+    resetAgeRange();
+    resetTempRange();
+    resetGuideCountRange();
+    resetLangs();
+    resetIsLangsSelected();
+    resetGenders();
+    resetIsGendersSelected();
+    resetJpnCertificates();
+    resetIsJpnCertificatesSelected();
+    resetEngCertificates();
+    resetIsEngCertificatesSelected();
+    resetSelectedRating();
+    resetIsRatingSelected();
+  };
+
   return (
     <GlobalModal
       visible={isFilterVisible}
@@ -165,15 +200,35 @@ function GuideFilter({
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>필터</Text>
-          <Text
-            style={[styles.caption, { color: Colors.BASKETBALL_ORANGE }]}
-            onPress={() => {
-              setIsFilterVisible(false);
-              setGuidesToRender(filteredGuides);
-            }}
-          >
-            확인
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text
+              style={[
+                styles.caption,
+                {
+                  color: Colors.BASKETBALL_ORANGE,
+                },
+              ]}
+              onPress={resetFilter}
+            >
+              초기화
+            </Text>
+            <Text
+              style={[
+                styles.caption,
+                {
+                  color: Colors.WHITE,
+                  backgroundColor: Colors.BASKETBALL_ORANGE,
+                  borderRadius: 10,
+                },
+              ]}
+              onPress={() => {
+                setIsFilterVisible(false);
+                setGuidesToRender(filteredGuides);
+              }}
+            >
+              확인
+            </Text>
+          </View>
         </View>
         <ScrollView
           contentContainerStyle={{ marginBottom: 10 }}
@@ -326,7 +381,14 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
-  caption: { margin: 5, fontSize: 20, fontWeight: "bold" },
+  caption: {
+    width: 60,
+    marginHorizontal: 5,
+    padding: 10,
+    fontSize: 15,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   selectContainer: {
     padding: 10,
     borderWidth: 1,
