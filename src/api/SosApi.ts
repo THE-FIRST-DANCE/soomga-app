@@ -5,6 +5,13 @@ interface SosContent {
   lat: number;
   lng: number;
   status: string;
+  authorId: number;
+}
+
+interface SosComment {
+  content: string;
+  memberId: number;
+  boardId: number;
 }
 
 export const addSos = async (createSosDto: SosContent) => {
@@ -13,8 +20,30 @@ export const addSos = async (createSosDto: SosContent) => {
   return response.data;
 };
 
-export const getSos = async (page: number) => {
-  const response = await api.get(`/sos/all?page=${page}`);
+export const getSos = async ({ pageParam }: { pageParam?: number | null }) => {
+  const response = await api.get(`/sos/all`, {
+    params: {
+      cursor: pageParam,
+    },
+  });
+
+  return response.data;
+};
+
+export const addSosComment = async (data: SosComment) => {
+  const { content, memberId, boardId } = data;
+  const commentDto = {
+    content,
+    memberId,
+  };
+
+  const response = await api.post(`/sos/${boardId}/comment`, commentDto);
+
+  return response.data;
+};
+
+export const deleteSosComment = async (commentId: number) => {
+  const response = await api.delete(`/sos/comment/${commentId}`);
 
   return response.data;
 };

@@ -11,6 +11,7 @@ import { addSos } from "@/api/SosApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SosStackParamList } from "@/stacks/SosStack";
+import LoadingScreen from "@/components/Loading";
 
 const SosMapScreen = () => {
   const [location, setLocation] = useState<{
@@ -18,6 +19,7 @@ const SosMapScreen = () => {
   } | null>(null);
   const [marker, setMarker] = useState<{ lat: number; lng: number }[]>([]);
   const [sosContent, setSosContent] = useRecoilState(SosContent);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigation = useNavigation<NavigationProp<SosStackParamList>>();
   const queryClient = useQueryClient();
@@ -52,11 +54,13 @@ const SosMapScreen = () => {
   const { mutate: addMutate } = useMutation({
     mutationFn: addSos,
     onSuccess: () => {
+      setLoading(false);
       Alert.alert("SOS가 등록되었습니다.");
       queryClient.invalidateQueries({ queryKey: ["sos", 1] });
       navigation.navigate("SosScreen");
     },
     onError: () => {
+      setLoading(false);
       Alert.alert("SOS 등록에 실패했습니다.");
     },
   });
@@ -76,12 +80,25 @@ const SosMapScreen = () => {
       },
     }));
 
-    addMutate({
-      content: sosContent.content,
-      status: sosContent.status,
-      lat: marker[0].lat,
-      lng: marker[0].lng,
-    });
+    Alert.alert("SOS", "등록하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      {
+        text: "확인",
+        onPress: () => {
+          setLoading(true);
+          addMutate({
+            content: sosContent.content,
+            status: sosContent.status,
+            lat: marker[0].lat,
+            lng: marker[0].lng,
+            authorId: 2,
+          });
+        },
+      },
+    ]);
   };
 
   return (
@@ -113,6 +130,8 @@ const SosMapScreen = () => {
         <MaterialIcons name="info" size={24} color="black" />
         <Text>마커를 길게 누르고 이동할 수 있습니다.</Text>
       </View>
+
+      {loading && <LoadingScreen loading={loading} />}
     </Screen>
   );
 };

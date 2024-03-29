@@ -1,11 +1,18 @@
 import Colors from "@/modules/Color";
-import { Modal, Pressable, StyleSheet, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
 interface ModalProps {
   visible: boolean;
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
-  type?: "full" | "bottom" | "center";
+  type?: "full" | "bottomTop" | "center" | "bottom";
   animation?: "fade" | "slide";
 }
 
@@ -25,19 +32,27 @@ const GlobalModal = ({
     >
       <Pressable
         style={styles.modalContainer}
-        onPress={() => setVisible(false)}
-      >
-        <View
-          style={
-            type === "full"
-              ? styles.modalFull
-              : type === "bottom"
-              ? styles.modalBottom
-              : styles.modalCenter
+        onPress={(event) => {
+          if (event.target === event.currentTarget) {
+            setVisible(false);
           }
-        >
-          {children}
-        </View>
+        }}
+      >
+        <TouchableWithoutFeedback>
+          <View
+            style={
+              type === "full"
+                ? styles.modalFull
+                : type === "bottom"
+                ? styles.modalBottom
+                : type === "bottomTop"
+                ? styles.modalBottomTop
+                : styles.modalCenter
+            }
+          >
+            {children}
+          </View>
+        </TouchableWithoutFeedback>
       </Pressable>
     </Modal>
   );
@@ -57,10 +72,25 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
     padding: 35,
   },
-  modalBottom: {
+  modalBottomTop: {
     position: "absolute",
     bottom: "5%",
     width: "95%",
+    backgroundColor: Colors.WHITE,
+    paddingVertical: 20,
+    paddingHorizontal: 15,
+    shadowColor: Colors.BLACK,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    borderRadius: 20,
+  },
+  modalBottom: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
     backgroundColor: Colors.WHITE,
     paddingVertical: 20,
     paddingHorizontal: 15,
