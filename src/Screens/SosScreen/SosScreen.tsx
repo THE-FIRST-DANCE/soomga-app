@@ -6,9 +6,10 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SosStackParamList } from "@/stacks/SosStack";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { getSos } from "@/api/SosApi";
 import { SosType } from "@/interface/Sos";
+import { ActivityIndicator } from "react-native-paper";
 
 const SosScreen = () => {
   const [sosList, setSosList] = useState<SosType[]>([]);
@@ -19,14 +20,23 @@ const SosScreen = () => {
     navigation.navigate("SosCreateScreen");
   };
 
-  const { data } = useQuery({
-    queryKey: ["sos", 1],
-    queryFn: () => getSos(1),
-  });
+  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["sos"],
+      queryFn: getSos,
+      initialPageParam: null,
+      getNextPageParam: (lastPage) => {
+        if (lastPage.nextCursor) {
+          return lastPage.nextCursor;
+        }
+      },
+    });
 
   useEffect(() => {
     if (data) {
-      setSosList(data);
+      const sos = data.pages.flatMap((page) => page.items);
+
+      setSosList(sos);
     }
   }, [data]);
 
@@ -39,6 +49,21 @@ const SosScreen = () => {
             renderItem={({ item }) => <FeedItem item={item} />}
             ItemSeparatorComponent={() => <View style={{ height: 20 }} />}
             keyExtractor={(item) => item.id.toString()}
+            onEndReached={() => {
+              if (hasNextPage) {
+                fetchNextPage();
+              }
+            }}
+            onEndReachedThreshold={0.6}
+            refreshing={isFetchingNextPage}
+            onRefresh={() => fetchNextPage()}
+            ListFooterComponent={() => {
+              if (isFetching) {
+                return <ActivityIndicator />;
+              }
+
+              return null;
+            }}
           />
         </View>
 
