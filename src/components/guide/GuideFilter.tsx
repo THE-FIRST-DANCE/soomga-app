@@ -234,121 +234,123 @@ function GuideFilter({
           contentContainerStyle={{ marginBottom: 10 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* 나이 범위 선택 */}
-          <SliderComponent
-            caption="나이"
-            minimumValue={10}
-            maximumValue={70}
-            step={10}
-            range={ageRange}
-            setRange={setAgeRange}
-          />
-          {/* 온도 범위 선택 */}
-          <SliderComponent
-            caption="온도"
-            minimumValue={0}
-            maximumValue={100}
-            step={1}
-            range={tempRange}
-            setRange={setTempRange}
-          />
-          {/* 가이드 횟수 범위 선택 */}
-          <SliderComponent
-            caption="가이드 횟수"
-            minimumValue={0}
-            maximumValue={100}
-            step={1}
-            range={guideCountRange}
-            setRange={setGuideCountRange}
-          />
-          <SelectContainer title="언어">
-            <SelectComponent
-              items={allLangs}
-              onPress={(index: number) => {
-                if (index === 0) {
-                  setLangs([]);
-                } else {
-                  setLangs((prevLangs) => {
-                    if (prevLangs.includes(allLangs[index])) {
-                      return prevLangs.filter(
-                        (item) => item !== allLangs[index]
-                      );
-                    } else {
-                      return [...prevLangs, allLangs[index]];
-                    }
-                  });
-                }
-              }}
-              isItemSelected={isLangsSelected}
-              setIsItemSelected={setIsLangsSelected}
+          <View onStartShouldSetResponder={() => true}>
+            {/* 나이 범위 선택 */}
+            <SliderComponent
+              caption="나이"
+              minimumValue={10}
+              maximumValue={70}
+              step={10}
+              range={ageRange}
+              setRange={setAgeRange}
             />
-          </SelectContainer>
-          <SelectContainer title="성별">
-            <SelectComponent
-              items={allGenders}
-              onPress={(index: number) => {
-                if (index === 0) {
-                  setGenders([]);
-                } else {
-                  setGenders((prevGenders) => {
-                    if (prevGenders.includes(allGenders[index])) {
-                      return prevGenders.filter(
-                        (item) => item !== allGenders[index]
-                      );
-                    } else {
-                      return [...prevGenders, allGenders[index]];
-                    }
-                  });
-                }
-              }}
-              isItemSelected={isGendersSelected}
-              setIsItemSelected={setIsGendersSelected}
-              viewStyle={{ paddingHorizontal: 20 }}
+            {/* 온도 범위 선택 */}
+            <SliderComponent
+              caption="온도"
+              minimumValue={0}
+              maximumValue={100}
+              step={1}
+              range={tempRange}
+              setRange={setTempRange}
             />
-          </SelectContainer>
-          <SelectContainer title="자격증">
-            <SelectComponent
-              caption="日本語  🇯🇵"
-              items={allJpnCertificates}
-              viewStyle={{ paddingHorizontal: 20 }}
-              isItemSelected={isJpnCertificatesSelected}
-              setIsItemSelected={setIsJpnCertificatesSelected}
+            {/* 가이드 횟수 범위 선택 */}
+            <SliderComponent
+              caption="가이드 횟수"
+              minimumValue={0}
+              maximumValue={100}
+              step={1}
+              range={guideCountRange}
+              setRange={setGuideCountRange}
             />
-            <SelectComponent
-              caption="English  🇬🇧"
-              items={allEngCertificates}
-              viewStyle={{ paddingHorizontal: 10 }}
-              isItemSelected={isEngCertificatesSelected}
-              setIsItemSelected={setIsEngCertificatesSelected}
-            />
-          </SelectContainer>
-          <View style={{ marginBottom: 20 }}>
-            <Text style={styles.caption}>평점</Text>
-            <View style={styles.selectContainer}>
-              {isRatingSelected.map((isChecked, index) => (
-                <CheckboxComponent
-                  key={index}
-                  isChecked={isChecked}
-                  count={isRatingSelected.length - index}
-                  onPress={() => {
-                    const newIsRatingSelected = [...isRatingSelected];
-                    newIsRatingSelected[index] = !newIsRatingSelected[index];
-                    setIsRatingSelected(newIsRatingSelected);
-
-                    setSelectedRating((prevSelectedRating) => {
-                      if (newIsRatingSelected[index]) {
-                        return [...prevSelectedRating, 5 - index];
-                      } else {
-                        return prevSelectedRating.filter(
-                          (rating) => rating !== 5 - index
+            <SelectContainer title="언어">
+              <SelectComponent
+                items={allLangs}
+                onPress={(index: number) => {
+                  if (index === 0) {
+                    setLangs([]);
+                  } else {
+                    setLangs((prevLangs) => {
+                      if (prevLangs.includes(allLangs[index])) {
+                        return prevLangs.filter(
+                          (item) => item !== allLangs[index]
                         );
+                      } else {
+                        return [...prevLangs, allLangs[index]];
                       }
                     });
-                  }}
-                  isItemSelected={isRatingSelected}
-                  setIsItemSelected={setIsRatingSelected}
-                />
-              ))}
+                  }
+                }}
+                isItemSelected={isLangsSelected}
+                setIsItemSelected={setIsLangsSelected}
+              />
+            </SelectContainer>
+            <SelectContainer title="성별">
+              <SelectComponent
+                items={allGenders}
+                onPress={(index: number) => {
+                  if (index === 0) {
+                    setGenders([]);
+                  } else {
+                    setGenders((prevGenders) => {
+                      if (prevGenders.includes(allGenders[index])) {
+                        return prevGenders.filter(
+                          (item) => item !== allGenders[index]
+                        );
+                      } else {
+                        return [...prevGenders, allGenders[index]];
+                      }
+                    });
+                  }
+                }}
+                isItemSelected={isGendersSelected}
+                setIsItemSelected={setIsGendersSelected}
+                viewStyle={{ paddingHorizontal: 20 }}
+              />
+            </SelectContainer>
+            <SelectContainer title="자격증">
+              <SelectComponent
+                caption="日本語  🇯🇵"
+                items={allJpnCertificates}
+                viewStyle={{ paddingHorizontal: 20 }}
+                isItemSelected={isJpnCertificatesSelected}
+                setIsItemSelected={setIsJpnCertificatesSelected}
+              />
+              <SelectComponent
+                caption="English  🇬🇧"
+                items={allEngCertificates}
+                viewStyle={{ paddingHorizontal: 10 }}
+                isItemSelected={isEngCertificatesSelected}
+                setIsItemSelected={setIsEngCertificatesSelected}
+              />
+            </SelectContainer>
+            <View style={{ marginBottom: 20 }}>
+              <Text style={styles.caption}>평점</Text>
+              <View style={styles.selectContainer}>
+                {isRatingSelected.map((isChecked, index) => (
+                  <CheckboxComponent
+                    key={index}
+                    isChecked={isChecked}
+                    count={isRatingSelected.length - index}
+                    onPress={() => {
+                      const newIsRatingSelected = [...isRatingSelected];
+                      newIsRatingSelected[index] = !newIsRatingSelected[index];
+                      setIsRatingSelected(newIsRatingSelected);
+
+                      setSelectedRating((prevSelectedRating) => {
+                        if (newIsRatingSelected[index]) {
+                          return [...prevSelectedRating, 5 - index];
+                        } else {
+                          return prevSelectedRating.filter(
+                            (rating) => rating !== 5 - index
+                          );
+                        }
+                      });
+                    }}
+                    isItemSelected={isRatingSelected}
+                    setIsItemSelected={setIsRatingSelected}
+                  />
+                ))}
+              </View>
             </View>
           </View>
         </ScrollView>

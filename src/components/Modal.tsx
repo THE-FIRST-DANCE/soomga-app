@@ -1,5 +1,11 @@
 import Colors from "@/modules/Color";
-import { Modal, Pressable, StyleSheet, View } from "react-native";
+import {
+  Modal,
+  Pressable,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 
 interface ModalProps {
   visible: boolean;
@@ -27,17 +33,19 @@ const GlobalModal = ({
         style={styles.modalContainer}
         onPress={() => setVisible(false)}
       >
-        <View
-          style={
-            type === "full"
-              ? styles.modalFull
-              : type === "bottom"
-              ? styles.modalBottom
-              : styles.modalCenter
-          }
-        >
-          {children}
-        </View>
+        <TouchableWithoutFeedback>
+          <View
+            style={
+              type === "full"
+                ? styles.modalFull
+                : type === "bottom"
+                ? styles.modalBottom
+                : styles.modalCenter
+            }
+          >
+            {children}
+          </View>
+        </TouchableWithoutFeedback>
       </Pressable>
     </Modal>
   );
