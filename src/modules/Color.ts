@@ -8,6 +8,7 @@ const Colors = {
   GRAY_DARK: "#757575",
   GREEN: "#4CAF50",
   BLUE: "#2196F3",
+  BACKGROUND: "rgba(0,0,0,0.5)",
 };
 
 export default Colors;
