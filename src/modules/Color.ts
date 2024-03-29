@@ -12,6 +12,7 @@ const Colors = {
   MALE_BLUE: "#4BB3FF",
   FEMALE_PINK: "#FF8090",
   STAR_YELLOW: "#FFD900",
+  BACKGROUND: "rgba(0,0,0,0.5)",
 };
 
 export default Colors;
