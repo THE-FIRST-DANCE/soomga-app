@@ -68,7 +68,7 @@ function GuideListScreen() {
   );
 
   return (
-    <Screen title={isRecommended ? "추천 가이드" : "가이드 검색"}>
+    <Screen title={isRecommended ? "추천 가이드" : "전체 리스트"}>
       <View style={styles.tabBar}>
         <View style={{ flexDirection: "row", height: 40 }}>
           {/* 기본정보 탭 */}
