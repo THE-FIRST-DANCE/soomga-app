@@ -2,7 +2,6 @@ import Colors from "@/modules/Color";
 import {
   Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -39,19 +38,21 @@ const GlobalModal = ({
         }}
       >
         <TouchableWithoutFeedback>
-          <View
-            style={
-              type === "full"
-                ? styles.modalFull
-                : type === "bottom"
-                ? styles.modalBottom
-                : type === "bottomTop"
-                ? styles.modalBottomTop
-                : styles.modalCenter
-            }
-          >
-            {children}
-          </View>
+          <TouchableWithoutFeedback>
+            <View
+              style={
+                type === "full"
+                  ? styles.modalFull
+                  : type === "bottom"
+                  ? styles.modalBottom
+                  : type === "bottomTop"
+                  ? styles.modalBottomTop
+                  : styles.modalCenter
+              }
+            >
+              {children}
+            </View>
+          </TouchableWithoutFeedback>
         </TouchableWithoutFeedback>
       </Pressable>
     </Modal>

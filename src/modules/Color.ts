@@ -8,6 +8,10 @@ const Colors = {
   GRAY_DARK: "#757575",
   GREEN: "#4CAF50",
   BLUE: "#2196F3",
+  BASKETBALL_ORANGE: "#DC2626",
+  MALE_BLUE: "#4BB3FF",
+  FEMALE_PINK: "#FF8090",
+  STAR_YELLOW: "#FFD900",
   BACKGROUND: "rgba(0,0,0,0.5)",
 };
 

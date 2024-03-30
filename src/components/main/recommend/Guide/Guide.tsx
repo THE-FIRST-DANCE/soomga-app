@@ -8,6 +8,7 @@ import {
 
 /* vector-icons */
 import { Octicons, AntDesign } from "@expo/vector-icons";
+import Colors from "@/modules/Color";
 
 /* props */
 type GuideType = {
@@ -15,33 +16,23 @@ type GuideType = {
   name: string;
   gender: string;
   description: string;
-  stars: number;
+  rating: number;
 };
 
-function Guide({ photo, name, gender, description, stars }: GuideType) {
-  const guideGender = gender === "M" ? "#4BB3FF" : "#FF8090";
+function Guide({ photo, name, gender, description, rating }: GuideType) {
+  const guideGender = gender === "남자" ? Colors.MALE_BLUE : Colors.FEMALE_PINK;
 
   return (
     <ImageBackground style={styles.container} source={{ uri: photo }}>
       <View style={styles.whiteBackground}>
-        <View
-          style={{
-            width: 30,
-            height: 30,
-            backgroundColor: guideGender,
-            position: "absolute",
-            right: 20,
-            top: 20,
-            borderRadius: 100,
-          }}
-        />
+        <View style={[styles.gender, { backgroundColor: guideGender }]} />
         <View style={styles.information}>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
             {name}
           </Text>
           <View style={{ flexDirection: "row" }}>
-            <AntDesign name="star" size={18} color="#ffd900" />
-            <Text style={{ marginLeft: 3 }}>{stars}</Text>
+            <AntDesign name="star" size={18} color={Colors.STAR_YELLOW} />
+            <Text style={{ marginLeft: 3 }}>{rating.toFixed(1)}</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
             <Octicons name="note" size={15} color="black" />
@@ -79,6 +70,15 @@ const styles = StyleSheet.create({
     height: 270,
     backgroundColor: "white",
     opacity: 0.6,
+  },
+  /* 가이드 성별 색상 스타일 */
+  gender: {
+    width: 30,
+    height: 30,
+    position: "absolute",
+    right: 20,
+    top: 20,
+    borderRadius: 100,
   },
   /* 가이드 정보 섹션 스타일 */
   information: {
