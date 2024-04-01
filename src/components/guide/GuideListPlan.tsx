@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, Pressable, Alert, StyleSheet, Image } from "react-native";
+import {
+  View,
+  Text,
+  Pressable,
+  Alert,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
 
@@ -29,7 +37,7 @@ function GuideListPlan({ guide }: { guide: GuideType }) {
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
   return (
-    <View style={styles.container}>
+    <TouchableOpacity activeOpacity={0.9} style={styles.container}>
       <View style={{ flexDirection: "row" }}>
         <View style={styles.guideContainer}>
           <Image source={{ uri: guide.photo }} style={styles.guideImage} />
@@ -94,7 +102,7 @@ function GuideListPlan({ guide }: { guide: GuideType }) {
           <SimpleLineIcons name="user-follow" size={21} color={Colors.BLACK} />
         )}
       </Pressable>
-    </View>
+    </TouchableOpacity>
   );
 }
 
