@@ -6,6 +6,8 @@ import {
   Image,
   Pressable,
   ScrollView,
+  TouchableOpacity,
+  ViewStyle,
 } from "react-native";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
@@ -13,14 +15,24 @@ import { styles as tagStyle } from "@main/Tags";
 import { TagType } from "@/data/tags";
 import { checkFollow } from "@components/guide/GuideListPlan";
 
+/* Navigation */
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
+
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
 
-const TempBar = ({ progress }: { progress: number }) => {
+export const TempBar = ({
+  progress,
+  style,
+}: {
+  progress: number;
+  style?: ViewStyle;
+}) => {
   const reversedProgress = 100 - progress;
 
   return (
-    <View style={styles.progressBarContainer}>
+    <View style={[styles.progressBarContainer, style]}>
       <View style={[styles.progressBar, { height: `${reversedProgress}%` }]} />
     </View>
   );
@@ -66,6 +78,7 @@ function GuideListInfo({
   const [guideTagsWithUsers, setGuideTagsWithUsers] = useState<TagType[]>([]);
   const [highlightedTags, setHighlightedTags] = useState<boolean[]>([]);
 
+  /* 사용자와 가이드가 같은 태그를 가졌는 지 확인 */
   const checkSameTags = () => {
     const isSameTag = guide.tags.map((tag) => false);
     const newHighlightedTags: boolean[] = [];
@@ -102,8 +115,17 @@ function GuideListInfo({
     checkSameTags();
   }, [guide.tags, userTags]);
 
+  /* Navigation */
+  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={styles.container}
+      onPress={() =>
+        navigation.navigate("GuideDetailScreen", { guide, userTags })
+      }
+    >
       <View style={{ flexDirection: "row" }}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <View style={{ flexDirection: "row" }}>
@@ -198,7 +220,7 @@ function GuideListInfo({
           <SimpleLineIcons name="user-follow" size={21} color={Colors.BLACK} />
         )}
       </Pressable>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -227,9 +249,6 @@ const styles = StyleSheet.create({
     borderWidth: 0.7,
     borderRadius: 10,
     overflow: "hidden",
-  },
-  emptyBar: {
-    flex: 1,
   },
   progressBar: {
     backgroundColor: Colors.WHITE,
