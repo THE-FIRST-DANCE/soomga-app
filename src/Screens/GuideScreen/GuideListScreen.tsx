@@ -24,11 +24,9 @@ import { FontAwesome } from "@expo/vector-icons";
 import GuideFilter from "@/components/guide/GuideFilter";
 
 function GuideListScreen() {
-  const route = useRoute<RouteProp<GuideStackParamList>>();
+  const route = useRoute<RouteProp<GuideStackParamList, "GuideListScreen">>();
 
-  const guidesInSelectedRegions = route.params?.guidesInSelectedRegions || [];
-  const userTags = route.params?.userTags || [];
-  const isRecommended = route.params?.isRecommended;
+  const { guidesInSelectedRegions, userTags, isRecommended } = route.params;
 
   /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
