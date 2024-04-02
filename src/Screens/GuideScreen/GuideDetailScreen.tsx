@@ -17,6 +17,7 @@ import GuideDetailPlan from "@/components/guide/GuideDetailPlan";
 import GuideDetailService from "@/components/guide/GuideDetailService";
 import GuideDetailSchedule from "@/components/guide/GuideDetailSchedule";
 import GuideDetailReview from "@/components/guide/GuideDetailReview";
+import ToolButton from "@/components/guide/ToolButton";
 
 function GuideDetailScreen() {
   const route = useRoute<RouteProp<GuideStackParamList, "GuideDetailScreen">>();
@@ -108,6 +109,7 @@ function GuideDetailScreen() {
           <GuideDetailReview />
         </ScrollView>
       </ScrollView>
+      <ToolButton />
     </Screen>
   );
 }
