@@ -16,6 +16,9 @@ export type GuideType = {
   }[];
   instagramLink: string;
   XLink: string;
+  verified_ID: boolean;
+  verified_bank_account: boolean;
+  verified_phone_number: boolean;
 };
 
 export const guides: GuideType[] = [
@@ -45,6 +48,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/newjeans_official/",
     XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: true,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 2,
@@ -72,6 +78,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/newjeans_official/",
     XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 3,
@@ -99,6 +108,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/newjeans_official/",
     XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 4,
@@ -126,6 +138,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/newjeans_official/",
     XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: false,
   },
   {
     id: 5,
@@ -153,6 +168,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/newjeans_official/",
     XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 6,
@@ -180,6 +198,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/fallingin__fall",
     XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: false,
+    verified_phone_number: true,
   },
   {
     id: 7,
@@ -207,6 +228,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/_yujin_an",
     XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 8,
@@ -234,6 +258,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/reinyourheart/",
     XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: false,
   },
   {
     id: 9,
@@ -261,6 +288,9 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/liz.yeyo",
     XLink: "https://twitter.com/IVEstarship",
+    verified_ID: true,
+    verified_bank_account: false,
+    verified_phone_number: false,
   },
   {
     id: 10,
@@ -288,5 +318,8 @@ export const guides: GuideType[] = [
     ],
     instagramLink: "https://www.instagram.com/eeseooes",
     XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: false,
+    verified_phone_number: false,
   },
 ];
