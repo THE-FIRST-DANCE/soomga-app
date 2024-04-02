@@ -30,6 +30,7 @@ function GuideListScreen() {
 
   /* 현재 탭 */
   const [currentTab, setCurrentTab] = useState<string>("기본정보");
+  const tabs = ["기본정보", "플랜", "서비스"];
 
   /* ScrollView에 대한 ref 생성 */
   const scrollViewRef = useRef<ScrollView>(null);
@@ -48,13 +49,11 @@ function GuideListScreen() {
     const pageWidth = layoutMeasurement.width;
     const currentPage = Math.floor(contentOffset.x / pageWidth);
 
-    if (currentPage === 0) {
-      setCurrentTab("기본정보");
-    } else if (currentPage === 1) {
-      setCurrentTab("플랜");
-    } else {
-      setCurrentTab("서비스");
-    }
+    tabs.forEach((tab, index) => {
+      if (currentPage === index) {
+        setCurrentTab(tab);
+      }
+    });
   };
 
   /* 필터 모달 표시 여부 */
@@ -69,41 +68,18 @@ function GuideListScreen() {
     <Screen title={isRecommended ? "추천 가이드" : "전체 리스트"}>
       <View style={styles.tabBar}>
         <View style={{ flexDirection: "row", height: 40 }}>
-          {/* 기본정보 탭 */}
-          <Pressable onPress={() => handleTabPress("기본정보", 0)}>
-            <Text
-              style={{
-                ...styles.tabStyle,
-                color:
-                  currentTab === "기본정보" ? Colors.BLACK : Colors.GRAY_DARK,
-              }}
-            >
-              기본정보
-            </Text>
-          </Pressable>
-          {/* 플랜 탭 */}
-          <Pressable onPress={() => handleTabPress("플랜", 1)}>
-            <Text
-              style={{
-                ...styles.tabStyle,
-                color: currentTab === "플랜" ? Colors.BLACK : Colors.GRAY_DARK,
-              }}
-            >
-              플랜
-            </Text>
-          </Pressable>
-          {/* 서비스 탭 */}
-          <Pressable onPress={() => handleTabPress("서비스", 2)}>
-            <Text
-              style={{
-                ...styles.tabStyle,
-                color:
-                  currentTab === "서비스" ? Colors.BLACK : Colors.GRAY_DARK,
-              }}
-            >
-              서비스
-            </Text>
-          </Pressable>
+          {tabs.map((tab, index) => (
+            <Pressable key={index} onPress={() => handleTabPress(tab, index)}>
+              <Text
+                style={{
+                  ...styles.tabStyle,
+                  color: currentTab === tab ? Colors.BLACK : Colors.GRAY_DARK,
+                }}
+              >
+                {tab}
+              </Text>
+            </Pressable>
+          ))}
         </View>
         {isRecommended ? (
           <Text>{guidesToRender.length}명 추천됨</Text>
