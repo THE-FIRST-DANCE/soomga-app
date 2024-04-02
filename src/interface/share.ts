@@ -4,6 +4,12 @@ export enum AcessStatus {
   PRIVATE = "PRIVATE",
 }
 
+export enum BoardProcess {
+  ACTIVE = "ACTIVE",
+  PROCESSING = "PROCESSING",
+  COMPLETE = "COMPLETE",
+}
+
 export interface AuthorType {
   id: number;
   avatar: string;

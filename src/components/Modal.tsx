@@ -3,9 +3,11 @@ import {
   Modal,
   Pressable,
   StyleSheet,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface ModalProps {
   visible: boolean;
@@ -38,21 +40,32 @@ const GlobalModal = ({
         }}
       >
         <TouchableWithoutFeedback>
-          <TouchableWithoutFeedback>
-            <View
-              style={
-                type === "full"
-                  ? styles.modalFull
-                  : type === "bottom"
-                  ? styles.modalBottom
-                  : type === "bottomTop"
-                  ? styles.modalBottomTop
-                  : styles.modalCenter
-              }
-            >
-              {children}
-            </View>
-          </TouchableWithoutFeedback>
+          <View
+            style={
+              type === "full"
+                ? styles.modalFull
+                : type === "bottom"
+                ? styles.modalBottom
+                : type === "bottomTop"
+                ? styles.modalBottomTop
+                : styles.modalCenter
+            }
+          >
+            {type === "bottomTop" ||
+              (type === "bottom" && (
+                <TouchableOpacity
+                  style={{ position: "absolute", top: 5, right: "50%" }}
+                  onPress={() => setVisible(false)}
+                >
+                  <MaterialCommunityIcons
+                    name="drag-horizontal-variant"
+                    size={24}
+                    color="black"
+                  />
+                </TouchableOpacity>
+              ))}
+            {children}
+          </View>
         </TouchableWithoutFeedback>
       </Pressable>
     </Modal>
