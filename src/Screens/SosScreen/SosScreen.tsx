@@ -1,26 +1,33 @@
 import Screen from "@/components/Screen";
 import FeedItem from "@/components/sos/FeedItem";
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SosStackParamList } from "@/stacks/SosStack";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getSos } from "@/api/SosApi";
 import { SosType } from "@/interface/Sos";
 import { ActivityIndicator } from "react-native-paper";
 
 const SosScreen = () => {
   const [sosList, setSosList] = useState<SosType[]>([]);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const navigation = useNavigation<NavigationProp<SosStackParamList>>();
 
   const handleCreate = () => {
-    navigation.navigate("SosCreateScreen");
+    navigation.navigate("SosCreateScreen", {});
   };
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
+  const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
     useInfiniteQuery({
       queryKey: ["sos"],
       queryFn: getSos,
@@ -31,6 +38,12 @@ const SosScreen = () => {
         }
       },
     });
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
 
   useEffect(() => {
     if (data) {
@@ -55,8 +68,6 @@ const SosScreen = () => {
               }
             }}
             onEndReachedThreshold={0.6}
-            refreshing={isFetchingNextPage}
-            onRefresh={() => fetchNextPage()}
             ListFooterComponent={() => {
               if (isFetching) {
                 return <ActivityIndicator />;
@@ -64,6 +75,9 @@ const SosScreen = () => {
 
               return null;
             }}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
           />
         </View>
 
