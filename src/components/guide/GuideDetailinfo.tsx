@@ -8,6 +8,7 @@ import {
   Linking,
   Pressable,
 } from "react-native";
+import { styles as TagStyle } from "../main/Tags";
 import { AntDesign, FontAwesome6, Ionicons } from "@expo/vector-icons";
 
 /* Instagram 여는 함수 */
@@ -39,6 +40,20 @@ export async function openXLink(url: string) {
     await Linking.openURL(alterUrl);
   }
 }
+
+/* 인증 정보 컴포넌트 */
+const IsVerifiedComponent = ({ item }: { item: string }) => {
+  return (
+    <View style={styles.verifiedComponent}>
+      <Text style={{ fontSize: 15, marginRight: 10 }}>{item}</Text>
+      <Ionicons
+        name="shield-checkmark"
+        size={18}
+        color={Colors.BASKETBALL_ORANGE}
+      />
+    </View>
+  );
+};
 
 function GuideDetailInfo({ guide }: { guide: GuideType }) {
   return (
@@ -81,21 +96,26 @@ function GuideDetailInfo({ guide }: { guide: GuideType }) {
       <View>
         <Text style={styles.caption}>인증 정보</Text>
         <View style={{ flexDirection: "row" }}>
-          <Ionicons
-            name="shield-checkmark"
-            size={24}
-            color={Colors.BASKETBALL_ORANGE}
-          />
-          <Ionicons
-            name="shield-checkmark"
-            size={24}
-            color={Colors.BASKETBALL_ORANGE}
-          />
-          <Ionicons
-            name="shield-checkmark"
-            size={24}
-            color={Colors.BASKETBALL_ORANGE}
-          />
+          {guide.verified_phone_number && <IsVerifiedComponent item="휴대폰" />}
+          {guide.verified_ID && <IsVerifiedComponent item="신분증" />}
+          {guide.verified_bank_account && <IsVerifiedComponent item="계좌" />}
+          {!guide.verified_ID &&
+            !guide.verified_bank_account &&
+            !guide.verified_phone_number && (
+              <Text style={[styles.caption, { fontWeight: "normal" }]}>
+                인증 정보가 없습니다.
+              </Text>
+            )}
+        </View>
+      </View>
+      <View>
+        <Text style={styles.caption}>태그</Text>
+        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+          {guide.tags.map((tag, index) => (
+            <View key={index} style={[TagStyle.tag, { marginVertical: 5 }]}>
+              <Text>{tag.name}</Text>
+            </View>
+          ))}
         </View>
       </View>
     </View>
@@ -107,7 +127,6 @@ export default GuideDetailInfo;
 const styles = StyleSheet.create({
   container: {
     width: "20%",
-    height: 300,
     paddingHorizontal: 20,
     padding: 10,
   },
@@ -135,5 +154,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    backgroundColor: Colors.WHITE,
+  },
+  verifiedComponent: {
+    height: 40,
+    marginRight: 15,
+    marginVertical: 5,
+    padding: 5,
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    borderWidth: 1.5,
+    borderRadius: 10,
+    backgroundColor: Colors.WHITE,
   },
 });
