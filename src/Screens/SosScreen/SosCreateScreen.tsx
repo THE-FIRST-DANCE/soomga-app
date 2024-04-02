@@ -13,7 +13,12 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { SosStackParamList } from "@/stacks/SosStack";
 import * as ImagePicker from "expo-image-picker";
 import { useSetRecoilState } from "recoil";
@@ -22,7 +27,11 @@ import { Status } from "@/modules/Status";
 import GlobalModal from "@/components/Modal";
 
 const SosCreateScreen = () => {
-  const [content, setContent] = useState<string>("");
+  type SosEditScreenRouteProp = RouteProp<SosStackParamList, "SosCreateScreen">;
+  const route = useRoute<SosEditScreenRouteProp>();
+  const { content: editContent, boardId } = route.params;
+
+  const [content, setContent] = useState<string>(editContent || "");
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [sosStatus, setSosStatus] = useState<string>("PUBLIC");
@@ -68,7 +77,9 @@ const SosCreateScreen = () => {
       content,
     }));
 
-    navigation.navigate("SosMapScreen");
+    navigation.navigate("SosMapScreen", {
+      boardId,
+    });
   };
 
   return (
