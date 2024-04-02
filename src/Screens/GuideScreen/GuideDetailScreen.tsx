@@ -12,6 +12,11 @@ import {
 } from "react-native";
 import { calculateAgeRange, TempBar } from "@/components/guide/GuideListInfo";
 import { useRef, useState } from "react";
+import GuideDetailInfo from "@/components/guide/GuideDetailinfo";
+import GuideDetailPlan from "@/components/guide/GuideDetailPlan";
+import GuideDetailService from "@/components/guide/GuideDetailService";
+import GuideDetailSchedule from "@/components/guide/GuideDetailSchedule";
+import GuideDetailReview from "@/components/guide/GuideDetailReview";
 
 function GuideDetailScreen() {
   const route = useRoute<RouteProp<GuideStackParamList, "GuideDetailScreen">>();
@@ -19,12 +24,12 @@ function GuideDetailScreen() {
 
   const [currentTab, setCurrentTab] = useState<string>("정보");
 
-  const scrollView = useRef<ScrollView>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
   const layoutWidth = Dimensions.get("window").width;
 
   const handleTabPress = (tabName: string, index: number) => {
     setCurrentTab(tabName);
-    scrollView.current?.scrollTo({ x: index * layoutWidth, animated: true });
+    scrollViewRef.current?.scrollTo({ x: index * layoutWidth, animated: true });
   };
 
   const tabs = ["정보", "플랜", "서비스", "일정", "리뷰"];
@@ -87,6 +92,21 @@ function GuideDetailScreen() {
             </Pressable>
           ))}
         </View>
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ width: "500%" }}
+          onScroll={handlePageChange}
+          nestedScrollEnabled={true}
+        >
+          <GuideDetailInfo guide={guide} />
+          <GuideDetailPlan />
+          <GuideDetailService />
+          <GuideDetailSchedule />
+          <GuideDetailReview />
+        </ScrollView>
       </ScrollView>
     </Screen>
   );
