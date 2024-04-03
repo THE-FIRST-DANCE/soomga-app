@@ -1,5 +1,4 @@
-import Screen from "@/components/Screen";
-import Colors from "@/modules/Color";
+// Libraries
 import React, { useRef, useState } from "react";
 import {
   Alert,
@@ -19,12 +18,22 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { SosStackParamList } from "@/stacks/SosStack";
 import * as ImagePicker from "expo-image-picker";
 import { useSetRecoilState } from "recoil";
-import { SosContent } from "@/state/store/SosRecoil";
+
+// Modules
+import Colors from "@/modules/Color";
 import { Status } from "@/modules/Status";
+
+// Interfaces
+import { SosStackParamList } from "@/stacks/SosStack";
+
+// Components
 import GlobalModal from "@/components/Modal";
+import Screen from "@/components/Screen";
+
+// State
+import { SosContent } from "@/state/store/SosRecoil";
 
 const SosCreateScreen = () => {
   type SosEditScreenRouteProp = RouteProp<SosStackParamList, "SosCreateScreen">;

@@ -1,4 +1,4 @@
-import Colors from "@/modules/Color";
+// Libraries
 import React, { useState } from "react";
 import {
   Alert,
@@ -10,17 +10,31 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { SosType } from "@/interface/Sos";
-import useFormatDate from "@/hooks/useFormatDate";
-import { EXPO_PUBLIC_GOOGLE_CLIENT_ID } from "@env";
-import GlobalModal from "../Modal";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addSosComment, deleteSos, editSosProcess } from "@/api/SosApi";
-import FeedComment from "./FeedComment";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { SosStackParamList } from "@/stacks/SosStack";
+
+// Config
+import { EXPO_PUBLIC_GOOGLE_CLIENT_ID } from "@env";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
+import { addSosComment, deleteSos, editSosProcess } from "@/api/SosApi";
+
+// Interfaces
+import { SosType } from "@/interface/Sos";
 import { BoardProcess } from "@/interface/share";
+import { SosStackParamList } from "@/stacks/SosStack";
+
+// Hooks
+import useFormatDate from "@/hooks/useFormatDate";
+
+// Components
+import GlobalModal from "../Modal";
+import FeedComment from "./FeedComment";
+import FeedSettingModal from "./FeedSettingModal";
 
 const FeedItem = ({ item }: { item: SosType }) => {
   const date = useFormatDate({ date: item.createdAt });
@@ -106,99 +120,25 @@ const FeedItem = ({ item }: { item: SosType }) => {
       </View>
 
       {/* 설정 버튼 */}
-      <TouchableOpacity
-        style={styles.settingButton}
-        onPress={() => setOpenSetting(true)}
-      >
-        <MaterialCommunityIcons name="dots-vertical" size={24} />
-
-        {/* 설정 모달 */}
-        <GlobalModal
-          type="bottom"
-          animation="slide"
-          visible={openSetting}
-          setVisible={setOpenSetting}
+      {item.author.id === 2 && (
+        <TouchableOpacity
+          style={styles.settingButton}
+          onPress={() => setOpenSetting(true)}
         >
-          <View style={styles.settingModal}>
-            <TouchableOpacity onPress={handleEdit} style={styles.iconText}>
-              <MaterialCommunityIcons
-                name="pencil-outline"
-                size={32}
-                color={Colors.GRAY_DARK}
-              />
-              <Text style={styles.settingText}>수정하기</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleDelete} style={styles.iconText}>
-              <MaterialCommunityIcons
-                name="delete-outline"
-                size={32}
-                color={Colors.DANGER}
-              />
-              <Text
-                style={[
-                  styles.settingText,
-                  {
-                    color: Colors.DANGER,
-                  },
-                ]}
-              >
-                게시물 삭제
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                setOpenProcess(true);
-              }}
-              style={styles.iconText}
-            >
-              <MaterialCommunityIcons
-                name="earth"
-                size={32}
-                color={Colors.GRAY_DARK}
-              />
-              <Text style={styles.settingText}>상태 변경하기</Text>
-            </TouchableOpacity>
+          <MaterialCommunityIcons name="dots-vertical" size={24} />
 
-            {/* 상태 변경 모달 */}
-            <GlobalModal
-              type="bottom"
-              animation="slide"
-              visible={openProcess}
-              setVisible={setOpenProcess}
-            >
-              <View style={styles.settingModal}>
-                <TouchableOpacity
-                  onPress={() => handleProcess(BoardProcess.ACTIVE)}
-                  style={styles.process}
-                >
-                  <Text style={styles.processText}>대기중</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleProcess(BoardProcess.PROCESSING)}
-                  style={styles.process}
-                >
-                  <Text style={styles.processText}>진행중</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => handleProcess(BoardProcess.COMPLETE)}
-                  style={styles.process}
-                >
-                  <Text
-                    style={[
-                      styles.processText,
-                      {
-                        color: Colors.GREEN,
-                      },
-                    ]}
-                  >
-                    완료
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </GlobalModal>
-          </View>
-        </GlobalModal>
-      </TouchableOpacity>
+          <FeedSettingModal
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            handleProcess={handleProcess}
+            openSetting={openSetting}
+            setOpenSetting={setOpenSetting}
+            openProcess={openProcess}
+            setOpenProcess={setOpenProcess}
+            BoardProcess={BoardProcess}
+          />
+        </TouchableOpacity>
+      )}
 
       {/* 피드 내용 */}
       <View style={styles.feedContent}>
@@ -397,29 +337,5 @@ const styles = StyleSheet.create({
     position: "absolute",
     right: 15,
     top: 15,
-  },
-  settingModal: {
-    position: "relative",
-    minHeight: 100,
-    padding: 10,
-    gap: 20,
-  },
-  iconText: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 15,
-  },
-  settingText: {
-    fontSize: 18,
-  },
-  process: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: Colors.GRAY_MEDIUM,
-  },
-  processText: {
-    fontSize: 20,
   },
 });
