@@ -1,4 +1,4 @@
-import Colors from "@/modules/Color";
+// Libraries
 import React, { useState } from "react";
 import {
   Alert,
@@ -10,17 +10,30 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-import { SosType } from "@/interface/Sos";
-import useFormatDate from "@/hooks/useFormatDate";
-import { EXPO_PUBLIC_GOOGLE_CLIENT_ID } from "@env";
-import GlobalModal from "../Modal";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addSosComment, deleteSos, editSosProcess } from "@/api/SosApi";
-import FeedComment from "./FeedComment";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { SosStackParamList } from "@/stacks/SosStack";
+
+// Config
+import { EXPO_PUBLIC_GOOGLE_CLIENT_ID } from "@env";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
+import { addSosComment, deleteSos, editSosProcess } from "@/api/SosApi";
+
+// Interfaces
+import { SosType } from "@/interface/Sos";
 import { BoardProcess } from "@/interface/share";
+import { SosStackParamList } from "@/stacks/SosStack";
+
+// Hooks
+import useFormatDate from "@/hooks/useFormatDate";
+
+// Components
+import GlobalModal from "../Modal";
+import FeedComment from "./FeedComment";
 import FeedSettingModal from "./FeedSettingModal";
 
 const FeedItem = ({ item }: { item: SosType }) => {

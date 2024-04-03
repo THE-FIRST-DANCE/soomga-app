@@ -1,7 +1,7 @@
-import Screen from "@/components/Screen";
-import FeedItem from "@/components/sos/FeedItem";
+// Libraries
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   RefreshControl,
   StyleSheet,
@@ -9,19 +9,28 @@ import {
   View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import Colors from "@/modules/Color";
 import {
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { SosStackParamList } from "@/stacks/SosStack";
 import { useInfiniteQuery } from "@tanstack/react-query";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
 import { getSos } from "@/api/SosApi";
+
+// Interfaces
 import { SosType } from "@/interface/Sos";
-import { ActivityIndicator } from "react-native-paper";
+import { SosStackParamList } from "@/stacks/SosStack";
 import { MainStackParamList } from "@/stacks/MainStack";
+
+// Components
+import FeedItem from "@/components/sos/FeedItem";
+import Screen from "@/components/Screen";
 
 const SosScreen = () => {
   const [sosList, setSosList] = useState<SosType[]>([]);

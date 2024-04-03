@@ -1,13 +1,7 @@
+// Libraries
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import Screen from "@/components/Screen";
-import GoogleMap from "@/components/plan/GoogleMap";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useRecoilState } from "recoil";
-import { SosContent } from "@/state/store/SosRecoil";
-import Colors from "@/modules/Color";
-import { addSos, editSos } from "@/api/SosApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   NavigationProp,
@@ -15,8 +9,25 @@ import {
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
+import * as Location from "expo-location";
+import { useRecoilState } from "recoil";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
+import { addSos, editSos } from "@/api/SosApi";
+
+// Interfaces
 import { SosStackParamList } from "@/stacks/SosStack";
+
+// Components
+import GoogleMap from "@/components/plan/GoogleMap";
 import LoadingScreen from "@/components/Loading";
+import Screen from "@/components/Screen";
+
+// State
+import { SosContent } from "@/state/store/SosRecoil";
 
 const SosMapScreen = () => {
   const [location, setLocation] = useState<{

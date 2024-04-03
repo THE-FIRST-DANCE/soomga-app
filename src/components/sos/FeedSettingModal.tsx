@@ -1,7 +1,12 @@
-import GlobalModal from "../Modal";
+// Libraries
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+
+// Modules
 import Colors from "@/modules/Color";
+
+// Components
+import GlobalModal from "../Modal";
 
 interface FeedSettingModalProps {
   handleEdit: () => void;
