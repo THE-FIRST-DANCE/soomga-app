@@ -18,18 +18,35 @@ import { SimpleLineIcons, MaterialIcons } from "@expo/vector-icons";
 export const checkFollow = ({
   isFollowed,
   setIsFollowed,
+  guideName,
 }: {
   isFollowed: boolean;
   setIsFollowed: (Value: boolean) => void;
+  guideName: string;
 }) => {
-  Alert.alert("가이드 팔로우", "가이드 팔로우를 취소하시겠습니까?", [
-    {
-      text: "취소",
-      onPress: () => console.log("Cancel Pressed"),
-      style: "cancel",
-    },
-    { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
-  ]);
+  if (!isFollowed) {
+    Alert.alert("가이드 팔로우", `${guideName} 가이드를 팔로우하시겠습니까?`, [
+      {
+        text: "취소",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
+    ]);
+  } else {
+    Alert.alert(
+      "가이드 팔로우 취소",
+      `${guideName} 가이드 팔로우를 취소하시겠습니까?`,
+      [
+        {
+          text: "취소",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
+      ]
+    );
+  }
 };
 
 function GuideListPlan({ guide }: { guide: GuideType }) {
@@ -85,7 +102,7 @@ function GuideListPlan({ guide }: { guide: GuideType }) {
       {/* 팔로우 버튼 */}
       <Pressable
         onPress={() => {
-          checkFollow({ isFollowed, setIsFollowed });
+          checkFollow({ isFollowed, setIsFollowed, guideName: guide.name });
         }}
         style={{
           ...styles.followButton,

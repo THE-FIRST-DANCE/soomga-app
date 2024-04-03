@@ -203,7 +203,7 @@ function GuideListInfo({
       {/* 팔로우 버튼 */}
       <Pressable
         onPress={() => {
-          checkFollow({ isFollowed, setIsFollowed });
+          checkFollow({ isFollowed, setIsFollowed, guideName: guide.name });
         }}
         style={{
           ...styles.followButton,

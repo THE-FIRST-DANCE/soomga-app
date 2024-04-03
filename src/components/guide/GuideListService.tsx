@@ -52,7 +52,7 @@ function GuideListService({ guide }: { guide: GuideType }) {
       {/* 팔로우 버튼 */}
       <Pressable
         onPress={() => {
-          checkFollow({ isFollowed, setIsFollowed });
+          checkFollow({ isFollowed, setIsFollowed, guideName: guide.name });
         }}
         style={{
           ...styles.followButton,
