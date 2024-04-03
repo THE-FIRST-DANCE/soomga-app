@@ -113,7 +113,7 @@ function GuideDetailScreen() {
         </ScrollView>
       </ScrollView>
       <ToolButton onPress={() => setIsToolModalVisible(!isToolModalVisible)} />
-      {isToolModalVisible && <ToolModal />}
+      {isToolModalVisible && <ToolModal guide={guide} />}
     </Screen>
   );
 }
