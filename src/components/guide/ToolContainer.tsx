@@ -1,24 +1,11 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  Animated,
-  ViewStyle,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Feather, Ionicons, AntDesign } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { checkFollow } from "./GuideListPlan";
 import { GuideType } from "@/data/guides";
 
-function ToolContainer({
-  onPress,
-  guide,
-}: {
-  onPress: () => void;
-  guide: GuideType;
-}) {
+function ToolContainer({ guide }: { guide: GuideType }) {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
@@ -50,7 +37,7 @@ function ToolContainer({
           </View>
           <View style={styles.modalItems}>
             <Text style={styles.modalItemCaption}>채팅하기</Text>
-            <Pressable style={styles.buttonContainer} onPress={onPress}>
+            <Pressable style={styles.buttonContainer}>
               <Ionicons
                 name="chatbubbles-outline"
                 size={28}
@@ -60,7 +47,7 @@ function ToolContainer({
           </View>
           <View style={styles.modalItems}>
             <Text style={styles.modalItemCaption}>신고하기</Text>
-            <Pressable style={styles.buttonContainer} onPress={onPress}>
+            <Pressable style={styles.buttonContainer}>
               <Ionicons
                 name="warning-outline"
                 size={28}

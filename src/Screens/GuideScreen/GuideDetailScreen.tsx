@@ -17,7 +17,7 @@ import GuideDetailPlan from "@/components/guide/GuideDetailPlan";
 import GuideDetailService from "@/components/guide/GuideDetailService";
 import GuideDetailSchedule from "@/components/guide/GuideDetailSchedule";
 import GuideDetailReview from "@/components/guide/GuideDetailReview";
-import ToolButton, { ToolModal } from "@/components/guide/ToolButton";
+import ToolContainer from "@/components/guide/ToolContainer";
 
 function GuideDetailScreen() {
   const route = useRoute<RouteProp<GuideStackParamList, "GuideDetailScreen">>();
@@ -46,8 +46,6 @@ function GuideDetailScreen() {
       }
     });
   };
-
-  const [isToolModalVisible, setIsToolModalVisible] = useState<boolean>(false);
 
   return (
     <Screen>
@@ -112,8 +110,7 @@ function GuideDetailScreen() {
           <GuideDetailReview />
         </ScrollView>
       </ScrollView>
-      <ToolButton onPress={() => setIsToolModalVisible(!isToolModalVisible)} />
-      {isToolModalVisible && <ToolModal guide={guide} />}
+      <ToolContainer guide={guide} />
     </Screen>
   );
 }
