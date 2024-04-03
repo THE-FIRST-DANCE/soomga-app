@@ -10,18 +10,27 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { SosStackParamList } from "@/stacks/SosStack";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getSos } from "@/api/SosApi";
 import { SosType } from "@/interface/Sos";
 import { ActivityIndicator } from "react-native-paper";
+import { MainStackParamList } from "@/stacks/MainStack";
 
 const SosScreen = () => {
   const [sosList, setSosList] = useState<SosType[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const navigation = useNavigation<NavigationProp<SosStackParamList>>();
+  type SosScreenRouteProp = RouteProp<MainStackParamList, "SosStack">;
+  const route = useRoute<SosScreenRouteProp>();
+  const cursor = route.params?.cursor;
 
   const handleCreate = () => {
     navigation.navigate("SosCreateScreen", {});
@@ -31,7 +40,7 @@ const SosScreen = () => {
     useInfiniteQuery({
       queryKey: ["sos"],
       queryFn: getSos,
-      initialPageParam: null,
+      initialPageParam: cursor,
       getNextPageParam: (lastPage) => {
         if (lastPage.nextCursor) {
           return lastPage.nextCursor;
