@@ -81,7 +81,7 @@ export const usePlanEdit = ({ data, info, transport }: P) => {
       info: info,
     });
 
-    navigation.navigate("PlanConfirmScreen");
+    navigation.navigate("PlanConfirmScreen", {});
   };
 
   // 여행지 박스에서 리스트에 추가
