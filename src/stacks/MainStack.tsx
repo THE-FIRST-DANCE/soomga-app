@@ -5,6 +5,7 @@ import SosStack from "./SosStack";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
+import TouristStack from "./TouristStack";
 
 export type MainStackParamList = {
   MainTabs: undefined;
@@ -13,6 +14,7 @@ export type MainStackParamList = {
   SosStack: {
     cursor?: number;
   };
+  TouristStack: undefined;
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -47,6 +49,7 @@ export default function MainStack() {
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="ScheduleStack" component={ScheduleStack} />
       <Stack.Screen name="SosStack" component={SosStack} />
+      <Stack.Screen name="TouristStack" component={TouristStack} />
     </Stack.Navigator>
   );
 }
