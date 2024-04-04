@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import * as Location from "expo-location";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { MainStackParamList } from "@/stacks/MainStack";
 
 /* Pages */
 import Place from "@placeMain/Place";
@@ -59,6 +61,9 @@ function Places() {
       stars: 4.52,
     },
   ];
+
+  /* 네비게이션 */
+  const navigation = useNavigation<NavigationProp<MainStackParamList>>();
 
   /* 비동기 작업 진행 여부 변수 */
   const [isLoading, setIsLoading] = useState(true);
@@ -116,7 +121,11 @@ function Places() {
         }}
       >
         <Text style={styles.title}>관광지 추천</Text>
-        <TouchableOpacity activeOpacity={0.5} style={styles.moreButton}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("TouristStack")}
+          activeOpacity={0.5}
+          style={styles.moreButton}
+        >
           <Text>+ 더보기</Text>
         </TouchableOpacity>
       </View>
