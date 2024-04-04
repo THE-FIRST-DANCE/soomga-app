@@ -13,7 +13,7 @@ export default GuideDetailSchedule;
 const styles = StyleSheet.create({
   container: {
     width: "20%",
-    height: 200,
+    height: 500,
     borderWidth: 1,
   },
 });
