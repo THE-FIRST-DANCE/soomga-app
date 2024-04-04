@@ -1,9 +1,30 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import { Plans } from "@/interface/Plan";
+import { useEffect, useState } from "react";
+import { getPlanList } from "@/api/PlanApi";
+import { useQuery } from "@tanstack/react-query";
+import PlanItem from "../plan/PlanItem";
 
 function GuideDetailPlan() {
+  const [plans, setPlans] = useState<Plans[]>([]);
+
+  const { data } = useQuery({
+    queryKey: ["plans"],
+    queryFn: () => getPlanList(1),
+  });
+
+  useEffect(() => {
+    if (data) {
+      setPlans(data);
+    }
+    console.log(plans);
+  }, [data]);
+
   return (
     <View style={styles.container}>
-      <Text>GuideDetailPlan</Text>
+      {plans.map((plan) => (
+        <PlanItem plan={plan} />
+      ))}
     </View>
   );
 }
@@ -13,7 +34,8 @@ export default GuideDetailPlan;
 const styles = StyleSheet.create({
   container: {
     width: "20%",
-    height: 200,
-    borderWidth: 1,
+    height: 500,
+    paddingVertical: 10,
+    alignItems: "center",
   },
 });
