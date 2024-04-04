@@ -21,6 +21,7 @@ import { GuideStackParamList } from "@/stacks/GuideStack";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export const TempBar = ({
   progress,
@@ -119,8 +120,7 @@ function GuideListInfo({
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.9}
+    <TouchableWithoutFeedback
       style={styles.container}
       onPress={() =>
         navigation.navigate("GuideDetailScreen", { guide, userTags })
@@ -220,7 +220,7 @@ function GuideListInfo({
           <SimpleLineIcons name="user-follow" size={21} color={Colors.BLACK} />
         )}
       </Pressable>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
   tagsContainer: {
     flexDirection: "row",
     marginTop: 10,
+    zIndex: 1000,
   },
   /* 가이드 팔로우 버튼 */
   followButton: {
