@@ -4,7 +4,7 @@ import Colors from "@/modules/Color";
 import { G, Path, Rect, Svg } from "react-native-svg";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import DropDownPicker from "react-native-dropdown-picker";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 
 interface GuideReview {
   id: number;
