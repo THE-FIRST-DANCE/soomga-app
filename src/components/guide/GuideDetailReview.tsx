@@ -1,10 +1,10 @@
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
+import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
+import { AntDesign, Entypo } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
 import { G, Path, Rect, Svg } from "react-native-svg";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 
 interface GuideReview {
   id: number;
@@ -25,7 +25,7 @@ const reviewsWithGuideInfo: GuideReview[] = [
     location_score: 4,
     content:
       "일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요!",
-    created_at: new Date("2024-01-02"),
+    created_at: new Date("2024-04-02"),
     updated_at: new Date(),
     writer_name: "うきょう",
   },
@@ -35,7 +35,7 @@ const reviewsWithGuideInfo: GuideReview[] = [
     kindness_score: 4,
     location_score: 5,
     content: "일본어 잘해요!",
-    created_at: new Date("2024-01-03"),
+    created_at: new Date("2024-04-03"),
     updated_at: new Date(),
     writer_name: "けんた",
   },
@@ -45,7 +45,7 @@ const reviewsWithGuideInfo: GuideReview[] = [
     kindness_score: 5,
     location_score: 5,
     content: "일본어 잘해요!",
-    created_at: new Date("2024-01-04"),
+    created_at: new Date("2024-04-04"),
     updated_at: new Date(),
     writer_name: "ゆうき",
   },
@@ -55,7 +55,7 @@ const reviewsWithGuideInfo: GuideReview[] = [
     kindness_score: 3,
     location_score: 4,
     content: "일본어 잘해요!",
-    created_at: new Date("2024-01-05"),
+    created_at: new Date("2024-04-05"),
     updated_at: new Date(),
     writer_name: "ほたか",
   },
@@ -126,7 +126,47 @@ const ReviewComponent = ({ review }: { review: GuideReview }) => {
 };
 
 function GuideDetailReview() {
-  const [reviews, setReviews] = useState<GuideReview[]>(reviewsWithGuideInfo);
+  /* 리뷰 필터 종료 날짜 */
+  const [endDate, setEndDate] = useState<Date>(new Date());
+  const [isEndDatePickerVisible, setIsEndDatePickerVisible] = useState(false);
+
+  /* 리뷰 필터 시작 날짜 */
+  const [startDate, setStartDate] = useState<Date>(
+    new Date(endDate.getTime() - 24 * 60 * 60 * 1000)
+  );
+  const [isStartDatePickerVisible, setIsStartDatePickerVisible] =
+    useState(false);
+
+  /* 시작 날짜 선택 */
+  const onStartDateConfirm = (selectedDate: Date) => {
+    // 날짜 또는 시간 선택 시
+    setIsStartDatePickerVisible(false); // 모달 close
+    setStartDate(selectedDate);
+  };
+
+  /* 종료 날짜 선택 */
+  const onEndDateConfirm = (selectedDate: Date) => {
+    // 날짜 또는 시간 선택 시
+    setIsEndDatePickerVisible(false); // 모달 close
+    setEndDate(selectedDate);
+  };
+
+  /* 시작 날짜 모달 닫기 */
+  const onStartCancel = () => {
+    // 취소 시
+    setIsStartDatePickerVisible(false); // 모달 close
+  };
+
+  /* 종료 날짜 모달 닫기 */
+  const onEndCancel = () => {
+    setIsEndDatePickerVisible(false);
+  };
+
+  const [reviews, setReviews] = useState<GuideReview[]>(
+    reviewsWithGuideInfo.sort(
+      (a, b) => b.created_at.getTime() - a.created_at.getTime()
+    )
+  );
   const [open, setOpen] = useState<boolean>(false);
   const [items, setItems] = useState<{ label: string; value: number }[]>([
     { label: "최신순", value: 1 },
@@ -148,7 +188,7 @@ function GuideDetailReview() {
         break;
     }
 
-    const newReviews = [...reviewsWithGuideInfo];
+    const newReviews = [...reviews];
 
     switch (currentValue) {
       case 1: {
@@ -180,16 +220,66 @@ function GuideDetailReview() {
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <View style={{ flexDirection: "row", marginVertical: 20 }}>
+      <View style={styles.dateTimePickerContainer}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Pressable
+            style={styles.dateTimePickerStyle}
+            onPress={() =>
+              setIsStartDatePickerVisible(!isStartDatePickerVisible)
+            }
+          >
+            <Entypo name="calendar" size={20} color="black" />
+            <Text style={{ fontSize: 15, marginLeft: 10 }}>
+              {formatDate(startDate)}
+            </Text>
+          </Pressable>
+          <Text style={{ marginHorizontal: 10, fontSize: 25 }}>~</Text>
+          <Pressable
+            style={styles.dateTimePickerStyle}
+            onPress={() => setIsEndDatePickerVisible(!isEndDatePickerVisible)}
+          >
+            <Entypo name="calendar" size={20} color="black" />
+            <Text style={{ fontSize: 15, marginLeft: 10 }}>
+              {formatDate(endDate)}
+            </Text>
+          </Pressable>
+          <DateTimePicker
+            isVisible={isStartDatePickerVisible}
+            mode="date"
+            onConfirm={onStartDateConfirm}
+            onCancel={onStartCancel}
+          />
+          <DateTimePicker
+            isVisible={isEndDatePickerVisible}
+            mode="date"
+            onConfirm={onEndDateConfirm}
+            onCancel={onEndCancel}
+          />
+        </View>
+        <Pressable
+          style={styles.dateConfirmButton}
+          onPress={() => {
+            const newReviews = reviewsWithGuideInfo.filter((review) => {
+              return (
+                review.created_at.getTime() >=
+                  startDate.getTime() - 24 * 60 * 60 * 1000 &&
+                review.created_at.getTime() <= endDate.getTime()
+              );
+            });
+
+            console.log(newReviews);
+            setReviews(newReviews);
+          }}
+        >
+          <Text style={{ fontWeight: "bold", color: Colors.WHITE }}>확인</Text>
+        </Pressable>
+      </View>
+      <View style={styles.reviewTitleContainer}>
+        <View style={{ flexDirection: "row", marginVertical: 10 }}>
           <PencilSvg />
-          <Text style={{ fontSize: 20 }}>{reviews.length}개의 리뷰</Text>
+          <Text style={{ fontSize: 20, marginLeft: 10 }}>
+            {reviews.length}개의 리뷰
+          </Text>
         </View>
         <View>
           <DropDownPicker
@@ -200,7 +290,7 @@ function GuideDetailReview() {
             setValue={setCurrentValue}
             setItems={setItems}
             onChangeValue={() => onChange(currentValue)}
-            style={styles.dropdownStyle}
+            style={styles.dropDownStyle}
             dropDownContainerStyle={styles.dropDownContainerStyle}
             listItemContainerStyle={styles.listItemContainerStyle}
           />
@@ -209,6 +299,7 @@ function GuideDetailReview() {
       <ScrollView
         nestedScrollEnabled={true}
         contentContainerStyle={{ marginTop: 10 }}
+        showsVerticalScrollIndicator={false}
       >
         {reviews.map((review, index) => (
           <ReviewComponent key={index} review={review} />
@@ -226,10 +317,34 @@ const styles = StyleSheet.create({
     height: 500,
     paddingHorizontal: 10,
   },
-  tabBarText: {
-    fontSize: 20,
-    marginRight: 10,
-    fontWeight: "bold",
+  dateTimePickerContainer: {
+    flexDirection: "row",
+    width: "100%",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  dateTimePickerStyle: {
+    width: 130,
+    height: 30,
+    borderBottomWidth: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dateConfirmButton: {
+    width: 60,
+    height: 30,
+    borderRadius: 10,
+    backgroundColor: Colors.BASKETBALL_ORANGE,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  reviewTitleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 20,
   },
   reviewContainer: {
     width: "100%",
@@ -242,7 +357,7 @@ const styles = StyleSheet.create({
   reviewInfoText: { marginHorizontal: 5, fontSize: 15 },
   reviewScoreText: { marginRight: 5, fontSize: 10 },
   reviewContentText: { marginTop: 10, fontSize: 16 },
-  dropdownStyle: {
+  dropDownStyle: {
     width: 120,
     height: 40,
     borderWidth: 0,
