@@ -58,13 +58,21 @@ function ToolContainer({ guide }: { guide: GuideType }) {
         </View>
       )}
       <Pressable
-        style={[styles.buttonContainer, { alignContent: "flex-end" }]}
+        style={[
+          styles.buttonContainer,
+          {
+            alignContent: "flex-end",
+            backgroundColor: isModalVisible
+              ? Colors.BASKETBALL_ORANGE
+              : Colors.WHITE,
+          },
+        ]}
         onPress={() => setIsModalVisible(!isModalVisible)}
       >
         {isModalVisible ? (
-          <Ionicons name="close" size={35} color={Colors.BLACK} />
+          <Ionicons name="close" size={45} color={Colors.WHITE} />
         ) : (
-          <Feather name="menu" size={28} color={Colors.BLACK} />
+          <Feather name="menu" size={35} color={Colors.BLACK} />
         )}
       </Pressable>
     </View>
