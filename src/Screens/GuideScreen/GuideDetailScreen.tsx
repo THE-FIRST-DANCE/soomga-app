@@ -49,7 +49,7 @@ function GuideDetailScreen() {
 
   return (
     <Screen>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           <ImageBackground source={{ uri: guide.photo }} style={styles.image}>
             <View style={styles.infoContainer}>
