@@ -11,7 +11,7 @@ import {
   Pressable,
 } from "react-native";
 import { calculateAgeRange, TempBar } from "@/components/guide/GuideListInfo";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GuideDetailInfo from "@/components/guide/GuideDetailinfo";
 import GuideDetailPlan from "@/components/guide/GuideDetailPlan";
 import GuideDetailService from "@/components/guide/GuideDetailService";
@@ -21,7 +21,7 @@ import ToolContainer from "@/components/guide/ToolContainer";
 
 function GuideDetailScreen() {
   const route = useRoute<RouteProp<GuideStackParamList, "GuideDetailScreen">>();
-  const { guide } = route.params;
+  const { guide, initialTab } = route.params;
 
   const [currentTab, setCurrentTab] = useState<string>("정보");
 
@@ -46,6 +46,12 @@ function GuideDetailScreen() {
       }
     });
   };
+
+  useEffect(() => {
+    const index = tabs.indexOf(initialTab);
+    setCurrentTab(initialTab);
+    scrollViewRef.current?.scrollTo({ x: index * layoutWidth, animated: true });
+  }, [initialTab]);
 
   return (
     <Screen>
