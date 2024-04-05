@@ -1,4 +1,4 @@
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { Plans } from "@/interface/Plan";
 import { useEffect, useState } from "react";
 import { getPlanList } from "@/api/PlanApi";
@@ -22,9 +22,15 @@ function GuideDetailPlan() {
 
   return (
     <View style={styles.container}>
-      {plans.map((plan) => (
-        <PlanItem plan={plan} />
-      ))}
+      {data ? (
+        plans.map((plan) => <PlanItem plan={plan} />)
+      ) : (
+        <View style={styles.noPlanContainer}>
+          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+            플랜이 없습니다.
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
@@ -37,5 +43,11 @@ const styles = StyleSheet.create({
     height: 500,
     paddingVertical: 10,
     alignItems: "center",
+  },
+  noPlanContainer: {
+    width: "100%",
+    height: "50%",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
