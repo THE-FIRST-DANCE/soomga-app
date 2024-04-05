@@ -41,8 +41,6 @@ function GuideDetailSchedule() {
     if (data) {
       setAllEvents(data);
     }
-
-    console.log(allEvents);
   }, [data]);
 
   useEffect(() => {

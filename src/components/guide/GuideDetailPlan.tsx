@@ -17,7 +17,6 @@ function GuideDetailPlan() {
     if (data) {
       setPlans(data);
     }
-    console.log(plans);
   }, [data]);
 
   return (
