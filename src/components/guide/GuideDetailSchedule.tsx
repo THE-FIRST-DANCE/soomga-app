@@ -1,4 +1,5 @@
 import { getEvent } from "@/api/EventApi";
+import useParsedMarkers from "@/hooks/schedule/useParsedMarkers";
 import { EventData } from "@/interface/Event";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
@@ -16,11 +17,10 @@ function GuideDetailSchedule() {
 
   const [allEvents, setAllEvents] = useState<EventData[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventData[]>([]);
-  const markers = {
-    [selectedDate]: {
-      selected: true,
-    },
-  };
+  const { markers } = useParsedMarkers({
+    allEvents,
+    selectedDate,
+  });
 
   // 이벤트 데이터 가져오기
   const { data } = useQuery({
