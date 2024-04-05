@@ -6,9 +6,9 @@ import {
   Image,
   Pressable,
   ScrollView,
-  TouchableOpacity,
   ViewStyle,
 } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
 import { styles as tagStyle } from "@main/Tags";
@@ -21,7 +21,6 @@ import { GuideStackParamList } from "@/stacks/GuideStack";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export const TempBar = ({
   progress,
@@ -123,7 +122,11 @@ function GuideListInfo({
     <TouchableWithoutFeedback
       style={styles.container}
       onPress={() =>
-        navigation.navigate("GuideDetailScreen", { guide, userTags })
+        navigation.navigate("GuideDetailScreen", {
+          guide,
+          userTags,
+          initialTab: "정보",
+        })
       }
     >
       <View style={{ flexDirection: "row" }}>
