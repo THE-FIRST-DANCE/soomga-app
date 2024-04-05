@@ -112,13 +112,13 @@ function GuideListScreen() {
         {/* 가이드 플랜 */}
         <ScrollView showsVerticalScrollIndicator={false}>
           {guidesToRender.map((guide, index) => (
-            <GuideListPlan key={index} guide={guide} />
+            <GuideListPlan key={index} guide={guide} userTags={userTags} />
           ))}
         </ScrollView>
         {/* 가이드 서비스 */}
         <ScrollView showsVerticalScrollIndicator={false}>
           {guidesToRender.map((guide, index) => (
-            <GuideListService key={index} guide={guide} />
+            <GuideListService key={index} guide={guide} userTags={userTags} />
           ))}
         </ScrollView>
       </ScrollView>
