@@ -1,15 +1,6 @@
-import Screen from "@/components/Screen";
-import { EventData } from "@/interface/Event";
-import Colors from "@/modules/Color";
-import {
-  addDays,
-  differenceInDays,
-  endOfDay,
-  format,
-  isWithinInterval,
-  startOfDay,
-} from "date-fns";
-import { useEffect, useMemo, useState } from "react";
+// Libraries
+import { endOfDay, format, isWithinInterval, startOfDay } from "date-fns";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   StyleSheet,
@@ -17,13 +8,24 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Calendar } from "react-native-calendars";
-import { MarkedDates } from "react-native-calendars/src/types";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
-import { getEvent } from "@/api/EventApi";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+
+// Components
+import Screen from "@/components/Screen";
+
+// Interface
+import { EventData } from "@/interface/Event";
 import { ScheduleStackParamList } from "@/stacks/ScheduleStack";
+import Colors from "@/modules/Color";
+
+// API
+import { getEvent } from "@/api/EventApi";
+
+// Hooks
+import useParsedMarkers from "@/hooks/schedule/useParsedMarkers";
 
 const ScheduleScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -31,7 +33,10 @@ const ScheduleScreen = () => {
   );
   const [allEvents, setAllEvents] = useState<EventData[]>([]);
   const [filteredEvents, setFilteredEvents] = useState<EventData[]>([]);
-  const [markers, setMarkers] = useState<MarkedDates>({});
+  const { markers } = useParsedMarkers({
+    allEvents,
+    selectedDate,
+  });
 
   const navigation = useNavigation<NavigationProp<ScheduleStackParamList>>();
 
@@ -46,96 +51,6 @@ const ScheduleScreen = () => {
       setAllEvents(data);
     }
   }, [data]);
-
-  // 이벤트를 날짜별로 파싱
-  const parsedMarkers = useMemo<MarkedDates>(() => {
-    const initialValue: MarkedDates = {};
-    const emptyPeriod = { color: "transparent" };
-
-    return (
-      allEvents
-        ?.sort((a, b) => {
-          // Filter larger date ranges to be top-most.
-          const aStart = startOfDay(new Date(a.start));
-          const aEnd = endOfDay(new Date(a.end));
-          const bStart = startOfDay(new Date(b.start));
-          const bEnd = endOfDay(new Date(b.end));
-
-          return (
-            differenceInDays(bEnd, bStart) - differenceInDays(aEnd, aStart)
-          );
-        })
-        .reduce((prev, curr) => {
-          const color = Colors.PRIMARY;
-          const start = startOfDay(new Date(curr.start));
-          const end = endOfDay(new Date(curr.end));
-          const totalDays = differenceInDays(end, start) + 1;
-
-          let rowIndex = 0;
-          let freeRowFound = false;
-          while (!freeRowFound) {
-            freeRowFound = true;
-            for (let i = 0; i < totalDays; i++) {
-              const date = addDays(start, i);
-              const dateStr = format(date, "yyyy-MM-dd");
-
-              const period = prev[dateStr]?.periods?.[rowIndex];
-              if (period) {
-                if (isWithinInterval(date, { start, end })) {
-                  rowIndex++;
-                  freeRowFound = false;
-                  break;
-                }
-              }
-            }
-          }
-
-          for (let i = 0; i < totalDays; i++) {
-            const date = addDays(start, i);
-            const dateStr = format(date, "yyyy-MM-dd");
-
-            let marking = prev[dateStr];
-            if (marking === undefined) {
-              marking = {};
-            }
-
-            if (marking.periods === undefined) {
-              marking.periods = [];
-            }
-
-            if (marking.periods.length <= rowIndex) {
-              marking.periods = marking.periods.concat(
-                [...Array(rowIndex + 1 - marking.periods.length)].map(() => ({
-                  ...emptyPeriod,
-                }))
-              );
-            }
-
-            marking.periods[rowIndex] = {
-              color: color,
-              startingDay: i === 0,
-              endingDay: i === totalDays - 1,
-            };
-
-            prev[dateStr] = marking;
-          }
-
-          return prev;
-        }, initialValue) ?? initialValue
-    );
-  }, [allEvents]);
-
-  useEffect(() => {
-    const updateMarkers = {
-      ...parsedMarkers,
-      [selectedDate]: {
-        ...parsedMarkers[selectedDate],
-        selected: true,
-      },
-    };
-
-    setMarkers(updateMarkers);
-  }, [parsedMarkers, selectedDate]);
 
   useEffect(() => {
     filterEventsByDate(selectedDate);
