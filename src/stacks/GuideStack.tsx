@@ -19,6 +19,7 @@ export type GuideStackParamList = {
   GuideDetailScreen: {
     guide: GuideType;
     userTags: TagType[];
+    initialTab: string;
   };
 };
 
