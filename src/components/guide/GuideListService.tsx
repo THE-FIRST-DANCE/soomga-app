@@ -28,23 +28,25 @@ function GuideListService({ guide }: { guide: GuideType }) {
             n시간 전 접속
           </Text>
         </View>
-        <View style={styles.planContainer}>
-          <View style={styles.plan}>
-            <Text style={styles.planTitle}>서비스 1</Text>
-            <Text style={styles.planDescription}>
-              Service's description....
-            </Text>
+        <View style={styles.serviceContainer}>
+          <View style={{ flexDirection: "row" }}>
+            <Image
+              style={styles.serviceImage}
+              source={require("@/assets/seoul.png")}
+            />
+            <Image
+              style={styles.serviceImage}
+              source={require("@/assets/busan.png")}
+            />
+            <Image
+              style={styles.serviceImage}
+              source={require("@/assets/ulsan.png")}
+            />
           </View>
-          <View style={styles.plan}>
-            <Text style={styles.planTitle}>서비스 2</Text>
-            <Text style={styles.planDescription}>
-              Service's description....
-            </Text>
-          </View>
-          <View style={styles.plan}>
-            <Text style={styles.planTitle}>서비스 3</Text>
-            <Text style={styles.planDescription}>
-              Service's description....
+          <View>
+            <Text numberOfLines={4}>
+              韓国在住約10年になります。代行のご依頼500件以上、ご不満だったという評価は受けたことがありません♡日本・韓国でネットショップ経営中です。購入代行、仕入れ代行、予約代行、サイン会・ヨントン応募、K-pop、ショッピング、カフェ、観光、どれも得意です！韓国ソウル・ソウル郊外の現地人向けカフェやグルメ店を訪れるのが趣味です。旅行者向けよりは現地で人気のホットプレイスを探して回っています。オンラインショップを運営しているので、商品購入代行など、お任せください！特技は最低価格を探すことです^^
+              ドライブが趣味ですので、送迎などもお任せください。
             </Text>
           </View>
         </View>
@@ -91,26 +93,12 @@ const styles = StyleSheet.create({
   /* 가이드 이미지 */
   guideImage: { width: 70, height: 70, borderRadius: 100 },
   /* 플랜 container */
-  planContainer: {
+  serviceContainer: {
     flex: 2,
     justifyContent: "center",
     alignItems: "flex-start",
   },
-  /* 각 플랜 style */
-  plan: {
-    width: 240,
-    height: 40,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginVertical: 3,
-    paddingHorizontal: 10,
-    alignItems: "center",
-    flexDirection: "row",
-  },
-  /* 플랜 이름, 설명, 시간 */
-  planTitle: { fontSize: 18 },
-  planDescription: { fontSize: 10, marginLeft: 10 },
-  planTime: { fontSize: 10, marginLeft: 5 },
+  serviceImage: { width: 70, height: 70, marginHorizontal: 5 },
   /* 가이드 팔로우 버튼 */
   followButton: {
     position: "absolute",
