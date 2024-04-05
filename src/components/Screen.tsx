@@ -54,7 +54,7 @@ const Screen = ({ title, children, right }: ScreenProps) => {
   }, [goBack]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={["top", "right", "left"]}>
       <View style={styles.header}>
         <View style={styles.left}>
           {canGoBack() && (

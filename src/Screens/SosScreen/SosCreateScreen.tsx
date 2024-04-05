@@ -1,5 +1,4 @@
-import Screen from "@/components/Screen";
-import Colors from "@/modules/Color";
+// Libraries
 import React, { useRef, useState } from "react";
 import {
   Alert,
@@ -13,16 +12,35 @@ import {
   View,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { SosStackParamList } from "@/stacks/SosStack";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import { useSetRecoilState } from "recoil";
-import { SosContent } from "@/state/store/SosRecoil";
+
+// Modules
+import Colors from "@/modules/Color";
 import { Status } from "@/modules/Status";
+
+// Interfaces
+import { SosStackParamList } from "@/stacks/SosStack";
+
+// Components
 import GlobalModal from "@/components/Modal";
+import Screen from "@/components/Screen";
+
+// State
+import { SosContent } from "@/state/store/SosRecoil";
 
 const SosCreateScreen = () => {
-  const [content, setContent] = useState<string>("");
+  type SosEditScreenRouteProp = RouteProp<SosStackParamList, "SosCreateScreen">;
+  const route = useRoute<SosEditScreenRouteProp>();
+  const { content: editContent, boardId } = route.params;
+
+  const [content, setContent] = useState<string>(editContent || "");
   const [imageUri, setImageUri] = useState<string | null>(null);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [sosStatus, setSosStatus] = useState<string>("PUBLIC");
@@ -68,7 +86,9 @@ const SosCreateScreen = () => {
       content,
     }));
 
-    navigation.navigate("SosMapScreen");
+    navigation.navigate("SosMapScreen", {
+      boardId,
+    });
   };
 
   return (

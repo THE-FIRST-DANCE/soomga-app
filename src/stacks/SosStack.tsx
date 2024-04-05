@@ -5,8 +5,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 export type SosStackParamList = {
   SosScreen: undefined;
-  SosCreateScreen: undefined;
-  SosMapScreen: undefined;
+  SosCreateScreen: {
+    content?: string;
+    boardId?: number;
+  };
+  SosMapScreen: {
+    boardId?: number;
+  };
 };
 
 const Stack = createStackNavigator<SosStackParamList>();

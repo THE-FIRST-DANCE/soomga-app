@@ -42,6 +42,36 @@ export const addSosComment = async (data: SosComment) => {
   return response.data;
 };
 
+export const editSos = async ({
+  sosId,
+  updateSosDto,
+}: {
+  sosId: number;
+  updateSosDto: SosContent;
+}) => {
+  const response = await api.patch(`/sos/${sosId}`, updateSosDto);
+
+  return response.data;
+};
+
+export const editSosProcess = async ({
+  sosId,
+  process,
+}: {
+  sosId: number;
+  process: string;
+}) => {
+  const response = await api.patch(`/sos/${sosId}/process`, { process });
+
+  return response.data;
+};
+
+export const deleteSos = async (sosId: number) => {
+  const response = await api.delete(`/sos/${sosId}`);
+
+  return response.data;
+};
+
 export const deleteSosComment = async (commentId: number) => {
   const response = await api.delete(`/sos/comment/${commentId}`);
 

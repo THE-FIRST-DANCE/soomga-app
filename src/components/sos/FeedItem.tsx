@@ -1,9 +1,9 @@
-import Colors from "@/modules/Color";
+// Libraries
 import React, { useState } from "react";
 import {
+  Alert,
   FlatList,
   Image,
-  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -11,21 +11,41 @@ import {
   View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { SosType } from "@/interface/Sos";
-import useFormatDate from "@/hooks/useFormatDate";
-import { EXPO_PUBLIC_GOOGLE_CLIENT_ID } from "@env";
-import GlobalModal from "../Modal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { addSosComment } from "@/api/SosApi";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+
+// Config
+import { EXPO_PUBLIC_GOOGLE_CLIENT_ID } from "@env";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
+import { addSosComment, deleteSos, editSosProcess } from "@/api/SosApi";
+
+// Interfaces
+import { SosType } from "@/interface/Sos";
+import { BoardProcess } from "@/interface/share";
+import { SosStackParamList } from "@/stacks/SosStack";
+
+// Hooks
+import useFormatDate from "@/hooks/useFormatDate";
+
+// Components
+import GlobalModal from "../Modal";
 import FeedComment from "./FeedComment";
+import FeedSettingModal from "./FeedSettingModal";
 
 const FeedItem = ({ item }: { item: SosType }) => {
   const date = useFormatDate({ date: item.createdAt });
   const [openComment, setOpenComment] = useState<boolean>(false);
+  const [openSetting, setOpenSetting] = useState<boolean>(false);
+  const [openProcess, setOpenProcess] = useState<boolean>(false);
   const [comment, setComment] = useState<string>("");
   const queryClient = useQueryClient();
 
   const googleMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${item.lat},${item.lng}&zoom=15&size=400x400&markers=color:red%7C${item.lat},${item.lng}&key=${EXPO_PUBLIC_GOOGLE_CLIENT_ID}`;
+  const navigation = useNavigation<NavigationProp<SosStackParamList>>();
 
   const { mutate } = useMutation({
     mutationFn: addSosComment,
@@ -34,6 +54,26 @@ const FeedItem = ({ item }: { item: SosType }) => {
       queryClient.invalidateQueries({ queryKey: ["sos"] });
     },
   });
+
+  const { mutate: deleteMutate } = useMutation({
+    mutationFn: deleteSos,
+    onSuccess: () => {
+      Alert.alert("게시물 삭제", "게시물이 삭제되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["sos"] });
+    },
+  });
+
+  const { mutate: editProcessMutate } = useMutation({
+    mutationFn: editSosProcess,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["sos"] });
+    },
+  });
+
+  const handleProcess = (process: string) => {
+    editProcessMutate({ sosId: item.id, process });
+    setOpenProcess(false);
+  };
 
   const handleComment = () => {
     const commentDto = {
@@ -45,8 +85,27 @@ const FeedItem = ({ item }: { item: SosType }) => {
     mutate(commentDto);
   };
 
+  const handleDelete = () => {
+    Alert.alert("게시물 삭제", "삭제하시겠습니까?", [
+      {
+        text: "취소",
+        style: "cancel",
+      },
+      { text: "확인", onPress: () => deleteMutate(item.id) },
+    ]);
+  };
+
+  const handleEdit = () => {
+    setOpenSetting(false);
+    navigation.navigate("SosCreateScreen", {
+      content: item.content,
+      boardId: item.id,
+    });
+  };
+
   return (
     <View style={styles.container}>
+      {/* 프로필 */}
       <View style={styles.profile}>
         <Image
           style={styles.profileImg}
@@ -59,6 +118,29 @@ const FeedItem = ({ item }: { item: SosType }) => {
           <Text style={styles.profileTime}>{date}</Text>
         </View>
       </View>
+
+      {/* 설정 버튼 */}
+      {item.author.id === 2 && (
+        <TouchableOpacity
+          style={styles.settingButton}
+          onPress={() => setOpenSetting(true)}
+        >
+          <MaterialCommunityIcons name="dots-vertical" size={24} />
+
+          <FeedSettingModal
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            handleProcess={handleProcess}
+            openSetting={openSetting}
+            setOpenSetting={setOpenSetting}
+            openProcess={openProcess}
+            setOpenProcess={setOpenProcess}
+            BoardProcess={BoardProcess}
+          />
+        </TouchableOpacity>
+      )}
+
+      {/* 피드 내용 */}
       <View style={styles.feedContent}>
         <Text style={styles.feedContentText}>{item.content}</Text>
         <Image
@@ -68,6 +150,8 @@ const FeedItem = ({ item }: { item: SosType }) => {
           }}
         />
       </View>
+
+      {/* 댓글, 공유 */}
       <View style={styles.feedTool}>
         <TouchableOpacity
           style={styles.comment}
@@ -129,8 +213,32 @@ const FeedItem = ({ item }: { item: SosType }) => {
           <Text style={{ marginLeft: 5 }}>Share</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.chatButton}>
-        <Text style={{ color: Colors.BLACK, fontSize: 16 }}>Chat</Text>
+
+      {/* 채팅 버튼 */}
+      <TouchableOpacity
+        disabled={
+          item.process === BoardProcess.COMPLETE ||
+          item.process === BoardProcess.PROCESSING
+        }
+        style={[
+          styles.chatButton,
+          {
+            backgroundColor:
+              item.process === BoardProcess.COMPLETE
+                ? Colors.GRAY_LIGHT
+                : item.process === BoardProcess.PROCESSING
+                ? Colors.GRAY_MEDIUM
+                : Colors.PRIMARY,
+          },
+        ]}
+      >
+        <Text style={{ color: Colors.BLACK, fontSize: 16 }}>
+          {item.process === BoardProcess.COMPLETE
+            ? "Complete"
+            : item.process === BoardProcess.PROCESSING
+            ? "Processing"
+            : "Chat"}
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -224,5 +332,10 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: Colors.GRAY_LIGHT,
     borderRadius: 10,
+  },
+  settingButton: {
+    position: "absolute",
+    right: 15,
+    top: 15,
   },
 });

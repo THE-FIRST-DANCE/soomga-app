@@ -1,17 +1,33 @@
+// Libraries
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import * as Location from "expo-location";
 import { useEffect, useState } from "react";
-import Screen from "@/components/Screen";
-import GoogleMap from "@/components/plan/GoogleMap";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useRecoilState } from "recoil";
-import { SosContent } from "@/state/store/SosRecoil";
-import Colors from "@/modules/Color";
-import { addSos } from "@/api/SosApi";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
+import {
+  NavigationProp,
+  RouteProp,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
+import * as Location from "expo-location";
+import { useRecoilState } from "recoil";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
+import { addSos, editSos } from "@/api/SosApi";
+
+// Interfaces
 import { SosStackParamList } from "@/stacks/SosStack";
+
+// Components
+import GoogleMap from "@/components/plan/GoogleMap";
 import LoadingScreen from "@/components/Loading";
+import Screen from "@/components/Screen";
+
+// State
+import { SosContent } from "@/state/store/SosRecoil";
 
 const SosMapScreen = () => {
   const [location, setLocation] = useState<{
@@ -23,6 +39,10 @@ const SosMapScreen = () => {
 
   const navigation = useNavigation<NavigationProp<SosStackParamList>>();
   const queryClient = useQueryClient();
+
+  type SosEditScreenRouteProp = RouteProp<SosStackParamList, "SosMapScreen">;
+  const route = useRoute<SosEditScreenRouteProp>();
+  const { boardId } = route.params;
 
   // 위치 권한 요청 및 현재 위치 가져오기
   const ask = async () => {
@@ -56,12 +76,27 @@ const SosMapScreen = () => {
     onSuccess: () => {
       setLoading(false);
       Alert.alert("SOS가 등록되었습니다.");
-      queryClient.invalidateQueries({ queryKey: ["sos", 1] });
+      queryClient.invalidateQueries({ queryKey: ["sos"] });
       navigation.navigate("SosScreen");
     },
     onError: () => {
       setLoading(false);
       Alert.alert("SOS 등록에 실패했습니다.");
+    },
+  });
+
+  // 글 수정 뮤테이션
+  const { mutate: editMutate } = useMutation({
+    mutationFn: editSos,
+    onSuccess: () => {
+      setLoading(false);
+      Alert.alert("SOS가 수정되었습니다.");
+      queryClient.invalidateQueries({ queryKey: ["sos"] });
+      navigation.navigate("SosScreen");
+    },
+    onError: () => {
+      setLoading(false);
+      Alert.alert("SOS 수정에 실패했습니다.");
     },
   });
 
@@ -79,6 +114,32 @@ const SosMapScreen = () => {
         longitude: marker[0].lng,
       },
     }));
+
+    if (boardId) {
+      Alert.alert("SOS", "수정하시겠습니까?", [
+        {
+          text: "취소",
+          style: "cancel",
+        },
+        {
+          text: "확인",
+          onPress: () => {
+            setLoading(true);
+            editMutate({
+              sosId: boardId,
+              updateSosDto: {
+                content: sosContent.content,
+                status: sosContent.status,
+                lat: marker[0].lat,
+                lng: marker[0].lng,
+                authorId: 2,
+              },
+            });
+          },
+        },
+      ]);
+      return;
+    }
 
     Alert.alert("SOS", "등록하시겠습니까?", [
       {

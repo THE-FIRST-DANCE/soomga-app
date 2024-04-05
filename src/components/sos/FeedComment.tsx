@@ -1,5 +1,4 @@
-import { SosCommentType } from "@/interface/Sos";
-import Colors from "@/modules/Color";
+// Libraries
 import {
   Alert,
   Image,
@@ -10,7 +9,15 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
 import { deleteSosComment } from "@/api/SosApi";
+
+// Interfaces
+import { SosCommentType } from "@/interface/Sos";
 
 const FeedComment = ({ comment }: { comment: SosCommentType }) => {
   const queryClient = useQueryClient();
