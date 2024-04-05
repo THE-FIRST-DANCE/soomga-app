@@ -1,25 +1,42 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
 import { checkFollow } from "@components/guide/GuideListPlan";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+
+/* Navigation */
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
+import { TagType } from "@/data/tags";
 
-function GuideListService({ guide }: { guide: GuideType }) {
+function GuideListService({
+  guide,
+  userTags,
+}: {
+  guide: GuideType;
+  userTags: TagType[];
+}) {
   /* 가이드 팔로우 여부 */
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
+  /* Navigation */
+  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+
   return (
-    <TouchableOpacity activeOpacity={0.9} style={styles.container}>
+    <TouchableWithoutFeedback
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate("GuideDetailScreen", {
+          guide,
+          userTags,
+          initialTab: "서비스",
+        });
+      }}
+    >
       <View style={{ flexDirection: "row" }}>
         <View style={styles.guideContainer}>
           <Image source={{ uri: guide.photo }} style={styles.guideImage} />
@@ -71,7 +88,7 @@ function GuideListService({ guide }: { guide: GuideType }) {
           <SimpleLineIcons name="user-follow" size={21} color={Colors.BLACK} />
         )}
       </Pressable>
-    </TouchableOpacity>
+    </TouchableWithoutFeedback>
   );
 }
 
