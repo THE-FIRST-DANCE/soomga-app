@@ -2,34 +2,73 @@ import React, { useState } from "react";
 import { View, Text, Pressable, Alert, StyleSheet, Image } from "react-native";
 import Colors from "@/modules/Color";
 import { GuideType } from "@/data/guides";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 /* vector-icons */
 import { SimpleLineIcons, MaterialIcons } from "@expo/vector-icons";
+import { TagType } from "@/data/tags";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { GuideStackParamList } from "@/stacks/GuideStack";
 
 /* 가이드 팔로우 Confirm */
 export const checkFollow = ({
   isFollowed,
   setIsFollowed,
+  guideName,
 }: {
   isFollowed: boolean;
   setIsFollowed: (Value: boolean) => void;
+  guideName: string;
 }) => {
-  Alert.alert("가이드 팔로우", "가이드 팔로우를 취소하시겠습니까?", [
-    {
-      text: "취소",
-      onPress: () => console.log("Cancel Pressed"),
-      style: "cancel",
-    },
-    { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
-  ]);
+  if (!isFollowed) {
+    Alert.alert("가이드 팔로우", `${guideName} 가이드를 팔로우하시겠습니까?`, [
+      {
+        text: "취소",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
+    ]);
+  } else {
+    Alert.alert(
+      "가이드 팔로우 취소",
+      `${guideName} 가이드 팔로우를 취소하시겠습니까?`,
+      [
+        {
+          text: "취소",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        { text: "확인", onPress: () => setIsFollowed(!isFollowed) },
+      ]
+    );
+  }
 };
 
-function GuideListPlan({ guide }: { guide: GuideType }) {
+function GuideListPlan({
+  guide,
+  userTags,
+}: {
+  guide: GuideType;
+  userTags: TagType[];
+}) {
   /* 가이드 팔로우 여부 */
   const [isFollowed, setIsFollowed] = useState<boolean>(false);
 
+  /* Navigation */
+  const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
+
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback
+      style={styles.container}
+      onPress={() => {
+        navigation.navigate("GuideDetailScreen", {
+          guide,
+          userTags,
+          initialTab: "플랜",
+        });
+      }}
+    >
       <View style={{ flexDirection: "row" }}>
         <View style={styles.guideContainer}>
           <Image source={{ uri: guide.photo }} style={styles.guideImage} />
@@ -77,7 +116,7 @@ function GuideListPlan({ guide }: { guide: GuideType }) {
       {/* 팔로우 버튼 */}
       <Pressable
         onPress={() => {
-          checkFollow({ isFollowed, setIsFollowed });
+          checkFollow({ isFollowed, setIsFollowed, guideName: guide.name });
         }}
         style={{
           ...styles.followButton,
@@ -94,7 +133,7 @@ function GuideListPlan({ guide }: { guide: GuideType }) {
           <SimpleLineIcons name="user-follow" size={21} color={Colors.BLACK} />
         )}
       </Pressable>
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 

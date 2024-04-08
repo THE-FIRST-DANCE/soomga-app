@@ -3,9 +3,11 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 /* pages */
 import { GuideType } from "@/data/guides";
+import { TagType } from "@/data/tags";
+
 import GuideRegionTagSelect from "@/Screens/GuideScreen/GuideRegionTagSelect";
 import GuideListScreen from "@/Screens/GuideScreen/GuideListScreen";
-import { TagType } from "@/data/tags";
+import GuideDetailScreen from "@/Screens/GuideScreen/GuideDetailScreen";
 
 export type GuideStackParamList = {
   GuideRegionTagSelect: undefined;
@@ -13,6 +15,11 @@ export type GuideStackParamList = {
     guidesInSelectedRegions: GuideType[];
     userTags: TagType[];
     isRecommended: boolean;
+  };
+  GuideDetailScreen: {
+    guide: GuideType;
+    userTags: TagType[];
+    initialTab: string;
   };
 };
 
@@ -33,6 +40,11 @@ export default function GuideStack() {
       <Stack.Screen
         name="GuideListScreen"
         component={GuideListScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="GuideDetailScreen"
+        component={GuideDetailScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
