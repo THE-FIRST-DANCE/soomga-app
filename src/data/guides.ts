@@ -14,9 +14,14 @@ export type GuideType = {
     id: number;
     name: string;
   }[];
+  instagramLink: string;
+  XLink: string;
+  verified_ID: boolean;
+  verified_bank_account: boolean;
+  verified_phone_number: boolean;
 };
 
-export const guides = [
+export const guides: GuideType[] = [
   {
     id: 1,
     photo:
@@ -41,6 +46,11 @@ export const guides = [
       { id: 8, name: "#여행" },
       { id: 9, name: "#독서" },
     ],
+    instagramLink: "https://www.instagram.com/newjeans_official/",
+    XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: true,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 2,
@@ -66,6 +76,11 @@ export const guides = [
       { id: 8, name: "#패션" },
       { id: 9, name: "#산책" },
     ],
+    instagramLink: "https://www.instagram.com/newjeans_official/",
+    XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 3,
@@ -91,6 +106,11 @@ export const guides = [
       { id: 8, name: "#친구사귀기" },
       { id: 9, name: "#파스타" },
     ],
+    instagramLink: "https://www.instagram.com/newjeans_official/",
+    XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 4,
@@ -116,6 +136,11 @@ export const guides = [
       { id: 8, name: "#음악" },
       { id: 9, name: "#햄버거" },
     ],
+    instagramLink: "https://www.instagram.com/newjeans_official/",
+    XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: false,
   },
   {
     id: 5,
@@ -141,6 +166,11 @@ export const guides = [
       { id: 8, name: "#필름카메라" },
       { id: 9, name: "#베이킹" },
     ],
+    instagramLink: "https://www.instagram.com/newjeans_official/",
+    XLink: "https://twitter.com/NewJeans_ADOR",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 6,
@@ -166,6 +196,11 @@ export const guides = [
       { id: 8, name: "#디저트" },
       { id: 9, name: "#유머러스" },
     ],
+    instagramLink: "https://www.instagram.com/fallingin__fall",
+    XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: false,
+    verified_phone_number: true,
   },
   {
     id: 7,
@@ -191,6 +226,11 @@ export const guides = [
       { id: 8, name: "#뷰티" },
       { id: 9, name: "#영화감상" },
     ],
+    instagramLink: "https://www.instagram.com/_yujin_an",
+    XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: true,
   },
   {
     id: 8,
@@ -216,6 +256,11 @@ export const guides = [
       { id: 8, name: "#뷰티" },
       { id: 9, name: "#유머러스" },
     ],
+    instagramLink: "https://www.instagram.com/reinyourheart/",
+    XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: true,
+    verified_phone_number: false,
   },
   {
     id: 9,
@@ -241,6 +286,11 @@ export const guides = [
       { id: 8, name: "#뷰티" },
       { id: 9, name: "#유머러스" },
     ],
+    instagramLink: "https://www.instagram.com/liz.yeyo",
+    XLink: "https://twitter.com/IVEstarship",
+    verified_ID: true,
+    verified_bank_account: false,
+    verified_phone_number: false,
   },
   {
     id: 10,
@@ -266,5 +316,10 @@ export const guides = [
       { id: 8, name: "#뷰티" },
       { id: 9, name: "#유머러스" },
     ],
+    instagramLink: "https://www.instagram.com/eeseooes",
+    XLink: "https://twitter.com/IVEstarship",
+    verified_ID: false,
+    verified_bank_account: false,
+    verified_phone_number: false,
   },
 ];
