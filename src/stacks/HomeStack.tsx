@@ -1,6 +1,4 @@
 import Main from "@/Screens/MainScreen/Main";
-import Schedules from "@/Screens/ProfileScreen/Schedules";
-import TagEdit from "@/Screens/ProfileScreen/TagEdit";
 
 /* Stack Navigator */
 import GuideStack from "./GuideStack";
@@ -23,8 +21,6 @@ export default function HomeStack() {
         component={Main}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name="TagEditScreen" component={TagEdit} />
-      <Stack.Screen name="ScheduleScreen" component={Schedules} />
       <Stack.Screen
         name="GuideStack"
         component={GuideStack}
