@@ -1,13 +1,16 @@
+// Librairies
+import { useEffect } from "react";
+import { Platform } from "react-native";
+
 import { RecoilRoot } from "recoil";
 import Navigation from "./src/navigation/Navigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+import Constants from "expo-constants";
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
-import { Alert, Platform } from "react-native";
-import { useEffect } from "react";
-import Constants from "expo-constants";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { MainStackParamList } from "@/stacks/MainStack";
+import { LoadUserData } from "@/components/loaders/LoadUserData";
+import { UserLoader } from "@/components/loaders/UserLoader";
 
 const queryClient = new QueryClient();
 
@@ -41,16 +44,15 @@ export default function App() {
         finalStatus = status;
       }
       if (finalStatus !== "granted") {
-        Alert.alert("Failed to get push token for push notification!");
+        // Alert.alert("Failed to get push token for push notification!");
         return;
       }
 
       token = await Notifications.getExpoPushTokenAsync({
         projectId: Constants.expoConfig?.extra?.eas.projectId,
       });
-      console.log(token);
     } else {
-      Alert.alert("Must use physical device for Push Notifications");
+      // Alert.alert("Must use physical device for Push Notifications");
     }
 
     return token;
@@ -63,6 +65,8 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
+        <UserLoader />
+        <LoadUserData />
         <Navigation />
       </RecoilRoot>
     </QueryClientProvider>
