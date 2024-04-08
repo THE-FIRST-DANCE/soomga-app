@@ -5,10 +5,10 @@ import PlanStack from "@/stacks/PlanStack";
 import HomeStack from "@/stacks/HomeStack";
 import SosStack from "@/stacks/SosStack";
 import Chat from "@/Screens/ChatScreen/Chat";
-import Profile from "@/Screens/ProfileScreen/Profile";
 
 /* vector-icons */
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import SignStack from "@/stacks/SignStack";
 
 export default function MainTabs() {
   const Tab = createBottomTabNavigator();
@@ -65,7 +65,7 @@ export default function MainTabs() {
       />
       <Tab.Screen
         name="프로필"
-        component={Profile}
+        component={SignStack}
         options={{
           tabBarIcon: ({ color }) => (
             <FontAwesome6 name="user-large" size={30} color={color} />
@@ -78,7 +78,7 @@ export default function MainTabs() {
 
 /* 하단 내비게이션 바 스타일 */
 const tabBarStyle = {
-  height: 80,
+  height: 100,
 };
 
 /* 하단 내비게이션 바 라벨 스타일 */
