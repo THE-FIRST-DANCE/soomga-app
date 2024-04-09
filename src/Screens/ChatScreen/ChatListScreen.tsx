@@ -4,7 +4,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { useRecoilValue } from "recoil";
 
-function ChatRoom() {
+function ChatListScreen() {
   return (
     <Screen title="채팅방 목록">
       <View style={styles.container}></View>
@@ -12,7 +12,7 @@ function ChatRoom() {
   );
 }
 
-export default ChatRoom;
+export default ChatListScreen;
 
 const styles = StyleSheet.create({
   container: {
