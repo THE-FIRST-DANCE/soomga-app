@@ -8,7 +8,7 @@ interface SosContent {
   authorId: number;
 }
 
-interface SosComment {
+export interface BoardComment {
   content: string;
   memberId: number;
   boardId: number;
@@ -30,7 +30,7 @@ export const getSos = async ({ pageParam }: { pageParam?: number | null }) => {
   return response.data;
 };
 
-export const addSosComment = async (data: SosComment) => {
+export const addSosComment = async (data: BoardComment) => {
   const { content, memberId, boardId } = data;
   const commentDto = {
     content,
