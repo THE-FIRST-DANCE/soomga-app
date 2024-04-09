@@ -29,9 +29,6 @@ import { Tourist } from "@/interface/Tourist";
 
 const TouristScreen = () => {
   const [areas, setAreas] = useState<number[]>([]);
-  const [currentTab, setCurrentTab] = useState<"traveler" | "guide">(
-    "traveler"
-  );
   const [search, setSearch] = useState<string>("");
   const [boards, setBoards] = useState<Tourist[]>([]);
   const [refreshing, setRefreshing] = useState<boolean>(false);
@@ -47,7 +44,12 @@ const TouristScreen = () => {
   const { data, fetchNextPage, hasNextPage, isFetching, refetch } =
     useInfiniteQuery({
       queryKey: ["tourist", { areas }],
-      queryFn: ({ pageParam = null }) => getTouristList({ pageParam, areas }),
+      queryFn: ({ pageParam }) => {
+        return getTouristList({
+          pageParam,
+          areas,
+        });
+      },
       initialPageParam: null,
       getNextPageParam: (lastPage) => {
         if (lastPage.nextCursor) {
@@ -55,6 +57,12 @@ const TouristScreen = () => {
         }
       },
     });
+
+  const fetchMore = () => {
+    if (hasNextPage && !isFetching) {
+      fetchNextPage();
+    }
+  };
 
   const onRefresh = async () => {
     setRefreshing(true);
@@ -126,12 +134,8 @@ const TouristScreen = () => {
             data={boards}
             keyExtractor={(item) => item.id.toString()}
             renderItem={({ item }) => <TouristArticle item={item} />}
-            onEndReached={() => {
-              if (hasNextPage) {
-                fetchNextPage();
-              }
-            }}
-            onEndReachedThreshold={0.6}
+            onEndReached={fetchMore}
+            onEndReachedThreshold={0.5}
             ListHeaderComponent={flatListHeader}
             ListFooterComponent={() => {
               if (isFetching) {
