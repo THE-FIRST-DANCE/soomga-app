@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PlanStack from "@/stacks/PlanStack";
 import HomeStack from "@/stacks/HomeStack";
 import SosStack from "@/stacks/SosStack";
-import Chat from "@/Screens/ChatScreen/Chat";
+import ChatStack from "@/stacks/ChatStack";
 
 /* vector-icons */
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
@@ -56,7 +56,7 @@ export default function MainTabs() {
       />
       <Tab.Screen
         name="채팅"
-        component={Chat}
+        component={ChatStack}
         options={{
           tabBarIcon: ({ color }) => (
             <Entypo name="chat" size={35} color={color} />
