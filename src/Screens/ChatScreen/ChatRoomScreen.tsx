@@ -5,13 +5,13 @@ import { RouteProp, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import {
   Text,
-  TouchableOpacity,
   View,
   Animated,
   StyleSheet,
   Image,
-  Pressable,
   TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import {
   Feather,
@@ -21,38 +21,38 @@ import {
   SimpleLineIcons,
   MaterialCommunityIcons,
   FontAwesome,
-  Entypo,
 } from "@expo/vector-icons";
 
-function ChatRoomScreen() {
-  const images = [
-    {
-      id: 1,
-      uri: "https://cdn.pixabay.com/photo/2023/02/11/13/43/building-7782841_1280.jpg",
-    },
-    {
-      id: 2,
-      uri: "https://cdn.pixabay.com/photo/2016/01/19/14/25/pavilion-1148883_1280.jpg",
-    },
-    {
-      id: 3,
-      uri: "https://cdn.pixabay.com/photo/2022/08/05/05/59/korea-7366036_1280.jpg",
-    },
-    {
-      id: 4,
-      uri: "https://cdn.pixabay.com/photo/2016/10/17/07/53/busan-night-scene-1747130_1280.jpg",
-    },
-    {
-      id: 5,
-      uri: "https://cdn.pixabay.com/photo/2021/10/09/07/37/maisan-provincial-park-6693310_1280.jpg",
-    },
-  ];
+const images = [
+  {
+    id: 1,
+    uri: "https://cdn.pixabay.com/photo/2023/02/11/13/43/building-7782841_1280.jpg",
+  },
+  {
+    id: 2,
+    uri: "https://cdn.pixabay.com/photo/2016/01/19/14/25/pavilion-1148883_1280.jpg",
+  },
+  {
+    id: 3,
+    uri: "https://cdn.pixabay.com/photo/2022/08/05/05/59/korea-7366036_1280.jpg",
+  },
+  {
+    id: 4,
+    uri: "https://cdn.pixabay.com/photo/2016/10/17/07/53/busan-night-scene-1747130_1280.jpg",
+  },
+  {
+    id: 5,
+    uri: "https://cdn.pixabay.com/photo/2021/10/09/07/37/maisan-provincial-park-6693310_1280.jpg",
+  },
+];
 
+function ChatRoomScreen() {
   const route = useRoute<RouteProp<ChatStackParamList, "ChatRoomScreen">>();
   const { guide } = route.params;
 
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [slideAnimation] = useState<Animated.Value>(new Animated.Value(0));
+  const [isStarred, setIsStarred] = useState<boolean>(false);
 
   const toggleSidebar = () => {
     /* 사이드바 open / close 여부 */
@@ -76,8 +76,6 @@ function ChatRoomScreen() {
       }).start();
     }
   };
-
-  const [isStarred, setIsStarred] = useState<boolean>(false);
 
   return (
     <Screen
@@ -103,7 +101,7 @@ function ChatRoomScreen() {
                   {
                     translateX: slideAnimation.interpolate({
                       inputRange: [0, 1],
-                      outputRange: [200, 0],
+                      outputRange: [320, 0],
                     }),
                   },
                 ],
@@ -260,32 +258,40 @@ function ChatRoomScreen() {
           </Animated.View>
         )}
 
-        <View style={{ flex: 1 }}></View>
-        <View
-          style={{
-            flex: 0.09,
-            flexDirection: "row",
-            alignItems: "center",
-          }}
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{ flex: 1 }}
+          onPress={() => isSidebarOpen && toggleSidebar()}
         >
-          <View style={{ flex: 0.2, borderRadius: 100, alignItems: "center" }}>
-            <Feather name="plus" size={24} color="black" />
-          </View>
-          <TextInput
+          <View style={{ flex: 1 }}></View>
+          <View
             style={{
-              backgroundColor: Colors.GRAY_MEDIUM,
-              flex: 1,
-              height: "100%",
-              padding: 10,
-              justifyContent: "center",
+              flex: 0.09,
+              flexDirection: "row",
+              alignItems: "center",
             }}
           >
-            <Text style={{ fontSize: 30 }}></Text>
-          </TextInput>
-          <View style={{ flex: 0.2, alignItems: "center" }}>
-            <Feather name="send" size={24} color="black" />
+            <View
+              style={{ flex: 0.2, borderRadius: 100, alignItems: "center" }}
+            >
+              <Feather name="plus" size={24} color="black" />
+            </View>
+            <TextInput
+              style={{
+                backgroundColor: Colors.GRAY_MEDIUM,
+                flex: 1,
+                height: "100%",
+                padding: 10,
+                justifyContent: "center",
+              }}
+            >
+              <Text style={{ fontSize: 30 }}></Text>
+            </TextInput>
+            <View style={{ flex: 0.2, alignItems: "center" }}>
+              <Feather name="send" size={24} color="black" />
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </View>
     </Screen>
   );
