@@ -21,11 +21,6 @@ export default function HomeStack() {
         component={Main}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="GuideStack"
-        component={GuideStack}
-        options={{ headerShown: false }}
-      />
     </Stack.Navigator>
   );
 }
