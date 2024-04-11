@@ -6,6 +6,9 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import TouristStack from "./TouristStack";
+import GuideStack from "./GuideStack";
+import ChatStack from "./ChatStack";
+import ChatRoomScreen from "@/Screens/ChatScreen/ChatRoomScreen";
 
 export type MainStackParamList = {
   MainTabs: undefined;
@@ -14,7 +17,9 @@ export type MainStackParamList = {
   SosStack: {
     cursor?: number;
   };
+  GuideStack: undefined;
   TouristStack: undefined;
+  ChatRoomScreen: undefined;
 };
 
 const Stack = createStackNavigator<MainStackParamList>();
@@ -49,7 +54,9 @@ export default function MainStack() {
       <Stack.Screen name="MainTabs" component={MainTabs} />
       <Stack.Screen name="ScheduleStack" component={ScheduleStack} />
       <Stack.Screen name="SosStack" component={SosStack} />
+      <Stack.Screen name="GuideStack" component={GuideStack} />
       <Stack.Screen name="TouristStack" component={TouristStack} />
+      <Stack.Screen name="ChatRoomScreen" component={ChatStack} />
     </Stack.Navigator>
   );
 }
