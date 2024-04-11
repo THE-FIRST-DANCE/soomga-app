@@ -1,19 +1,29 @@
 // Librairies
-import { StyleSheet, View, Image, Text } from "react-native";
+import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 // Modules
 import Colors from "@/modules/Color";
 import { Tourist } from "@/interface/Tourist";
 import useFormatDate from "@/hooks/useFormatDate";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { TouristStackParamList } from "@/stacks/TouristStack";
 
 const TouristArticle = ({ item }: { item: Tourist }) => {
+  const naviagtion = useNavigation<NavigationProp<TouristStackParamList>>();
+
   const formatDate = useFormatDate({
     date: item.createdAt,
   });
 
+  const handlePress = () => {
+    naviagtion.navigate("TouristDetailScreen", {
+      touristId: item.id,
+    });
+  };
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity onPress={handlePress} style={styles.card}>
       <Image
         style={styles.articleImage}
         source={{ uri: "https://picsum.photos/200/300" }}
@@ -47,7 +57,7 @@ const TouristArticle = ({ item }: { item: Tourist }) => {
           <Text style={styles.fromDate}>{formatDate}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

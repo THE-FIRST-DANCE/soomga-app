@@ -1,7 +1,11 @@
 import { format, formatDistanceToNow } from "date-fns";
 import { ko } from "date-fns/locale";
 
-const useFormatDate = ({ date }: { date: Date }) => {
+const useFormatDate = ({ date }: { date: Date | undefined }) => {
+  if (!date) {
+    return "";
+  }
+
   const d = new Date(date);
   const now = Date.now();
   const diff = (now - d.getTime()) / 1000; // 현재 시간과의 차이(초)
@@ -13,7 +17,7 @@ const useFormatDate = ({ date }: { date: Date }) => {
     // 3일 미만일땐 시간차이 출력(몇시간 전, 몇일 전)
     return formatDistanceToNow(d, { addSuffix: true, locale: ko });
   }
-  return format(d, "PPP EEE p", { locale: ko }); // 날짜 포맷
+  return format(d, "yyyy. MM. dd HH:mm");
 };
 
 export default useFormatDate;
