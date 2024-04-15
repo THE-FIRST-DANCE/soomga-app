@@ -2,7 +2,7 @@ import Screen from "@/components/Screen";
 import Colors from "@/modules/Color";
 import { ChatStackParamList } from "@/stacks/ChatStack";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -10,9 +10,11 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
+import { MyMessage, OpponentMessage } from "@/components/chat/Message";
 
 function ChatRoomScreen() {
   const route = useRoute<RouteProp<ChatStackParamList, "ChatRoomScreen">>();
@@ -45,6 +47,8 @@ function ChatRoomScreen() {
     }
   };
 
+  const [text, setText] = useState<string>("");
+
   return (
     <Screen
       title={guide.name}
@@ -72,18 +76,34 @@ function ChatRoomScreen() {
           style={{ flex: 1 }}
           onPress={() => isSidebarOpen && toggleSidebar()}
         >
-          <View style={{ flex: 1 }}></View>
-          <View style={styles.inputSection}>
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
+            <OpponentMessage guide={guide} text={text} />
+            <MyMessage text={text} />
+          </View>
+          <KeyboardAvoidingView
+            behavior="height"
+            keyboardVerticalOffset={100}
+            style={styles.inputSection}
+          >
             <View style={styles.plus}>
               <Feather name="plus" size={24} color="black" />
             </View>
-            <TextInput style={styles.textInput}>
-              <Text style={{ fontSize: 30 }}></Text>
-            </TextInput>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={(newText) => {
+                setText(newText);
+                console.log(newText);
+              }}
+            />
             <View style={styles.send}>
-              <Feather name="send" size={24} color="black" />
+              <Feather
+                name="send"
+                size={24}
+                color="black"
+                onPress={() => setText("")}
+              />
             </View>
-          </View>
+          </KeyboardAvoidingView>
         </TouchableOpacity>
       </View>
     </Screen>
