@@ -2,9 +2,8 @@ import Screen from "@/components/Screen";
 import Colors from "@/modules/Color";
 import { ChatStackParamList } from "@/stacks/ChatStack";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  Text,
   View,
   Animated,
   TextInput,
@@ -12,12 +11,12 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  ViewStyle,
-  FlatList,
+  Pressable,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
 import { MyMessage, OpponentMessage } from "@/components/chat/Message";
+import Multimedia from "@/components/chat/Multimedia";
 
 export interface MessageProp {
   id: number;
@@ -57,10 +56,26 @@ function ChatRoomScreen() {
     }
   };
 
+  const [isOpenMultimedia, setIsOpenMultimedia] = useState<boolean>(false);
+  const rotateAnimation = useState(new Animated.Value(0))[0];
+
+  const toggleRotation = () => {
+    setIsOpenMultimedia(!isOpenMultimedia);
+
+    Animated.timing(rotateAnimation, {
+      toValue: !isOpenMultimedia ? 1 : 0, // 현재 상태 반전
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const rotation = rotateAnimation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "45deg"],
+  });
+
   const [text, setText] = useState<string>("");
   const [messages, setMessages] = useState<MessageProp[]>([]);
-
-  const [isOpenMultimedia, setIsOpenMultimedia] = useState<boolean>(false);
 
   const handleSend = () => {
     if (text) {
@@ -115,14 +130,20 @@ function ChatRoomScreen() {
             keyboardVerticalOffset={100}
             style={styles.inputSection}
           >
-            <View style={styles.plus}>
-              <Feather name="plus" size={24} color="black" />
-            </View>
+            <Animated.View
+              style={[styles.plus, { transform: [{ rotate: rotation }] }]}
+            >
+              <Feather
+                name="plus"
+                size={24}
+                color="black"
+                onPress={toggleRotation}
+              />
+            </Animated.View>
             <TextInput
               style={styles.textInput}
               onChangeText={(newText) => {
                 setText(newText);
-                console.log(newText);
               }}
               value={text}
             />
@@ -135,6 +156,7 @@ function ChatRoomScreen() {
               />
             </View>
           </KeyboardAvoidingView>
+          {isOpenMultimedia && <Multimedia />}
         </TouchableOpacity>
       </View>
     </Screen>
