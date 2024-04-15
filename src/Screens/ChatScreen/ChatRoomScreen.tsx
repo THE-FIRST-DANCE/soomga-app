@@ -11,10 +11,20 @@ import {
   TouchableOpacity,
   StyleSheet,
   KeyboardAvoidingView,
+  ScrollView,
+  ViewStyle,
+  FlatList,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
 import { MyMessage, OpponentMessage } from "@/components/chat/Message";
+
+export interface MessageProp {
+  id: number;
+  isMine: boolean;
+  content: string;
+  created_at: Date;
+}
 
 function ChatRoomScreen() {
   const route = useRoute<RouteProp<ChatStackParamList, "ChatRoomScreen">>();
@@ -48,6 +58,22 @@ function ChatRoomScreen() {
   };
 
   const [text, setText] = useState<string>("");
+  const [messages, setMessages] = useState<MessageProp[]>([]);
+
+  const [isOpenMultimedia, setIsOpenMultimedia] = useState<boolean>(false);
+
+  const handleSend = () => {
+    if (text) {
+      const newMessage = {
+        id: messages.length + 1,
+        isMine: true,
+        content: text,
+        created_at: new Date(),
+      };
+      setMessages([...messages, newMessage]);
+      setText("");
+    }
+  };
 
   return (
     <Screen
@@ -76,10 +102,14 @@ function ChatRoomScreen() {
           style={{ flex: 1 }}
           onPress={() => isSidebarOpen && toggleSidebar()}
         >
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <OpponentMessage guide={guide} text={text} />
-            <MyMessage text={text} />
-          </View>
+          <ScrollView
+            contentContainerStyle={{ flex: 1, justifyContent: "flex-end" }}
+          >
+            <OpponentMessage guide={guide} text="" />
+            {messages.map((message, index) => (
+              <MyMessage key={index} message={message} />
+            ))}
+          </ScrollView>
           <KeyboardAvoidingView
             behavior="height"
             keyboardVerticalOffset={100}
@@ -94,13 +124,14 @@ function ChatRoomScreen() {
                 setText(newText);
                 console.log(newText);
               }}
+              value={text}
             />
             <View style={styles.send}>
               <Feather
                 name="send"
                 size={24}
                 color="black"
-                onPress={() => setText("")}
+                onPress={handleSend}
               />
             </View>
           </KeyboardAvoidingView>
