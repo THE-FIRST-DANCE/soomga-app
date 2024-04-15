@@ -1,7 +1,7 @@
 import Colors from "@/modules/Color";
 import { View, Text, StyleSheet, ViewStyle, Image } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { GuideType } from "@/data/guides";
+import { MessageProp } from "@/Screens/ChatScreen/ChatRoomScreen";
 
 export function OpponentMessage({
   guide,
@@ -13,30 +13,22 @@ export function OpponentMessage({
   return (
     <View style={styles.opponentMessageContainer}>
       <Image source={{ uri: guide.photo }} style={styles.opponentImage} />
-      <View style={styles.opponentTail} />
-      <View style={styles.opponent}>
-        <Text style={{ flexWrap: "wrap" }}>
-          첫 번째 메시지입니다. 첫 번째 메시지입니다. 첫 번째 메시지입니다. 첫
-          번째 메시지입니다. 첫 번째 메시지입니다.
-        </Text>
+      <View style={{ marginLeft: 10 }}>
+        <Text>{guide.name}</Text>
+        <View style={styles.opponent}>
+          <Text style={{ flexWrap: "wrap" }}>반가워요~</Text>
+        </View>
       </View>
     </View>
   );
 }
 
-export function MyMessage({ text }: { text: string }) {
+export function MyMessage({ message }: { message: MessageProp }) {
   return (
     <View style={styles.myMessageContainer}>
-      <View style={styles.myTail} />
       <View style={styles.my}>
-        <Text style={{ color: Colors.WHITE }}>첫 번째 메시지입니다.</Text>
+        <Text style={{ color: Colors.WHITE }}>{message.content}</Text>
       </View>
-      <MaterialCommunityIcons
-        name="face-man"
-        size={40}
-        color="black"
-        style={{ marginRight: 10 }}
-      />
     </View>
   );
 }
@@ -56,14 +48,12 @@ const styles = StyleSheet.create({
   },
   opponentMessageContainer: {
     flexDirection: "row",
-    alignItems: "center",
     marginVertical: 10,
     maxWidth: "60%",
   },
   opponent: {
     ...messageStyle,
     alignSelf: "flex-start",
-    marginLeft: 10,
     backgroundColor: Colors.GRAY_MEDIUM,
   },
   opponentTail: {
@@ -86,6 +76,7 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     marginRight: 10,
     backgroundColor: Colors.BASKETBALL_ORANGE,
+    maxWidth: "60%",
   },
   myTail: {
     width: 15,
