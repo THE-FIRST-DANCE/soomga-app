@@ -11,7 +11,6 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   ScrollView,
-  Pressable,
   Keyboard,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
@@ -30,10 +29,16 @@ function ChatRoomScreen() {
   const route = useRoute<RouteProp<ChatStackParamList, "ChatRoomScreen">>();
   const { guide } = route.params;
 
+  /* 사이드바 open 여부 */
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+
+  /* 사이드바 애니메이션 */
   const [slideAnimation] = useState<Animated.Value>(new Animated.Value(0));
+
+  /* 사이드바 - 채팅방 즐겨찾기 여부 */
   const [isStarred, setIsStarred] = useState<boolean>(false);
 
+  /* 사이드바 애니메이션 실행 함수 */
   const toggleSidebar = () => {
     /* 사이드바 open / close 여부 */
     const toValue = !isSidebarOpen ? 1 : 0;
@@ -57,10 +62,14 @@ function ChatRoomScreen() {
     }
   };
 
+  /* 키보드 표시 여부 */
   const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
+  /* 멀티미디어 표시 여부 */
   const [isOpenMultimedia, setIsOpenMultimedia] = useState<boolean>(false);
+
   const rotateAnimation = useState(new Animated.Value(0))[0];
 
+  /* 키보드/멀티미디어 중 하나만 표시하게 함 */
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
@@ -78,6 +87,7 @@ function ChatRoomScreen() {
     };
   }, []);
 
+  /* 멀티미디어 표시 */
   const toggleMultimedia = () => {
     if (isKeyboardVisible) {
       Keyboard.dismiss();
@@ -101,7 +111,19 @@ function ChatRoomScreen() {
   });
 
   const [text, setText] = useState<string>("");
-  const [messages, setMessages] = useState<MessageProp[]>([]);
+  const [messages, setMessages] = useState<MessageProp[]>([
+    { id: 1, isMine: false, content: "반가워요!", created_at: new Date() },
+    {
+      id: 2,
+      isMine: false,
+      content: "꽁꽁 얼어붙은 한강 위로 고양이가 걸어다닙니다",
+      created_at: new Date(),
+    },
+  ]);
+
+  const isSameSender = (index: number) => {
+    return messages[index - 1]?.isMine === messages[index]?.isMine;
+  };
 
   const handleSend = () => {
     if (text) {
@@ -146,10 +168,43 @@ function ChatRoomScreen() {
           <ScrollView
             contentContainerStyle={{ flex: 1, justifyContent: "flex-end" }}
           >
-            <OpponentMessage guide={guide} text="" />
-            {messages.map((message, index) => (
-              <MyMessage key={index} message={message} />
-            ))}
+            {messages.map((message, index) =>
+              message.isMine ? (
+                <MyMessage
+                  key={index}
+                  message={message}
+                  isSameSender={isSameSender(index)}
+                />
+              ) : (
+                <OpponentMessage
+                  key={index}
+                  guide={guide}
+                  message={message}
+                  isSameSender={isSameSender(index)}
+                />
+              )
+            )}
+            {/*  */}
+            <OpponentMessage
+              guide={guide}
+              message={{
+                id: 100,
+                isMine: false,
+                content: "꽁꽁 얼어붙은 한강 위로 고양이가 걸어다닙니다",
+                created_at: new Date(),
+              }}
+              isSameSender={false}
+            />
+            <OpponentMessage
+              guide={guide}
+              message={{
+                id: 100,
+                isMine: false,
+                content: "꽁꽁 얼어붙은 한강 위로 고양이가 걸어다닙니다",
+                created_at: new Date(),
+              }}
+              isSameSender={true}
+            />
           </ScrollView>
           <KeyboardAvoidingView
             behavior="height"
@@ -177,6 +232,7 @@ function ChatRoomScreen() {
               onPressIn={() => {
                 if (isOpenMultimedia) toggleRotation();
               }}
+              value={text}
             />
             <View style={styles.send}>
               <Feather
