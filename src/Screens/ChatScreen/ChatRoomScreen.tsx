@@ -13,7 +13,7 @@ import {
   ScrollView,
   Keyboard,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import { Feather, Entypo } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
 import { MyMessage, OpponentMessage } from "@/components/chat/Message";
 import Multimedia from "@/components/chat/Multimedia";
@@ -184,7 +184,6 @@ function ChatRoomScreen() {
                 />
               )
             )}
-            {/*  */}
             <OpponentMessage
               guide={guide}
               message={{
@@ -214,13 +213,19 @@ function ChatRoomScreen() {
             <Animated.View
               style={[styles.plus, { transform: [{ rotate: rotation }] }]}
             >
-              <Feather
+              <Entypo
                 name="plus"
-                size={24}
-                color="black"
+                size={28}
+                color={Colors.WHITE}
                 onPress={() => {
                   toggleRotation();
                   toggleMultimedia();
+                }}
+                style={{
+                  padding: 8,
+                  borderRadius: 100,
+                  alignSelf: "center",
+                  backgroundColor: Colors.BLUE,
                 }}
               />
             </Animated.View>
@@ -238,8 +243,14 @@ function ChatRoomScreen() {
               <Feather
                 name="send"
                 size={24}
-                color="black"
+                color={Colors.WHITE}
                 onPress={handleSend}
+                style={{
+                  padding: 8,
+                  borderRadius: 100,
+                  alignSelf: "center",
+                  backgroundColor: Colors.BASKETBALL_ORANGE,
+                }}
               />
             </View>
           </KeyboardAvoidingView>
@@ -258,6 +269,8 @@ const styles = StyleSheet.create({
     flex: 0.09,
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 5,
+    paddingVertical: 10,
   },
   plus: { flex: 0.2, borderRadius: 100, alignItems: "center" },
   textInput: {
@@ -265,6 +278,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: "100%",
     padding: 10,
+    borderRadius: 100,
     justifyContent: "center",
   },
   send: { flex: 0.2, alignItems: "center" },
