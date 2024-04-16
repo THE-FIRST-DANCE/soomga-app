@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Feather, MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
 
@@ -33,13 +33,13 @@ function Multimedia() {
   return (
     <View style={styles.container}>
       {tabs.map((tab, index) => (
-        <View
-          key={index}
-          style={{ width: 90, height: 90, alignItems: "center" }}
-        >
-          <View style={[styles.tab, { backgroundColor: tab.backgroundColor }]}>
+        <View key={index} style={styles.tabContainer}>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={[styles.tab, { backgroundColor: tab.backgroundColor }]}
+          >
             {tab.icon}
-          </View>
+          </TouchableOpacity>
           <Text style={{ fontSize: 18 }}>{tab.name}</Text>
         </View>
       ))}
@@ -51,6 +51,7 @@ export default Multimedia;
 
 const styles = StyleSheet.create({
   container: { padding: 20, flexDirection: "row" },
+  tabContainer: { width: 90, height: 90, alignItems: "center" },
   tab: {
     width: 60,
     height: 60,
