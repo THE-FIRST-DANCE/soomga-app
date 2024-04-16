@@ -39,7 +39,9 @@ export function OpponentMessage({
         <Image source={{ uri: guide.photo }} style={styles.opponentImage} />
       )}
       <View style={{ marginLeft: 10 }}>
-        {isSameSender ? null : <Text>{guide.name}</Text>}
+        {isSameSender ? null : (
+          <Text style={{ marginBottom: 5 }}>{guide.name}</Text>
+        )}
         <View style={{ flexDirection: "row", maxWidth: "100%" }}>
           <View style={styles.opponent}>
             <Text style={{ flexWrap: "wrap" }}>{message.content}</Text>
