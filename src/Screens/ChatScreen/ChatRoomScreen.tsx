@@ -2,7 +2,7 @@ import Screen from "@/components/Screen";
 import Colors from "@/modules/Color";
 import { ChatStackParamList } from "@/stacks/ChatStack";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Animated,
@@ -12,6 +12,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Pressable,
+  Keyboard,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
@@ -56,8 +57,33 @@ function ChatRoomScreen() {
     }
   };
 
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
   const [isOpenMultimedia, setIsOpenMultimedia] = useState<boolean>(false);
   const rotateAnimation = useState(new Animated.Value(0))[0];
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => setIsKeyboardVisible(true)
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => setIsKeyboardVisible(false)
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
+  const toggleMultimedia = () => {
+    if (isKeyboardVisible) {
+      Keyboard.dismiss();
+    }
+    setIsOpenMultimedia(!isOpenMultimedia);
+  };
 
   const toggleRotation = () => {
     setIsOpenMultimedia(!isOpenMultimedia);
@@ -137,7 +163,10 @@ function ChatRoomScreen() {
                 name="plus"
                 size={24}
                 color="black"
-                onPress={toggleRotation}
+                onPress={() => {
+                  toggleRotation();
+                  toggleMultimedia();
+                }}
               />
             </Animated.View>
             <TextInput
@@ -145,7 +174,9 @@ function ChatRoomScreen() {
               onChangeText={(newText) => {
                 setText(newText);
               }}
-              value={text}
+              onPressIn={() => {
+                if (isOpenMultimedia) toggleRotation();
+              }}
             />
             <View style={styles.send}>
               <Feather
