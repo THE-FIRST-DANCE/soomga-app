@@ -3,31 +3,82 @@ import { View, Text, StyleSheet, ViewStyle, Image } from "react-native";
 import { GuideType } from "@/data/guides";
 import { MessageProp } from "@/Screens/ChatScreen/ChatRoomScreen";
 
+const formatDate = (date: Date) => {
+  const hour = date.getHours();
+  const minute =
+    date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+
+  return `${hour}:${minute}`;
+};
+
+interface OpponentMessageProps {
+  guide: GuideType;
+  message: MessageProp;
+  style?: ViewStyle;
+  isSameSender: boolean;
+}
+
 export function OpponentMessage({
   guide,
-  text,
-}: {
-  guide: GuideType;
-  text: string;
-}) {
+  message,
+  isSameSender,
+}: OpponentMessageProps) {
   return (
-    <View style={styles.opponentMessageContainer}>
-      <Image source={{ uri: guide.photo }} style={styles.opponentImage} />
+    <View
+      style={[
+        styles.opponentMessageContainer,
+        {
+          marginTop: isSameSender ? 5 : 10,
+          marginBottom: 5,
+        },
+      ]}
+    >
+      {isSameSender ? (
+        <Image style={styles.opponentImage} />
+      ) : (
+        <Image source={{ uri: guide.photo }} style={styles.opponentImage} />
+      )}
       <View style={{ marginLeft: 10 }}>
-        <Text>{guide.name}</Text>
-        <View style={styles.opponent}>
-          <Text style={{ flexWrap: "wrap" }}>반가워요~</Text>
+        {isSameSender ? null : <Text>{guide.name}</Text>}
+        <View style={{ flexDirection: "row", maxWidth: "100%" }}>
+          <View style={styles.opponent}>
+            <Text style={{ flexWrap: "wrap" }}>{message.content}</Text>
+          </View>
+          <Text style={{ fontSize: 10, marginLeft: 5, alignSelf: "flex-end" }}>
+            {formatDate(message.created_at)}
+          </Text>
         </View>
       </View>
     </View>
   );
 }
 
-export function MyMessage({ message }: { message: MessageProp }) {
+interface MyMessageProps {
+  message: MessageProp;
+  style?: ViewStyle;
+  isSameSender: boolean;
+}
+
+export function MyMessage({ message, isSameSender }: MyMessageProps) {
   return (
-    <View style={styles.myMessageContainer}>
-      <View style={styles.my}>
-        <Text style={{ color: Colors.WHITE }}>{message.content}</Text>
+    <View
+      style={[
+        styles.myMessageContainer,
+        {
+          marginTop: isSameSender ? 5 : 10,
+          marginBottom: 5,
+        },
+      ]}
+    >
+      <View style={{ flexDirection: "row", maxWidth: "100%" }}>
+        <Text style={{ fontSize: 10, marginLeft: 5, alignSelf: "flex-end" }}>
+          {formatDate(message.created_at)}
+        </Text>
+        <View style={styles.my}>
+          <Text style={{ flexWrap: "wrap", color: Colors.WHITE }}>
+            {message.content}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -48,7 +99,6 @@ const styles = StyleSheet.create({
   },
   opponentMessageContainer: {
     flexDirection: "row",
-    marginVertical: 10,
     maxWidth: "60%",
   },
   opponent: {
@@ -56,35 +106,17 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     backgroundColor: Colors.GRAY_MEDIUM,
   },
-  opponentTail: {
-    width: 15,
-    height: 15,
-    backgroundColor: Colors.GRAY_MEDIUM,
-    transform: [{ rotate: "65deg" }],
-    position: "absolute",
-    left: 57,
-    top: 5,
-  },
   myMessageContainer: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
-    marginVertical: 10,
   },
   my: {
     ...messageStyle,
     alignSelf: "flex-end",
+    marginLeft: 5,
     marginRight: 10,
     backgroundColor: Colors.BASKETBALL_ORANGE,
     maxWidth: "60%",
-  },
-  myTail: {
-    width: 15,
-    height: 15,
-    backgroundColor: Colors.BASKETBALL_ORANGE,
-    transform: [{ rotate: "25deg" }],
-    position: "absolute",
-    right: 57,
-    top: 5,
   },
 });
