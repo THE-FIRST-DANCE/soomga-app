@@ -3,17 +3,12 @@ import { useState, useEffect } from "react";
 
 /* Navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
-import {
-  MyNavigationProp,
-  RootStackParamList,
-} from "@navigation/NavigationProps";
 
 /* Pages */
 import Schedule from "@scheduleMain/Schedule";
 
 /* vector-icons */
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { ScheduleStackParamList } from "@/stacks/ScheduleStack";
 import { MainStackParamList } from "@/stacks/MainStack";
 
 /* props */
