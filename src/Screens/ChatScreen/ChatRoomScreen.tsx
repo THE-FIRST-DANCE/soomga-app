@@ -184,26 +184,6 @@ function ChatRoomScreen() {
                 />
               )
             )}
-            <OpponentMessage
-              guide={guide}
-              message={{
-                id: 100,
-                isMine: false,
-                content: "꽁꽁 얼어붙은 한강 위로 고양이가 걸어다닙니다",
-                created_at: new Date(),
-              }}
-              isSameSender={false}
-            />
-            <OpponentMessage
-              guide={guide}
-              message={{
-                id: 100,
-                isMine: false,
-                content: "꽁꽁 얼어붙은 한강 위로 고양이가 걸어다닙니다",
-                created_at: new Date(),
-              }}
-              isSameSender={true}
-            />
           </ScrollView>
           <KeyboardAvoidingView
             behavior="height"
@@ -222,7 +202,7 @@ function ChatRoomScreen() {
                   toggleMultimedia();
                 }}
                 style={{
-                  padding: 8,
+                  padding: 5,
                   borderRadius: 100,
                   alignSelf: "center",
                   backgroundColor: Colors.BLUE,
