@@ -34,24 +34,6 @@ function ChatPlanModal({ visible, setVisible }: ChatPlanModalProps) {
     }
   }, [data]);
 
-  const [isPlanDetailOpen, setIsPlanDetailOpen] = useState<boolean>(false);
-  const [rotateAnimation] = useState<Animated.Value>(new Animated.Value(0));
-
-  const toggleRotation = () => {
-    setIsPlanDetailOpen(!isPlanDetailOpen);
-
-    Animated.timing(rotateAnimation, {
-      toValue: !isPlanDetailOpen ? 1 : 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const rotation = rotateAnimation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "90deg"],
-  });
-
   return (
     <GlobalModal
       animation="slide"
@@ -67,7 +49,7 @@ function ChatPlanModal({ visible, setVisible }: ChatPlanModalProps) {
         onPress={() => setVisible(false)}
       />
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 25, fontWeight: "bold" }}>내 플랜 리스트</Text>
+        <Text style={{ fontSize: 30, fontWeight: "bold" }}>내 플랜 리스트</Text>
         {/* 플랜 리스트 */}
         <ScrollView contentContainerStyle={styles.planList}>
           {data ? (
@@ -81,7 +63,7 @@ function ChatPlanModal({ visible, setVisible }: ChatPlanModalProps) {
               }}
             >
               <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                플랜이 없습니다.
+                저장한 플랜이 없습니다.
               </Text>
             </View>
           )}
