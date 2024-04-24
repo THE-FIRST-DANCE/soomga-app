@@ -12,10 +12,16 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Keyboard,
+  Text,
+  Pressable,
 } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
-import { MyMessage, OpponentMessage } from "@/components/chat/Message";
+import {
+  MyMessage,
+  OpponentMessage,
+  ServiceMessage,
+} from "@/components/chat/Message";
 import Multimedia from "@/components/chat/Multimedia";
 
 export interface MessageProp {
@@ -95,6 +101,7 @@ function ChatRoomScreen() {
     setIsOpenMultimedia(!isOpenMultimedia);
   };
 
+  /* 멀티미디어 표시 버튼 토글 함수 */
   const toggleRotation = () => {
     setIsOpenMultimedia(!isOpenMultimedia);
 
@@ -160,13 +167,10 @@ function ChatRoomScreen() {
             setIsStarred={setIsStarred}
           />
         )}
-        <TouchableOpacity
-          activeOpacity={1}
-          style={{ flex: 1 }}
-          onPress={() => isSidebarOpen && toggleSidebar()}
-        >
-          <ScrollView
-            contentContainerStyle={{ flex: 1, justifyContent: "flex-end" }}
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <Pressable
+            style={{ flex: 0.8, justifyContent: "flex-end" }}
+            onPress={() => isSidebarOpen && toggleSidebar()}
           >
             {messages.map((message, index) =>
               message.isMine ? (
@@ -184,58 +188,72 @@ function ChatRoomScreen() {
                 />
               )
             )}
-          </ScrollView>
-          <KeyboardAvoidingView
-            behavior="height"
-            keyboardVerticalOffset={100}
-            style={styles.inputSection}
-          >
-            <Animated.View
-              style={[styles.plus, { transform: [{ rotate: rotation }] }]}
-            >
-              <Entypo
-                name="plus"
-                size={28}
-                color={Colors.WHITE}
-                onPress={() => {
-                  toggleRotation();
-                  toggleMultimedia();
-                }}
-                style={{
-                  padding: 5,
-                  borderRadius: 100,
-                  alignSelf: "center",
-                  backgroundColor: Colors.BLUE,
-                }}
-              />
-            </Animated.View>
-            <TextInput
-              style={styles.textInput}
-              onChangeText={(newText) => {
-                setText(newText);
+            <ServiceMessage
+              service={{
+                id: 1,
+                image:
+                  "https://cdn.pixabay.com/photo/2016/11/14/03/43/kimono-1822520_1280.jpg",
+                title: "서비스 1",
+                price: 10000,
+                description:
+                  "韓国在住約10年になります。代行のご依頼500件以上、ご不満だったという評価は受けたことがありません♡日本・韓国でネットショップ経営中です。購入代行、仕入れ代行、予約代行、サイン会・ヨントン応募、K",
               }}
-              onPressIn={() => {
-                if (isOpenMultimedia) toggleRotation();
-              }}
-              value={text}
+              isSameSender={false}
+              created_at={new Date()}
             />
-            <View style={styles.send}>
-              <Feather
-                name="send"
-                size={24}
-                color={Colors.WHITE}
-                onPress={handleSend}
-                style={{
-                  padding: 8,
-                  borderRadius: 100,
-                  alignSelf: "center",
-                  backgroundColor: Colors.BASKETBALL_ORANGE,
-                }}
-              />
-            </View>
-          </KeyboardAvoidingView>
-          {isOpenMultimedia && <Multimedia />}
-        </TouchableOpacity>
+          </Pressable>
+        </ScrollView>
+
+        <KeyboardAvoidingView
+          behavior="height"
+          keyboardVerticalOffset={100}
+          style={styles.inputSection}
+        >
+          <Animated.View
+            style={[styles.plus, { transform: [{ rotate: rotation }] }]}
+          >
+            <Entypo
+              name="plus"
+              size={28}
+              color={Colors.WHITE}
+              onPress={() => {
+                toggleRotation();
+                toggleMultimedia();
+              }}
+              style={{
+                padding: 5,
+                borderRadius: 100,
+                alignSelf: "center",
+                backgroundColor: Colors.BLUE,
+              }}
+            />
+          </Animated.View>
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(newText) => {
+              setText(newText);
+            }}
+            onPressIn={() => {
+              if (isOpenMultimedia) toggleRotation();
+            }}
+            value={text}
+          />
+          <View style={styles.send}>
+            <Feather
+              name="send"
+              size={24}
+              color={Colors.WHITE}
+              onPress={handleSend}
+              style={{
+                padding: 8,
+                borderRadius: 100,
+                alignSelf: "center",
+                backgroundColor: Colors.BASKETBALL_ORANGE,
+              }}
+            />
+          </View>
+        </KeyboardAvoidingView>
+        {isOpenMultimedia && <Multimedia />}
       </View>
     </Screen>
   );
@@ -246,7 +264,7 @@ export default ChatRoomScreen;
 const styles = StyleSheet.create({
   menuButton: { position: "absolute", right: 0, marginRight: 20 },
   inputSection: {
-    flex: 0.09,
+    height: 70,
     flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
