@@ -1,14 +1,4 @@
-import {
-  Animated,
-  Dimensions,
-  FlatList,
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
 import GlobalModal from "@/components/Modal";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
@@ -27,6 +17,8 @@ export interface ServiceProps {
   title: string;
   price: number;
   description: string;
+  // startTime: Date;
+  // : Date;
 }
 
 function ChatReservationModal({ visible, setVisible }: ChatServiceModalProps) {
