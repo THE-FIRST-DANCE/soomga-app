@@ -27,6 +27,7 @@ import GoogleIcon from "@/components/icons/GoogleIcon";
 import LineIcon from "@/components/icons/LineIcon";
 import { UserRecoil } from "@/state/store/UserRecoil";
 import Profile from "@/components/profile/Profile";
+import { login } from "@/api/LoginApi";
 
 interface LoginForm {
   email: string;
@@ -45,6 +46,18 @@ function Hr() {
   return <View style={{ flex: 1, borderTopWidth: 1 }} />;
 }
 
+function useInputText(init?: string) {
+  const [value, setValue] = useState<string>(init ?? "");
+
+  const handler = {
+    input: (text: string) => {
+      setValue(text);
+    },
+  };
+
+  return { value, handler };
+}
+
 const SignInScreen = () => {
   /* navigation 추가 */
   const navigation = useNavigation<NavigationProp<SignStackParamList>>();
@@ -59,14 +72,26 @@ const SignInScreen = () => {
 
   const googleLogin = async () => {
     await WebBrowser.openBrowserAsync(
-      `http://192.168.0.20.nip.io:3000/api/auth/google/mobile`
+      `http://home.juhyeonni.co.kr:3000/api/auth/google/mobile`
     );
   };
 
   const lineLogin = async () => {
     await WebBrowser.openBrowserAsync(
-      `http://192.168.0.20.nip.io:3000/api/auth/line/mobile`
+      `http://home.juhyeonni.co.kr:3000/api/auth/line/mobile`
     );
+  };
+
+  const emailInputText = useInputText();
+  const passwordInputText = useInputText();
+
+  const emailLogin = async () => {
+    const res = await login({
+      email: emailInputText.value,
+      password: passwordInputText.value,
+    });
+
+    console.log(res);
   };
 
   return user?.id ? (
@@ -95,13 +120,18 @@ const SignInScreen = () => {
       </View>
       {/* 이메일, 비밀번호 입력창 */}
       <View style={styles.inputContainer}>
-        <InputText title="이메일" placeholder="username@gmail.com" />
+        <InputText
+          title="이메일"
+          placeholder="username@gmail.com"
+          {...emailInputText}
+        />
         <View style={{ position: "relative" }}>
           <InputText
             title="비밀번호"
             placeholder="비밀번호 입력"
             style={{ marginTop: 20 }}
             isPasswordVisible={isPasswordVisible}
+            {...passwordInputText}
           />
           <TouchableOpacity
             activeOpacity={1}
@@ -126,7 +156,7 @@ const SignInScreen = () => {
         </TouchableOpacity>
       </View>
       {/* 로그인 버튼 */}
-      <NextButton />
+      <NextButton onPress={emailLogin} />
       {/* 소셜 로그인 컨테이너 */}
       <View>
         <View
