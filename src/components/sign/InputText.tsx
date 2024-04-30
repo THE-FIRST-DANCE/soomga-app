@@ -1,20 +1,23 @@
 import { View, TextInput, Text, StyleSheet } from "react-native";
 
-/* props */
-type InputTextType = {
+interface InputTextType {
   title: string;
   placeholder: string;
   style?: object;
   isPasswordVisible?: boolean;
-  onChangeText?: (text: string) => void;
-};
+  value: string;
+  handler: {
+    input: (value: string) => void;
+  };
+}
 
 function InputText({
   title,
   placeholder,
   style,
   isPasswordVisible,
-  onChangeText,
+  value,
+  handler,
 }: InputTextType) {
   return (
     <View style={style}>
@@ -24,7 +27,8 @@ function InputText({
         placeholderTextColor="gray"
         style={styles.inputTexts}
         secureTextEntry={isPasswordVisible}
-        onChangeText={onChangeText}
+        onChangeText={handler.input}
+        value={value}
       />
     </View>
   );
