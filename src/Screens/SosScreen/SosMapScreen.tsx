@@ -129,10 +129,10 @@ const SosMapScreen = () => {
               sosId: boardId,
               updateSosDto: {
                 content: sosContent.content,
-                status: sosContent.status,
+                // status: sosContent.status,
                 lat: marker[0].lat,
                 lng: marker[0].lng,
-                authorId: 2,
+                // authorId: 2,
               },
             });
           },
@@ -152,10 +152,10 @@ const SosMapScreen = () => {
           setLoading(true);
           addMutate({
             content: sosContent.content,
-            status: sosContent.status,
+            // status: sosContent.status,
             lat: marker[0].lat,
             lng: marker[0].lng,
-            authorId: 2,
+            // authorId: 1,
           });
         },
       },
