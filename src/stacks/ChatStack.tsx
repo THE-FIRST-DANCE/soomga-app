@@ -5,9 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 export type ChatStackParamList = {
   ChatListScreen: undefined;
-  ChatRoomScreen: {
-    guide: GuideType;
-  };
+  ChatRoomScreen: undefined;
 };
 
 const Stack = createStackNavigator<ChatStackParamList>();
