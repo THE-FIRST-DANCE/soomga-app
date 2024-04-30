@@ -12,8 +12,8 @@ export enum BoardProcess {
 
 export interface AuthorType {
   id: number;
-  avatar: string;
-  birthdate: Date;
+  avatar?: string;
+  birthdate?: Date;
   nickname: string;
   email?: string;
 }
