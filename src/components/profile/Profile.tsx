@@ -5,6 +5,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import { StyleSheet } from "react-native";
 import * as SecureStorage from "expo-secure-store";
 import { useSetRecoilState } from "recoil";
+import { logout } from "@/api/LoginApi";
 
 const Profile = ({ user }: { user: User }) => {
   const setUser = useSetRecoilState(UserRecoil);
@@ -19,6 +20,7 @@ const Profile = ({ user }: { user: User }) => {
       nickname: "",
       avatar: "",
     });
+    logout();
   };
 
   return (
