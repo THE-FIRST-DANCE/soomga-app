@@ -4,8 +4,8 @@ interface SosContent {
   content: string;
   lat: number;
   lng: number;
-  status: string;
-  authorId: number;
+  // status: string;
+  // authorId: number;
 }
 
 export interface BoardComment {
