@@ -6,10 +6,14 @@ import {
 } from "@/interface/Plan";
 import axios from "axios";
 import { EXPO_PUBLIC_KAKAO_API } from "@env";
+import * as SecureStore from "expo-secure-store";
 
 export const api = axios.create({
-  baseURL: "http://192.168.0.20:3000/api/",
+  baseURL: "http://home.juhyeonni.co.kr:3000/api/",
   withCredentials: true,
+  headers: {
+    Authorization: "Bearer " + SecureStore.getItem("accessToken"),
+  },
 });
 
 export const getPlaceApi = async (category: string, region: string) => {
