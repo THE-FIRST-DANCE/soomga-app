@@ -5,6 +5,7 @@ export interface User {
   nickname: string;
   email: string;
   avatar: string;
+  role: string;
 }
 
 export const UserRecoil = atom<User>({
@@ -14,5 +15,6 @@ export const UserRecoil = atom<User>({
     nickname: "",
     email: "",
     avatar: "",
+    role: "",
   },
 });
