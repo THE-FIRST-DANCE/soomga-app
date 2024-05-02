@@ -9,7 +9,7 @@ import { EXPO_PUBLIC_KAKAO_API } from "@env";
 import * as SecureStore from "expo-secure-store";
 
 export const api = axios.create({
-  baseURL: "http://home.juhyeonni.co.kr:3000/api/",
+  baseURL: "http://home.juhyeonni.co.kr:3001/api/",
   withCredentials: true,
   headers: {
     Authorization: "Bearer " + SecureStore.getItem("accessToken"),
