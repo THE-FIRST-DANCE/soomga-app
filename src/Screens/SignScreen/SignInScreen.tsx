@@ -1,14 +1,6 @@
-import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Linking,
-  Platform,
-} from "react-native";
+import { useState } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import * as AuthSession from "expo-auth-session";
 
 /* components */
 import InputText from "@/components/sign/InputText";
@@ -20,25 +12,13 @@ import { Feather } from "@expo/vector-icons";
 /* navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-import { useRecoilValue } from "recoil";
-import { API_URL } from "@env";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { SignStackParamList } from "@/stacks/SignStack";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import LineIcon from "@/components/icons/LineIcon";
 import { UserRecoil } from "@/state/store/UserRecoil";
 import Profile from "@/components/profile/Profile";
-
-interface LoginForm {
-  email: string;
-  password: string;
-}
-
-interface SignupForm {
-  email: string;
-  nickName: string;
-  passwordConfirm: string;
-  password: string;
-}
+import { login } from "@/api/LoginApi";
 
 /* 소셜 로그인 부분 수평선 */
 function Hr() {
@@ -52,21 +32,71 @@ const SignInScreen = () => {
   /* 비밀번호 표시 여부 설정 */
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  // const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
-  // console.log(recoilToken);
+  /* 로그인할 사용자 상태 관리 */
+  const [user, setUser] = useRecoilState(UserRecoil);
 
-  const user = useRecoilValue(UserRecoil);
-
+  /* 구글 로그인 */
   const googleLogin = async () => {
-    await WebBrowser.openBrowserAsync(
-      `http://192.168.0.20.nip.io:3000/api/auth/google/mobile`
-    );
+    try {
+      await WebBrowser.openBrowserAsync(
+        `http://home.juhyeonni.co.kr:3000/api/auth/google/mobile`
+      );
+      console.log("Google Login Succeed");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
+  /* 라인 로그인 - 백엔드 미완성 */
   const lineLogin = async () => {
-    await WebBrowser.openBrowserAsync(
-      `http://192.168.0.20.nip.io:3000/api/auth/line/mobile`
-    );
+    try {
+      await WebBrowser.openBrowserAsync(
+        `http://home.juhyeonni.co.kr:3000/api/auth/line/mobile`
+      );
+      console.log("Line Login Succeed");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  /* 텍스트 변경되는 이벤트 핸들러 */
+  const useInputText = (init?: string) => {
+    const [value, setValue] = useState<string>(init ?? "");
+
+    const handler = {
+      input: (text: string) => {
+        setValue(text);
+      },
+    };
+
+    return { value, handler };
+  };
+
+  const emailInputText = useInputText();
+  const passwordInputText = useInputText();
+
+  /* 이메일 로그인 함수 */
+  const emailLogin = async () => {
+    const response = await login({
+      email: emailInputText.value,
+      password: passwordInputText.value,
+    });
+
+    try {
+      console.log("Email Login Succeed");
+      console.log(response);
+      setUser({
+        id: response.user.sub,
+        nickname: response.user.nickname,
+        email: response.user.email,
+        avatar: response.user.avatar,
+        role: response.user.role,
+      });
+
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return user?.id ? (
@@ -95,13 +125,18 @@ const SignInScreen = () => {
       </View>
       {/* 이메일, 비밀번호 입력창 */}
       <View style={styles.inputContainer}>
-        <InputText title="이메일" placeholder="username@gmail.com" />
+        <InputText
+          title="이메일"
+          placeholder="username@gmail.com"
+          {...emailInputText}
+        />
         <View style={{ position: "relative" }}>
           <InputText
             title="비밀번호"
             placeholder="비밀번호 입력"
             style={{ marginTop: 20 }}
             isPasswordVisible={isPasswordVisible}
+            {...passwordInputText}
           />
           <TouchableOpacity
             activeOpacity={1}
@@ -126,7 +161,7 @@ const SignInScreen = () => {
         </TouchableOpacity>
       </View>
       {/* 로그인 버튼 */}
-      <NextButton />
+      <NextButton onPress={emailLogin} />
       {/* 소셜 로그인 컨테이너 */}
       <View>
         <View
