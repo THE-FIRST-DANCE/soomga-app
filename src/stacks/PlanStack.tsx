@@ -1,9 +1,9 @@
-import PlanConfirmScreen from "@/Screens/PlanConfirmScreen/PlanConfirmScreen";
-import PlanEditScreen from "@/Screens/PlanConfirmScreen/PlanEditScreen";
-import PlanCreateDetail from "@/Screens/PlanCreateScreen/PlanCreateDetail";
-import PlanCreateScreen from "@/Screens/PlanCreateScreen/PlanCreateScreen";
-import PlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlaceSelectScreen";
-import PlanPlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlanPlaceSelectScreen";
+import PlanConfirmScreen from "@/Screens/PlanScreen/PlanConfirmScreen";
+import PlanEditScreen from "@/Screens/PlanScreen/PlanEditScreen";
+import PlanCreateDetail from "@/Screens/PlanScreen/PlanCreateDetail";
+import PlanCreateScreen from "@/Screens/PlanScreen/PlanCreateScreen";
+import PlaceSelectScreen from "@/Screens/PlanScreen/PlaceSelectScreen";
+import PlanPlaceSelectScreen from "@/Screens/PlanScreen/PlanPlaceSelectScreen";
 import { PlanConfirmPeriodList, Plans } from "@/interface/Plan";
 import { PlanInfo } from "@/state/store/PlanRecoil";
 import { createStackNavigator } from "@react-navigation/stack";
