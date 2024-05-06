@@ -1,54 +1,72 @@
 import { useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
-import { useRecoilValue } from "recoil";
-import {
-  CurrentPeriod,
-  PlanConfirm,
-  PlanConfirmList,
-} from "@/state/store/PlanRecoil";
-import { PlanConfirmListItem, Plans } from "@/interface/Plan";
+import { useRecoilState } from "recoil";
+import { RouteProp, useRoute } from "@react-navigation/native";
+import { PlanStackParamList } from "@/stacks/PlanStack";
 import { provinces } from "@/data/region";
+import { PlanConfirmListItem, Plans } from "@/interface/Plan";
+import { PlanConfirm, PlanConfirmList } from "@/state/store/PlanRecoil";
+import { getPlanById } from "@/api/PlanApi";
 
-export const usePlanConfirm = (plan: Plans | null) => {
-  const planConfirmList = useRecoilValue(PlanConfirmList);
-  const [confirmList, setConfirmList] = useState<PlanConfirm | null>(null);
-  const currentPeriod = useRecoilValue(CurrentPeriod);
-  const [planList, setPlanList] = useState<PlanConfirmListItem[]>(
-    [] as PlanConfirmListItem[]
-  );
+export const usePlanConfirm = () => {
+  type PlanEditScreenRouteProp = RouteProp<
+    PlanStackParamList,
+    "PlanConfirmScreen"
+  >;
+  const route = useRoute<PlanEditScreenRouteProp>();
+  const { planId } = route.params; // 여행 정보
+  const [planConfirmList, setPlanConfirmList] = useRecoilState(PlanConfirmList);
+  const [planConfirm, setPlanConfirm] = useState<PlanConfirm>(planConfirmList);
 
-  useEffect(() => {
-    if (confirmList) {
-      setPlanList(confirmList.periodPlan[currentPeriod]);
-    }
-  }, [confirmList, currentPeriod]);
-
-  useEffect(() => {
-    if (plan) {
+  const { mutate } = useMutation({
+    mutationFn: () => getPlanById(Number(planId)),
+    onSuccess: (data: Plans) => {
       const periodPlan: { [key: number]: PlanConfirmListItem[] } = {};
 
-      const lat = provinces.find((item) => item.label === plan.region)?.lat;
-      const lng = provinces.find((item) => item.label === plan.region)?.lng;
+      const lat = provinces.find((item) => item.name === data.region)?.lat;
+      const lng = provinces.find((item) => item.name === data.region)?.lng;
 
-      plan.daySchedules.forEach((item) => {
+      data.daySchedules.forEach((item) => {
         periodPlan[item.day] = item.schedules;
       });
 
-      setConfirmList({
+      setPlanConfirm({
         periodPlan,
-        transport: plan.transport,
+        transport: data.transport,
         info: {
-          title: plan.title,
-          province: plan.region,
+          title: data.title,
+          province: data.region,
           lat: lat || 0,
           lng: lng || 0,
-          period: plan.period,
+          period: data.period,
         },
       });
-    } else {
-      setConfirmList(planConfirmList);
-    }
-  }, [plan]);
 
-  return { confirmList, planList };
+      setPlanConfirmList({
+        periodPlan,
+        transport: data.transport,
+        info: {
+          title: data.title,
+          province: data.region,
+          lat: lat || 0,
+          lng: lng || 0,
+          period: data.period,
+        },
+      });
+    },
+  });
+
+  useEffect(() => {
+    if (planId) {
+      mutate();
+    }
+  }, [planId, mutate]);
+
+  useEffect(() => {
+    setPlanConfirm(planConfirmList);
+  }, [planConfirmList]);
+
+  return {
+    planConfirm,
+  };
 };

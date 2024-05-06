@@ -1,13 +1,15 @@
-import Colors from "@/modules/Color";
+// Libraries
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Ionicons, AntDesign } from "@expo/vector-icons";
-import { useSetRecoilState } from "recoil";
-import { PlanConfirmList, PlanInfo } from "@/state/store/PlanRecoil";
-import { PlanConfirmListItem, Plans } from "@/interface/Plan";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// Interface
+import { Plans } from "@/interface/Plan";
 import { PlanStackParamList } from "@/stacks/PlanStack";
-import { provinces } from "@/data/region";
 
 const styles = StyleSheet.create({
   container: {
@@ -48,43 +50,11 @@ interface PlanItemProps {
 
 // 플랜 생성 페이지에서 플랜 리스트 아이템
 const PlanItem = ({ plan }: PlanItemProps) => {
-  const setPlanConfirmList = useSetRecoilState(PlanConfirmList);
-  const setPlanInfo = useSetRecoilState(PlanInfo);
-
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
-  const lat = provinces.find((item) => item.label === plan.region)?.lat;
-  const lng = provinces.find((item) => item.label === plan.region)?.lng;
-
   const onClickPlan = () => {
-    const periodPlan: { [key: number]: PlanConfirmListItem[] } = {};
-
-    plan.daySchedules.forEach((item) => {
-      periodPlan[item.day] = item.schedules;
-    });
-
-    setPlanConfirmList({
-      periodPlan,
-      transport: plan.transport,
-      info: {
-        title: plan.title,
-        province: plan.region,
-        lat: lat || 0,
-        lng: lng || 0,
-        period: plan.period,
-      },
-    });
-
-    setPlanInfo({
-      title: plan.title,
-      province: plan.region,
-      lat: lat || 0,
-      lng: lng || 0,
-      period: plan.period,
-    });
-
-    navigation.navigate("PlanConfirmScreen", {
-      data: plan,
+    navigation.navigate("PlanDetailScreen", {
+      planId: plan.id,
     });
   };
 

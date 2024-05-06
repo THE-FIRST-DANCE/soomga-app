@@ -1,10 +1,7 @@
-import Screen from "@/components/Screen";
-import GoogleMap from "@/components/plan/GoogleMap";
-import { CurrentPeriod, PlanConfirmList } from "@/state/store/PlanRecoil";
-import React, { useState } from "react";
+// Libraries
+import React, { useEffect, useState } from "react";
 import {
   Alert,
-  Animated,
   Modal,
   ScrollView,
   StyleSheet,
@@ -12,27 +9,44 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { AntDesign } from "@expo/vector-icons";
-import PlanConfirmItem from "@/components/plan/PlanConfirmItem";
-import Colors from "@/modules/Color";
 import {
   NavigationProp,
   RouteProp,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
-import { PlanStackParamList } from "@/stacks/PlanStack";
-import { PlanConfirmPeriodModal } from "@/components/plan/PlanConfirmPeriodModal";
-import { usePlanList } from "@/hooks/plan/useConfirmPlanList";
 import { useMutation } from "@tanstack/react-query";
-import { savePlan } from "@/api/PlanApi";
 import { ActivityIndicator } from "react-native-paper";
+
+// Recoil
+import { CurrentPeriod } from "@/state/store/PlanRecoil";
+
+// Components
+import Screen from "@/components/Screen";
+import GoogleMap from "@/components/plan/GoogleMap";
+import PlanConfirmItem from "@/components/plan/PlanConfirmItem";
+import { PlanConfirmPeriodModal } from "@/components/plan/PlanConfirmPeriodModal";
+
+// Hooks
+import { usePlanList } from "@/hooks/plan/useConfirmPlanList";
 import { usePlanConfirm } from "@/hooks/plan/usePlanConfirm";
 
+// Interface
+import { PlanConfirmListItem } from "@/interface/Plan";
+import { PlanStackParamList } from "@/stacks/PlanStack";
+
+// Modules
+import Colors from "@/modules/Color";
+
+// API
+import { savePlan } from "@/api/PlanApi";
+
 const PlanConfirmScreen = () => {
-  const planConfirmList = useRecoilValue(PlanConfirmList);
-  const [currentPeriod, setCurrentPeriod] = useRecoilState(CurrentPeriod);
+  const { planConfirm } = usePlanConfirm();
+  const currentPeriod = useRecoilValue(CurrentPeriod);
+  const [planList, setPlanList] = useState<PlanConfirmListItem[]>([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -41,9 +55,13 @@ const PlanConfirmScreen = () => {
     "PlanConfirmScreen"
   >;
   const route = useRoute<PlanEditScreenRouteProp>();
-  const { data } = route.params; // 여행 정보
+  const { planId } = route.params; // 여행 정보
 
-  const { confirmList, planList } = usePlanConfirm(data ? data : null);
+  useEffect(() => {
+    if (planConfirm.periodPlan[currentPeriod]) {
+      setPlanList(planConfirm.periodPlan[currentPeriod]);
+    }
+  }, [planConfirm, currentPeriod]);
 
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
@@ -51,9 +69,9 @@ const PlanConfirmScreen = () => {
 
   const editHandler = () => {
     navigation.navigate("PlanEditScreen", {
-      data: planConfirmList.periodPlan,
-      info: planConfirmList.info,
-      transport: planConfirmList.transport,
+      data: planConfirm.periodPlan,
+      info: planConfirm.info,
+      transport: planConfirm.transport,
     });
   };
 
@@ -77,12 +95,13 @@ const PlanConfirmScreen = () => {
         text: "저장",
         onPress: () => {
           const data = {
-            planId: 1,
-            title: planConfirmList.info.title,
-            period: planConfirmList.info.period,
-            region: planConfirmList.info.province,
-            list: planConfirmList.periodPlan,
-            transport: planConfirmList.transport,
+            memberId: 2,
+            planId: planId ? Number(planId) : null,
+            title: planConfirm.info.title,
+            period: planConfirm.info.period,
+            region: planConfirm.info.province,
+            list: planConfirm.periodPlan,
+            transport: planConfirm.transport,
           };
 
           setIsLoading(true);
@@ -92,7 +111,7 @@ const PlanConfirmScreen = () => {
     ]);
   };
 
-  if (!confirmList) {
+  if (!planConfirm) {
     return <Text>로딩중</Text>;
   }
 
@@ -101,8 +120,8 @@ const PlanConfirmScreen = () => {
       <View style={styles.map}>
         <GoogleMap
           center={{
-            lat: confirmList.info.lat,
-            lng: confirmList.info.lng,
+            lat: planConfirm.info.lat,
+            lng: planConfirm.info.lng,
           }}
           customMarker={markers}
         />
@@ -135,7 +154,7 @@ const PlanConfirmScreen = () => {
         >
           <View style={styles.modalContainer}>
             <PlanConfirmPeriodModal
-              period={confirmList.info.period}
+              period={planConfirm.info.period}
               setModalVisible={setModalVisible}
             />
           </View>
