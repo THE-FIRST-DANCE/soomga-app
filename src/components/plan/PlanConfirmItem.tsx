@@ -1,9 +1,34 @@
+// Libraries
+import { useState } from "react";
+import {
+  Image,
+  Linking,
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  TextInput,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { useRecoilState, useRecoilValue } from "recoil";
+
+// Recoil
+import { CurrentPeriod, PlanConfirmList } from "@/state/store/PlanRecoil";
+
+// API
 import { getTransCoord } from "@/api/PlanApi";
+
+// Data
 import { categories } from "@/data/categories";
+
+// Interface
 import { PlanConfirmListItem } from "@/interface/Plan";
+
+// Modules
 import Colors from "@/modules/Color";
-import { Image, Linking, StyleSheet, Text, View } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
+// Components
+import GlobalModal from "../Modal";
 
 interface PlanConfirmItemProps {
   item: PlanConfirmListItem;
@@ -12,6 +37,10 @@ interface PlanConfirmItemProps {
 
 const PlanConfirmItem = ({ item, index }: PlanConfirmItemProps) => {
   const category = categories.find((c) => c.value === item.item.category);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [content, setContent] = useState<string>(item.description);
+  const currentPeriod = useRecoilValue(CurrentPeriod);
+  const [planConfirmList, setPlanConfirmList] = useRecoilState(PlanConfirmList);
 
   const onClick = async () => {
     const { x: originX, y: originY } = await getTransCoord(
@@ -33,6 +62,34 @@ const PlanConfirmItem = ({ item, index }: PlanConfirmItemProps) => {
     Linking.openURL(
       `https://map.kakao.com/?map_type=${mapType}&target=${target}&rt=${rt}&rt1=${rt1}&rt2=${rt2}`
     );
+  };
+
+  const saveDescription = () => {
+    const list = planConfirmList.periodPlan[currentPeriod];
+    const newList = list.map((item, idx) => {
+      if (idx === index) {
+        return {
+          ...item,
+          description: content,
+        };
+      }
+      return item;
+    });
+
+    setPlanConfirmList({
+      ...planConfirmList,
+      periodPlan: {
+        ...planConfirmList.periodPlan,
+        [currentPeriod]: newList,
+      },
+    });
+
+    setModalVisible(false);
+  };
+
+  const writeHandler = () => {
+    setContent(item.description);
+    setModalVisible(true);
   };
 
   return (
@@ -62,7 +119,52 @@ const PlanConfirmItem = ({ item, index }: PlanConfirmItemProps) => {
           </TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity style={styles.cancel} onPress={writeHandler}>
+        <AntDesign name="edit" size={20} color="black" />
+      </TouchableOpacity>
       <Image source={{ uri: item.item.photo }} style={styles.image} />
+
+      <GlobalModal
+        type="center"
+        visible={modalVisible}
+        setVisible={setModalVisible}
+      >
+        <View
+          style={{
+            width: 300,
+            backgroundColor: Colors.WHITE,
+          }}
+        >
+          <View style={styles.modalHeader}>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>메모</Text>
+          </View>
+          <TextInput
+            placeholder="내용을 입력하세요"
+            multiline
+            value={content}
+            onChangeText={setContent}
+            style={styles.modalInput}
+          />
+          <View style={styles.modalFooter}>
+            <TouchableOpacity
+              onPress={() => {
+                setModalVisible(false);
+              }}
+              style={styles.footerItem}
+            >
+              <Text style={{ color: Colors.GRAY_MEDIUM, fontSize: 16 }}>
+                취소
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={saveDescription}
+              style={styles.footerItem}
+            >
+              <Text style={{ color: Colors.PRIMARY, fontSize: 16 }}>확인</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </GlobalModal>
     </View>
   );
 };
@@ -114,5 +216,36 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 5,
+  },
+  modalHeader: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20,
+  },
+  modalCancel: {
+    position: "absolute",
+    right: 10,
+  },
+  modalInput: {
+    padding: 10,
+    paddingTop: 15,
+    margin: 10,
+    borderWidth: 0.5,
+    borderColor: Colors.GRAY_MEDIUM,
+    borderRadius: 10,
+    minHeight: 120,
+  },
+  modalFooter: {
+    flexDirection: "row",
+    padding: 10,
+  },
+  footerItem: {
+    flex: 1,
+    alignItems: "center",
+  },
+  cancel: {
+    padding: 5,
+    borderColor: Colors.GRAY_MEDIUM,
+    marginRight: 10,
   },
 });
