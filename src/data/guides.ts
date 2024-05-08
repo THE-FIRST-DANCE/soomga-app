@@ -1,21 +1,49 @@
 export type GuideType = {
   id: number;
+  /* 가이드 프로필 사진 → member.avatar로 변경함 */
   photo: string;
+  /* 가이드 닉네임 → member.nickname로 변경함 */
   name: string;
-  region: string;
-  birthDate: string;
-  gender: string;
-  description: string;
-  rating: number;
-  temp: number;
-  guideCount: number;
-  language: string[];
-  tags: {
-    id: number;
-    name: string;
+  /* 가이드 활동 지역 */
+  areas: {
+    area: {
+      id: number;
+      name: string;
+    };
   }[];
+  /* 가이드 자기소개 → service에서 변경 예정 */
+  description: string;
+  /* 가이드 평점 → totalAvgScore로 변경함 */
+  rating: number;
+  /* 가이드 온도 */
+  temperature: number;
+  /* 가이드 횟수 → 다른 속성으로 변경 예정 */
+  guideCount: number;
+  /* 가이드 평점 */
+  avgCommunicationScore: string;
+  avgKindnessScore: string;
+  avgLocationScore: string;
+  totalAvgScore: string;
+  /* 가이드 유저 정보 */
+  member: {
+    avatar: string | null;
+    birthDate: string;
+    gender: string;
+    nickname: string;
+    languages: {
+      language: {
+        id: number;
+        name: string;
+      };
+    }[];
+    tags: {
+      id: number;
+      name: string;
+    }[];
+  };
   instagramLink: string;
   XLink: string;
+  /* 인증 여부 */
   verified_ID: boolean;
   verified_bank_account: boolean;
   verified_phone_number: boolean;
