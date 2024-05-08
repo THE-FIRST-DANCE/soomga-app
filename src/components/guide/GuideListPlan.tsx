@@ -58,7 +58,7 @@ function GuideListPlan({
   /* Navigation */
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
-  return (
+  return guide?.member ? (
     <TouchableWithoutFeedback
       style={styles.container}
       onPress={() => {
@@ -71,8 +71,20 @@ function GuideListPlan({
     >
       <View style={{ flexDirection: "row" }}>
         <View style={styles.guideContainer}>
-          <Image source={{ uri: guide.photo }} style={styles.guideImage} />
-          <Text style={{ fontSize: 18 }}>{guide.name}</Text>
+          {guide.member.avatar !== null ? (
+            <Image
+              source={{
+                uri: guide.member.avatar,
+              }}
+              style={styles.guideImage}
+            />
+          ) : (
+            <Image
+              source={require("@/assets/defaultProfile.png")}
+              style={styles.guideImage}
+            />
+          )}
+          <Text style={{ fontSize: 13 }}>{guide.member.nickname}</Text>
           <Text style={{ color: Colors.GRAY_DARK, fontSize: 12 }}>
             n시간 전 접속
           </Text>
@@ -134,6 +146,8 @@ function GuideListPlan({
         )}
       </Pressable>
     </TouchableWithoutFeedback>
+  ) : (
+    <Text>Loading...</Text>
   );
 }
 
