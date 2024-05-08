@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -22,6 +22,8 @@ import GuideListPlan from "@/components/guide/GuideListPlan";
 import GuideListService from "@/components/guide/GuideListService";
 import { FontAwesome } from "@expo/vector-icons";
 import GuideFilter from "@/components/guide/GuideFilter";
+import { getGuidesList } from "@/api/GuideApi";
+import LoadingScreen from "@/components/Loading";
 
 function GuideListScreen() {
   const route = useRoute<RouteProp<GuideStackParamList, "GuideListScreen">>();
@@ -60,9 +62,21 @@ function GuideListScreen() {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
 
   /* 필터링된 가이드 저장할 변수 */
-  const [guidesToRender, setGuidesToRender] = useState<GuideType[]>(
-    guidesInSelectedRegions
-  );
+  const [guidesToRender, setGuidesToRender] = useState<GuideType[]>([]);
+
+  useEffect(() => {
+    const getGuidesData = async () => {
+      try {
+        const guides = await getGuidesList();
+        setGuidesToRender(guides);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getGuidesData();
+    console.log(guidesToRender);
+  }, []);
 
   return (
     <Screen title={isRecommended ? "추천 가이드" : "전체 리스트"}>
@@ -95,33 +109,37 @@ function GuideListScreen() {
           </Pressable>
         )}
       </View>
-      <ScrollView
-        ref={scrollViewRef}
-        horizontal={true}
-        pagingEnabled={true}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ width: "300%" }}
-        onScroll={handlePageChange}
-      >
-        {/* 가이드 정보 */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {guidesToRender.map((guide, index) => (
-            <GuideListInfo key={index} guide={guide} userTags={userTags} />
-          ))}
+      {guidesToRender === undefined ? (
+        <LoadingScreen loading={true} />
+      ) : (
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ width: "300%" }}
+          onScroll={handlePageChange}
+        >
+          {/* 가이드 정보 */}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {guidesToRender.map((guide, index) => (
+              <GuideListInfo key={index} guide={guide} userTags={userTags} />
+            ))}
+          </ScrollView>
+          {/* 가이드 플랜 */}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {guidesToRender.map((guide, index) => (
+              <GuideListPlan key={index} guide={guide} userTags={userTags} />
+            ))}
+          </ScrollView>
+          {/* 가이드 서비스 */}
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {guidesToRender.map((guide, index) => (
+              <GuideListService key={index} guide={guide} userTags={userTags} />
+            ))}
+          </ScrollView>
         </ScrollView>
-        {/* 가이드 플랜 */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {guidesToRender.map((guide, index) => (
-            <GuideListPlan key={index} guide={guide} userTags={userTags} />
-          ))}
-        </ScrollView>
-        {/* 가이드 서비스 */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {guidesToRender.map((guide, index) => (
-            <GuideListService key={index} guide={guide} userTags={userTags} />
-          ))}
-        </ScrollView>
-      </ScrollView>
+      )}
       {isFilterVisible && (
         <GuideFilter
           isFilterVisible={isFilterVisible}
