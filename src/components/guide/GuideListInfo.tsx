@@ -21,6 +21,7 @@ import { GuideStackParamList } from "@/stacks/GuideStack";
 
 /* vector-icons */
 import { SimpleLineIcons } from "@expo/vector-icons";
+import LoadingScreen from "../Loading";
 
 export const TempBar = ({
   progress,
@@ -79,46 +80,46 @@ function GuideListInfo({
   const [highlightedTags, setHighlightedTags] = useState<boolean[]>([]);
 
   /* 사용자와 가이드가 같은 태그를 가졌는 지 확인 */
-  const checkSameTags = () => {
-    const isSameTag = guide.tags.map((tag) => false);
-    const newHighlightedTags: boolean[] = [];
+  // const checkSameTags = () => {
+  //   const isSameTag = guide.tags.map((tag) => false);
+  //   const newHighlightedTags: boolean[] = [];
 
-    guide.tags.forEach((tag, index) => {
-      userTags.forEach((userTag) => {
-        if (tag.name === userTag.name) {
-          isSameTag[index] = true;
-        }
-      });
-    });
+  //   guide.tags.forEach((tag, index) => {
+  //     userTags.forEach((userTag) => {
+  //       if (tag.name === userTag.name) {
+  //         isSameTag[index] = true;
+  //       }
+  //     });
+  //   });
 
-    const newGuideTags: TagType[] = [];
+  //   const newGuideTags: TagType[] = [];
 
-    guide.tags.forEach((tag, index) => {
-      if (isSameTag[index]) {
-        newGuideTags.push(tag);
-        newHighlightedTags.push(true);
-      }
-    });
+  //   guide.tags.forEach((tag, index) => {
+  //     if (isSameTag[index]) {
+  //       newGuideTags.push(tag);
+  //       newHighlightedTags.push(true);
+  //     }
+  //   });
 
-    guide.tags.forEach((tag, index) => {
-      if (!isSameTag[index]) {
-        newGuideTags.push(tag);
-        newHighlightedTags.push(false);
-      }
-    });
+  //   guide.tags.forEach((tag, index) => {
+  //     if (!isSameTag[index]) {
+  //       newGuideTags.push(tag);
+  //       newHighlightedTags.push(false);
+  //     }
+  //   });
 
-    setGuideTagsWithUsers(newGuideTags);
-    setHighlightedTags(newHighlightedTags);
-  };
+  //   setGuideTagsWithUsers(newGuideTags);
+  //   setHighlightedTags(newHighlightedTags);
+  // };
 
-  useEffect(() => {
-    checkSameTags();
-  }, [guide.tags, userTags]);
+  // useEffect(() => {
+  //   checkSameTags();
+  // }, [guide.tags, userTags]);
 
   /* Navigation */
   const navigation = useNavigation<NavigationProp<GuideStackParamList>>();
 
-  return (
+  return guide?.member ? (
     <TouchableWithoutFeedback
       style={styles.container}
       onPress={() =>
@@ -132,13 +133,25 @@ function GuideListInfo({
       <View style={{ flexDirection: "row" }}>
         <View style={{ flex: 1, alignItems: "center" }}>
           <View style={{ flexDirection: "row" }}>
-            <Image source={{ uri: guide.photo }} style={styles.guideImage} />
+            {guide.member?.avatar !== null ? (
+              <Image
+                source={{
+                  uri: guide.member?.avatar,
+                }}
+                style={styles.guideImage}
+              />
+            ) : (
+              <Image
+                source={require("@/assets/defaultProfile.png")}
+                style={styles.guideImage}
+              />
+            )}
             <View style={{ alignItems: "center" }}>
-              <Text style={{ fontSize: 9 }}>{guide.temp}℃</Text>
-              <TempBar progress={guide.temp} />
+              <Text style={{ fontSize: 9 }}>{guide.temperature}℃</Text>
+              <TempBar progress={guide.temperature} />
             </View>
           </View>
-          <Text style={{ fontSize: 18 }}>{guide.name}</Text>
+          <Text style={{ fontSize: 13 }}>{guide.member?.nickname}</Text>
           <Text style={{ color: Colors.GRAY_DARK, fontSize: 12 }}>
             n시간 전 접속
           </Text>
@@ -153,22 +166,27 @@ function GuideListInfo({
             <View style={{ alignItems: "center" }}>
               <Text>평점</Text>
               <Text style={{ fontWeight: "bold" }}>
-                {guide.rating.toFixed(1)}
+                {parseFloat(guide.totalAvgScore).toFixed(1)}
               </Text>
             </View>
           </View>
           {/* 지역, 나이대, 사용 언어 */}
           <View style={{ marginVertical: 5 }}>
-            <Text style={styles.infoText}>지역 | {guide.region}</Text>
             <Text style={styles.infoText}>
-              나이대 | {calculateAgeRange(guide.birthDate)}
+              지역 | {guide.areas.map((area) => area.area.name).join(", ")}
+            </Text>
+            <Text style={styles.infoText}>
+              나이대 | {calculateAgeRange(guide.member?.birthDate)}
             </Text>
             <Text
               style={styles.infoText}
               numberOfLines={1}
               ellipsizeMode="tail"
             >
-              사용 언어 | {guide.language.join(", ")}
+              사용 언어 |{" "}
+              {guide.member?.languages
+                .map((language) => language.language.name)
+                .join(", ")}
             </Text>
           </View>
         </View>
@@ -180,33 +198,41 @@ function GuideListInfo({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tagsContainer}
       >
-        {guideTagsWithUsers.map((tag, index) => (
-          <View
-            key={tag.id}
-            style={{
-              ...tagStyle.tag,
-              height: 30,
-              marginVertical: 2,
-              backgroundColor: highlightedTags[index]
-                ? Colors.BASKETBALL_ORANGE
-                : Colors.WHITE,
-            }}
-          >
-            <Text
+        {guide.member?.tags.map((tag, index) =>
+          guide.member?.tags.length === 0 ? (
+            <Text>태그가 없습니다.</Text>
+          ) : (
+            <View
+              key={tag.id}
               style={{
-                color: highlightedTags[index] ? Colors.WHITE : Colors.BLACK,
-                fontSize: 10,
+                ...tagStyle.tag,
+                height: 30,
+                marginVertical: 2,
+                backgroundColor: highlightedTags[index]
+                  ? Colors.BASKETBALL_ORANGE
+                  : Colors.WHITE,
               }}
             >
-              {tag.name}
-            </Text>
-          </View>
-        ))}
+              <Text
+                style={{
+                  color: highlightedTags[index] ? Colors.WHITE : Colors.BLACK,
+                  fontSize: 10,
+                }}
+              >
+                {tag.name}
+              </Text>
+            </View>
+          )
+        )}
       </ScrollView>
       {/* 팔로우 버튼 */}
       <Pressable
         onPress={() => {
-          checkFollow({ isFollowed, setIsFollowed, guideName: guide.name });
+          checkFollow({
+            isFollowed,
+            setIsFollowed,
+            guideName: guide.member?.nickname,
+          });
         }}
         style={{
           ...styles.followButton,
@@ -224,6 +250,8 @@ function GuideListInfo({
         )}
       </Pressable>
     </TouchableWithoutFeedback>
+  ) : (
+    <Text>Loading...</Text>
   );
 }
 
