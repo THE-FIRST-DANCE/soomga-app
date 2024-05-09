@@ -119,9 +119,9 @@ function GuideDetailScreen() {
           nestedScrollEnabled={true}
         >
           <GuideDetailInfo guide={guide} />
-          <GuideDetailPlan />
+          <GuideDetailPlan guide={guide} />
           <GuideDetailService />
-          <GuideDetailSchedule />
+          <GuideDetailSchedule guide={guide} />
           <GuideDetailReview />
         </ScrollView>
       </ScrollView>
