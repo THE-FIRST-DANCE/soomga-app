@@ -4,64 +4,24 @@ import Colors from "@/modules/Color";
 import { G, Path, Rect, Svg } from "react-native-svg";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { GuideType } from "@/data/guides";
+import { getGuideReviews } from "@/api/GuideApi";
 
 interface GuideReview {
   id: number;
   writer_name: string;
-  communication_score: number;
-  kindness_score: number;
-  location_score: number;
+  communicationScore: number;
+  kindnessScore: number;
+  locationScore: number;
   content: string;
-  created_at: Date;
-  updated_at: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
-const reviewsWithGuideInfo: GuideReview[] = [
-  {
-    id: 1,
-    communication_score: 5,
-    kindness_score: 4,
-    location_score: 4,
-    content:
-      "일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요! 일본어 잘해요!",
-    created_at: new Date("2024-04-02"),
-    updated_at: new Date(),
-    writer_name: "うきょう",
-  },
-  {
-    id: 2,
-    communication_score: 5,
-    kindness_score: 4,
-    location_score: 5,
-    content: "일본어 잘해요!",
-    created_at: new Date("2024-04-03"),
-    updated_at: new Date(),
-    writer_name: "けんた",
-  },
-  {
-    id: 3,
-    communication_score: 5,
-    kindness_score: 5,
-    location_score: 5,
-    content: "일본어 잘해요!",
-    created_at: new Date("2024-04-04"),
-    updated_at: new Date(),
-    writer_name: "ゆうき",
-  },
-  {
-    id: 4,
-    communication_score: 3,
-    kindness_score: 3,
-    location_score: 4,
-    content: "일본어 잘해요!",
-    created_at: new Date("2024-04-05"),
-    updated_at: new Date(),
-    writer_name: "ほたか",
-  },
-];
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
 
-const formatDate = (date: Date) => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
@@ -71,9 +31,7 @@ const formatDate = (date: Date) => {
 
 const ReviewComponent = ({ review }: { review: GuideReview }) => {
   const rating =
-    (review.communication_score +
-      review.kindness_score +
-      review.location_score) /
+    (review.communicationScore + review.kindnessScore + review.locationScore) /
     3;
 
   const hideFullName = (name: string) => {
@@ -89,10 +47,11 @@ const ReviewComponent = ({ review }: { review: GuideReview }) => {
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Text style={styles.reviewInfoText}>
-            {hideFullName(review.writer_name)}
+            {hideFullName(review.content)}
           </Text>
-          <Text style={{ fontSize: 12 }}>{formatDate(review.created_at)}</Text>
+          <Text style={{ fontSize: 12 }}>{formatDate(review.createdAt)}</Text>
         </View>
+        {/* FIXME : 현재 로그인한 사용자가 작성한 경우에만 보이도록 수정 */}
         <View style={{ flexDirection: "row" }}>
           <Text style={styles.reviewInfoText}>수정</Text>
           <Text style={styles.reviewInfoText}>삭제</Text>
@@ -111,13 +70,13 @@ const ReviewComponent = ({ review }: { review: GuideReview }) => {
       </View>
       <View style={{ flexDirection: "row", marginTop: 5 }}>
         <Text style={styles.reviewScoreText}>
-          의사소통 {review.communication_score.toFixed(1)}
+          의사소통 {review.communicationScore.toFixed(1)}
         </Text>
         <Text style={styles.reviewScoreText}>
-          친절 {review.kindness_score.toFixed(1)}
+          친절 {review.kindnessScore.toFixed(1)}
         </Text>
         <Text style={styles.reviewScoreText}>
-          위치 {review.location_score.toFixed(1)}
+          위치 {review.locationScore.toFixed(1)}
         </Text>
       </View>
       <Text style={styles.reviewContentText}>{review.content}</Text>
@@ -125,7 +84,7 @@ const ReviewComponent = ({ review }: { review: GuideReview }) => {
   );
 };
 
-function GuideDetailReview() {
+function GuideDetailReview({ guide }: { guide: GuideType }) {
   /* 리뷰 필터 종료 날짜 */
   const [endDate, setEndDate] = useState<Date>(new Date());
   const [isEndDatePickerVisible, setIsEndDatePickerVisible] = useState(false);
@@ -162,11 +121,7 @@ function GuideDetailReview() {
     setIsEndDatePickerVisible(false);
   };
 
-  const [reviews, setReviews] = useState<GuideReview[]>(
-    reviewsWithGuideInfo.sort(
-      (a, b) => b.created_at.getTime() - a.created_at.getTime()
-    )
-  );
+  const [reviews, setReviews] = useState<GuideReview[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [items, setItems] = useState<{ label: string; value: number }[]>([
     { label: "최신순", value: 1 },
@@ -193,23 +148,25 @@ function GuideDetailReview() {
     switch (currentValue) {
       case 1: {
         newReviews.sort(
-          (a, b) => b.created_at.getTime() - a.created_at.getTime()
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         break;
       }
       case 2: {
         newReviews.sort((a, b) => {
           const aScore =
-            (a.communication_score + a.kindness_score + a.location_score) / 3;
+            (a.communicationScore + a.kindnessScore + a.locationScore) / 3;
           const bScore =
-            (b.communication_score + b.kindness_score + b.location_score) / 3;
+            (b.communicationScore + b.kindnessScore + b.locationScore) / 3;
           return bScore - aScore;
         });
         break;
       }
       default: {
         newReviews.sort(
-          (a, b) => b.created_at.getTime() - a.created_at.getTime()
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         );
         break;
       }
@@ -217,6 +174,19 @@ function GuideDetailReview() {
 
     setReviews(newReviews);
   };
+
+  useEffect(() => {
+    const getGuideReviewsData = async () => {
+      try {
+        const guideReviews = await getGuideReviews(guide.id);
+        setReviews(guideReviews);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getGuideReviewsData();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -230,7 +200,7 @@ function GuideDetailReview() {
           >
             <Entypo name="calendar" size={20} color="black" />
             <Text style={{ fontSize: 15, marginLeft: 10 }}>
-              {formatDate(startDate)}
+              {formatDate(startDate.toISOString().split("T")[0])}
             </Text>
           </Pressable>
           <Text style={{ marginHorizontal: 10, fontSize: 25 }}>~</Text>
@@ -240,7 +210,7 @@ function GuideDetailReview() {
           >
             <Entypo name="calendar" size={20} color="black" />
             <Text style={{ fontSize: 15, marginLeft: 10 }}>
-              {formatDate(endDate)}
+              {formatDate(endDate.toISOString().split("T")[0])}
             </Text>
           </Pressable>
           <DateTimePicker
@@ -259,16 +229,19 @@ function GuideDetailReview() {
         <Pressable
           style={styles.dateConfirmButton}
           onPress={() => {
-            const newReviews = reviewsWithGuideInfo.filter((review) => {
+            const newReviews = reviews.filter((review) => {
               return (
-                review.created_at.getTime() >=
+                new Date(review.createdAt).getTime() >=
                   startDate.getTime() - 24 * 60 * 60 * 1000 &&
-                review.created_at.getTime() <= endDate.getTime()
+                new Date(review.createdAt).getTime() <= endDate.getTime()
               );
             });
+            setReviews(newReviews);
 
             console.log(newReviews);
-            setReviews(newReviews);
+            // newReviews.map((newReview) => {
+            //   console.log(newReview.createdAt);
+            // });
           }}
         >
           <Text style={{ fontWeight: "bold", color: Colors.WHITE }}>확인</Text>
@@ -344,7 +317,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: 20,
+    marginVertical: 20,
   },
   reviewContainer: {
     width: "100%",
