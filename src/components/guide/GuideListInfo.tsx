@@ -251,7 +251,7 @@ function GuideListInfo({
       </Pressable>
     </TouchableWithoutFeedback>
   ) : (
-    <Text>Loading...</Text>
+    <View />
   );
 }
 

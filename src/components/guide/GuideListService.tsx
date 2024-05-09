@@ -102,7 +102,7 @@ function GuideListService({
       </Pressable>
     </TouchableWithoutFeedback>
   ) : (
-    <Text>Loading...</Text>
+    <View />
   );
 }
 

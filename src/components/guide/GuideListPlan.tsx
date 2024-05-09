@@ -147,7 +147,7 @@ function GuideListPlan({
       </Pressable>
     </TouchableWithoutFeedback>
   ) : (
-    <Text>Loading...</Text>
+    <View />
   );
 }
 
