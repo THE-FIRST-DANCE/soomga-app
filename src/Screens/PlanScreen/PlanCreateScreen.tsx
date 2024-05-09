@@ -1,12 +1,5 @@
-import { getPlanList } from "@/api/PlanApi";
-import Screen from "@/components/Screen";
-import PlanItem from "@/components/plan/PlanItem";
-import { Plans } from "@/interface/Plan";
-import Colors from "@/modules/Color";
-import { PlanStackParamList } from "@/stacks/PlanStack";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+// Libraries
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -14,7 +7,23 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { useQuery } from "@tanstack/react-query";
 import { Line, Path, Polygon, Polyline, Svg } from "react-native-svg";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+
+// API
+import { getPlanList } from "@/api/PlanApi";
+
+// Components
+import Screen from "@/components/Screen";
+import PlanItem from "@/components/plan/PlanItem";
+
+// Interface
+import { Plans } from "@/interface/Plan";
+import { PlanStackParamList } from "@/stacks/PlanStack";
+
+// Modules
+import Colors from "@/modules/Color";
 
 const styles = StyleSheet.create({
   create: {
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
 });
 
 const PlanCreateScreen = () => {
-  const [plans, setPlans] = React.useState<Plans[]>([]);
+  const [plans, setPlans] = useState<Plans[]>([]);
 
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
@@ -54,7 +63,7 @@ const PlanCreateScreen = () => {
 
   const { data } = useQuery({
     queryKey: ["plans"],
-    queryFn: () => getPlanList(1),
+    queryFn: () => getPlanList(2),
   });
 
   useEffect(() => {

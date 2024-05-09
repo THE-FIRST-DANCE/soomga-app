@@ -1,4 +1,5 @@
 import { PeriodList } from "@/state/store/PlanRecoil";
+import { AuthorType } from "./share";
 
 // 장소 검색 결과
 export interface GooglePlaceResponse {
@@ -70,6 +71,8 @@ export interface Plans {
   transport: string;
   period: number;
   daySchedules: dayPlan[];
+  comments: PlanComment[];
+  author: AuthorType;
 }
 
 // 플랜 데이터 날짜별 스케쥴 (서버)
@@ -95,4 +98,12 @@ export interface PlanConfirmListItem {
   nextPlaceGoogleId: string;
   nextTime: string;
   stayTime: string;
+  description: string;
+}
+
+export interface PlanComment {
+  id: number;
+  content: string;
+  createdAt: string;
+  member: AuthorType;
 }

@@ -1,12 +1,15 @@
-import PlanConfirmScreen from "@/Screens/PlanConfirmScreen/PlanConfirmScreen";
-import PlanEditScreen from "@/Screens/PlanConfirmScreen/PlanEditScreen";
-import PlanCreateDetail from "@/Screens/PlanCreateScreen/PlanCreateDetail";
-import PlanCreateScreen from "@/Screens/PlanCreateScreen/PlanCreateScreen";
-import PlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlaceSelectScreen";
-import PlanPlaceSelectScreen from "@/Screens/PlanPlaceSelectScreen/PlanPlaceSelectScreen";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import PlanConfirmScreen from "@/Screens/PlanScreen/PlanConfirmScreen";
+import PlanEditScreen from "@/Screens/PlanScreen/PlanEditScreen";
+import PlanCreateDetail from "@/Screens/PlanScreen/PlanCreateDetail";
+import PlanCreateScreen from "@/Screens/PlanScreen/PlanCreateScreen";
+import PlaceSelectScreen from "@/Screens/PlanScreen/PlaceSelectScreen";
+import PlanPlaceSelectScreen from "@/Screens/PlanScreen/PlanPlaceSelectScreen";
+import PlanDetailScreen from "@/Screens/PlanScreen/PlanDetailScreen";
+
 import { PlanConfirmPeriodList, Plans } from "@/interface/Plan";
 import { PlanInfo } from "@/state/store/PlanRecoil";
-import { createStackNavigator } from "@react-navigation/stack";
 
 export type PlanStackParamList = {
   PlanCreateScreen: undefined;
@@ -16,12 +19,15 @@ export type PlanStackParamList = {
     editMode?: boolean;
   };
   PlanConfirmScreen: {
-    data?: Plans;
+    planId?: number;
   };
   PlanEditScreen: {
     data: PlanConfirmPeriodList;
     info: PlanInfo;
     transport: string;
+  };
+  PlanDetailScreen: {
+    planId: number;
   };
 };
 
@@ -43,6 +49,7 @@ export default function PlanStack() {
       <Stack.Screen name="PlaceSelectScreen" component={PlaceSelectScreen} />
       <Stack.Screen name="PlanConfirmScreen" component={PlanConfirmScreen} />
       <Stack.Screen name="PlanEditScreen" component={PlanEditScreen} />
+      <Stack.Screen name="PlanDetailScreen" component={PlanDetailScreen} />
     </Stack.Navigator>
   );
 }

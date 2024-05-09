@@ -1,18 +1,13 @@
 import { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Linking,
-  Platform,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import * as WebBrowser from "expo-web-browser";
-import * as AuthSession from "expo-auth-session";
 
 /* components */
 import InputText from "@/components/sign/InputText";
 import NextButton from "@/components/sign/NextButton";
+import GoogleIcon from "@/components/icons/GoogleIcon";
+import LineIcon from "@/components/icons/LineIcon";
+import Profile from "@/components/profile/Profile";
 
 /* vector-icons */
 import { Feather } from "@expo/vector-icons";
@@ -20,13 +15,10 @@ import { Feather } from "@expo/vector-icons";
 /* navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
+// interface
 import { useRecoilValue } from "recoil";
-import { API_URL } from "@env";
 import { SignStackParamList } from "@/stacks/SignStack";
-import GoogleIcon from "@/components/icons/GoogleIcon";
-import LineIcon from "@/components/icons/LineIcon";
 import { UserRecoil } from "@/state/store/UserRecoil";
-import Profile from "@/components/profile/Profile";
 
 interface LoginForm {
   email: string;
@@ -59,13 +51,13 @@ const SignInScreen = () => {
 
   const googleLogin = async () => {
     await WebBrowser.openBrowserAsync(
-      `http://192.168.0.20.nip.io:3000/api/auth/google/mobile`
+      `http://192.168.0.17.nip.io:3000/api/auth/google/mobile`
     );
   };
 
   const lineLogin = async () => {
     await WebBrowser.openBrowserAsync(
-      `http://192.168.0.20.nip.io:3000/api/auth/line/mobile`
+      `http://192.168.0.17.nip.io:3000/api/auth/line/mobile`
     );
   };
 
