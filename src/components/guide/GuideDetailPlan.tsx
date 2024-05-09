@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { getPlanList } from "@/api/PlanApi";
 import { useQuery } from "@tanstack/react-query";
 import PlanItem from "../plan/PlanItem";
+import { GuideType } from "@/data/guides";
 
-function GuideDetailPlan() {
+function GuideDetailPlan({ guide }: { guide: GuideType }) {
   const [plans, setPlans] = useState<Plans[]>([]);
 
   const { data } = useQuery({
     queryKey: ["plans"],
-    queryFn: () => getPlanList(1),
+    queryFn: () => getPlanList(guide.id),
   });
 
   useEffect(() => {
@@ -21,7 +22,7 @@ function GuideDetailPlan() {
 
   return (
     <View style={styles.container}>
-      {data ? (
+      {plans.length !== 0 ? (
         plans.map((plan) => <PlanItem plan={plan} />)
       ) : (
         <View style={styles.noPlanContainer}>
