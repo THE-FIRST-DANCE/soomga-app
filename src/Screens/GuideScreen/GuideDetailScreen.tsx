@@ -53,23 +53,32 @@ function GuideDetailScreen() {
     scrollViewRef.current?.scrollTo({ x: index * layoutWidth, animated: true });
   }, [initialTab]);
 
+  const guideAvatar =
+    guide.member.avatar !== null
+      ? { uri: guide.member.avatar }
+      : require("@/assets/defaultProfile.png");
+
+  useEffect(() => {
+    console.log(guide);
+  }, []);
+
   return (
     <Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          <ImageBackground source={{ uri: guide.photo }} style={styles.image}>
+          <ImageBackground source={guideAvatar} style={styles.image}>
             <View style={styles.infoContainer}>
               <View style={{ flexDirection: "row", alignItems: "flex-end" }}>
-                <Text style={styles.name}>{guide.name}</Text>
+                <Text style={styles.name}>{guide.member.nickname}</Text>
                 <Text style={styles.age}>
-                  {calculateAgeRange(guide.birthDate)}
+                  {calculateAgeRange(guide.member.birthDate)}
                 </Text>
               </View>
               <Text>n시간 전 접속</Text>
             </View>
             <View style={styles.tempBarContainer}>
-              <Text>{guide.temp}℃</Text>
-              <TempBar style={styles.tempBar} progress={guide.temp} />
+              <Text>{guide.temperature}℃</Text>
+              <TempBar style={styles.tempBar} progress={guide.temperature} />
             </View>
           </ImageBackground>
         </View>
