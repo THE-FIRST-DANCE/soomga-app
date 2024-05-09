@@ -41,12 +41,12 @@ export type GuideType = {
       name: string;
     }[];
   };
+  /* SNS 링크 → ? */
   instagramLink: string;
   XLink: string;
   /* 인증 여부 */
-  verified_ID: boolean;
-  verified_bank_account: boolean;
-  verified_phone_number: boolean;
+  verifiedID: boolean;
+  verifiedBankAccount: boolean;
 };
 
 export const guides: GuideType[] = [
