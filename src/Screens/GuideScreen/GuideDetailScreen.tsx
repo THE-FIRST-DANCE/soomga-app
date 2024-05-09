@@ -122,7 +122,7 @@ function GuideDetailScreen() {
           <GuideDetailPlan guide={guide} />
           <GuideDetailService />
           <GuideDetailSchedule guide={guide} />
-          <GuideDetailReview />
+          <GuideDetailReview guide={guide} />
         </ScrollView>
       </ScrollView>
       <ToolContainer guide={guide} />
