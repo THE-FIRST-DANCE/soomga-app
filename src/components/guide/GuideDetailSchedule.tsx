@@ -16,8 +16,9 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ScheduleStackParamList } from "@/stacks/ScheduleStack";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { GuideType } from "@/data/guides";
 
-function GuideDetailSchedule() {
+function GuideDetailSchedule({ guide }: { guide: GuideType }) {
   const navigation = useNavigation<NavigationProp<ScheduleStackParamList>>();
 
   const [selectedDate, setSelectedDate] = useState<string>(
@@ -34,7 +35,7 @@ function GuideDetailSchedule() {
   // 이벤트 데이터 가져오기
   const { data } = useQuery({
     queryKey: ["events"],
-    queryFn: () => getEvent(1),
+    queryFn: () => getEvent(guide.id),
   });
 
   useEffect(() => {
