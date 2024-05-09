@@ -60,7 +60,9 @@ function GuideDetailInfo({ guide }: { guide: GuideType }) {
     <View style={styles.container}>
       <View style={styles.info}>
         <Text style={styles.infoCaption}>성별</Text>
-        <Text style={styles.infoText}>{guide.gender}</Text>
+        <Text style={styles.infoText}>
+          {guide.member.gender === "MALE" ? "남자" : "여자"}
+        </Text>
       </View>
       <View style={styles.info}>
         <Text style={styles.infoCaption}>가이드 횟수</Text>
@@ -68,11 +70,17 @@ function GuideDetailInfo({ guide }: { guide: GuideType }) {
       </View>
       <View style={styles.info}>
         <Text style={styles.infoCaption}>지역</Text>
-        <Text style={styles.infoText}>{guide.region}</Text>
+        <Text style={styles.infoText}>
+          {guide.areas.map((area) => area.area.name).join(", ")}
+        </Text>
       </View>
       <View style={styles.info}>
         <Text style={styles.infoCaption}>사용 언어</Text>
-        <Text style={styles.infoText}>{guide.language.join(", ")}</Text>
+        <Text style={styles.infoText}>
+          {guide.member.languages
+            .map((language) => language.language.name)
+            .join(", ")}
+        </Text>
       </View>
       <View>
         <Text style={styles.caption}>SNS</Text>
@@ -96,26 +104,32 @@ function GuideDetailInfo({ guide }: { guide: GuideType }) {
       <View>
         <Text style={styles.caption}>인증 정보</Text>
         <View style={{ flexDirection: "row" }}>
-          {guide.verified_phone_number && <IsVerifiedComponent item="휴대폰" />}
-          {guide.verified_ID && <IsVerifiedComponent item="신분증" />}
-          {guide.verified_bank_account && <IsVerifiedComponent item="계좌" />}
-          {!guide.verified_ID &&
-            !guide.verified_bank_account &&
-            !guide.verified_phone_number && (
-              <Text style={[styles.caption, { fontWeight: "normal" }]}>
-                인증 정보가 없습니다.
-              </Text>
-            )}
+          {guide.verifiedID || guide.verifiedBankAccount ? (
+            <>
+              {guide.verifiedID && <IsVerifiedComponent item="신분증" />}
+              {guide.verifiedBankAccount && <IsVerifiedComponent item="계좌" />}
+            </>
+          ) : (
+            <Text style={[styles.caption, { fontWeight: "normal" }]}>
+              인증 정보가 없습니다.
+            </Text>
+          )}
         </View>
       </View>
       <View>
         <Text style={styles.caption}>태그</Text>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {guide.tags.map((tag, index) => (
-            <View key={index} style={[TagStyle.tag, { marginVertical: 5 }]}>
-              <Text>{tag.name}</Text>
-            </View>
-          ))}
+          {guide.member.tags.length === 0 ? (
+            <Text style={[styles.caption, { fontWeight: "normal" }]}>
+              태그가 없습니다.
+            </Text>
+          ) : (
+            guide.member.tags.map((tag, index) => (
+              <View key={index} style={[TagStyle.tag, { marginVertical: 5 }]}>
+                <Text>{tag.name}</Text>
+              </View>
+            ))
+          )}
         </View>
       </View>
     </View>
