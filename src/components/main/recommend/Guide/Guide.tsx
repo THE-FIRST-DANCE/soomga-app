@@ -7,41 +7,51 @@ import {
 } from "react-native";
 
 /* vector-icons */
-import { Octicons, AntDesign } from "@expo/vector-icons";
+import { Octicons, AntDesign, Ionicons } from "@expo/vector-icons";
 import Colors from "@/modules/Color";
 
 /* props */
-type GuideType = {
-  photo: string;
-  name: string;
+type GuideFeedType = {
+  avatar: string | null;
+  nickname: string;
   gender: string;
-  description: string;
-  rating: number;
+  langs: {
+    language: {
+      id: number;
+      name: string;
+    };
+  }[];
+  totalAvgScore: number;
 };
 
-function Guide({ photo, name, gender, description, rating }: GuideType) {
+function Guide({
+  avatar,
+  nickname,
+  gender,
+  langs,
+  totalAvgScore,
+}: GuideFeedType) {
   const guideGender = gender === "남자" ? Colors.MALE_BLUE : Colors.FEMALE_PINK;
 
+  const guideAvatar =
+    avatar !== null ? { uri: avatar } : require("@/assets/defaultProfile.png");
+
   return (
-    <ImageBackground style={styles.container} source={{ uri: photo }}>
+    <ImageBackground style={styles.container} source={guideAvatar}>
       <View style={styles.whiteBackground}>
         <View style={[styles.gender, { backgroundColor: guideGender }]} />
         <View style={styles.information}>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
-            {name}
+            {nickname}
           </Text>
           <View style={{ flexDirection: "row" }}>
             <AntDesign name="star" size={18} color={Colors.STAR_YELLOW} />
-            <Text style={{ marginLeft: 3 }}>{rating.toFixed(1)}</Text>
+            <Text style={{ marginLeft: 3 }}>{totalAvgScore.toFixed(1)}</Text>
           </View>
           <View style={{ flexDirection: "row" }}>
-            <Octicons name="note" size={15} color="black" />
-            <Text
-              style={styles.description}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {description}
+            <Ionicons name="language" size={15} color="black" />
+            <Text style={styles.description}>
+              {langs.map((lang) => lang.language.name).join(", ")}
             </Text>
           </View>
           <TouchableOpacity activeOpacity={0.7} style={styles.chatButton}>

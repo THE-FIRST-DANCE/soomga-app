@@ -11,11 +11,29 @@ import Guide from "@guideMain/Guide";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import Colors from "@/modules/Color";
 import { HomeStackParamList } from "@/stacks/HomeStack";
-import { guides } from "@/data/guides";
+import { guides, GuideType } from "@/data/guides";
+import { getGuidesList } from "@/api/GuideApi";
+import { useEffect, useState } from "react";
 
 function Guides() {
   /* Navigation */
   const navigation = useNavigation<NavigationProp<HomeStackParamList>>();
+
+  const [guides, setGuides] = useState<GuideType[]>([]);
+
+  useEffect(() => {
+    const getGuidesData = async () => {
+      try {
+        const guides = await getGuidesList();
+
+        setGuides(guides);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getGuidesData();
+  }, []);
 
   return (
     <View>
@@ -40,12 +58,12 @@ function Guides() {
           (guide, index) =>
             index < 5 && (
               <Guide
-                key={guide.id}
-                photo={guide.photo}
-                gender={guide.gender}
-                name={guide.name}
-                description={guide.description}
-                rating={guide.rating}
+                key={index}
+                avatar={guide.member.avatar}
+                gender={guide.member.gender}
+                nickname={guide.member.nickname}
+                langs={guide.member.languages}
+                totalAvgScore={parseFloat(guide.totalAvgScore)}
               />
             )
         )}
