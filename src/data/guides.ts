@@ -1,9 +1,9 @@
 export type GuideType = {
   id: number;
   /* 가이드 프로필 사진 → member.avatar로 변경함 */
-  photo: string;
+  photo?: string;
   /* 가이드 닉네임 → member.nickname로 변경함 */
-  name: string;
+  name?: string;
   /* 가이드 활동 지역 */
   areas: {
     area: {
@@ -12,13 +12,13 @@ export type GuideType = {
     };
   }[];
   /* 가이드 자기소개 → service에서 변경 예정 */
-  description: string;
+  description?: string;
   /* 가이드 평점 → totalAvgScore로 변경함 */
-  rating: number;
+  rating?: number;
   /* 가이드 온도 */
-  temperature: number;
+  temperature?: number;
   /* 가이드 횟수 → 다른 속성으로 변경 예정 */
-  guideCount: number;
+  guideCount?: number;
   /* 가이드 평점 */
   avgCommunicationScore: string;
   avgKindnessScore: string;
@@ -42,8 +42,8 @@ export type GuideType = {
     }[];
   };
   /* SNS 링크 → ? */
-  instagramLink: string;
-  XLink: string;
+  instagramLink?: string;
+  XLink?: string;
   /* 인증 여부 */
   verifiedID: boolean;
   verifiedBankAccount: boolean;
