@@ -27,6 +27,7 @@ import GoogleIcon from "@/components/icons/GoogleIcon";
 import LineIcon from "@/components/icons/LineIcon";
 import { UserRecoil } from "@/state/store/UserRecoil";
 import Profile from "@/components/profile/Profile";
+import { guides } from "@/data/guides";
 
 interface LoginForm {
   email: string;
@@ -55,7 +56,13 @@ const SignInScreen = () => {
   // const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
   // console.log(recoilToken);
 
-  const user = useRecoilValue(UserRecoil);
+  // const user = useRecoilValue(UserRecoil);
+  const user = {
+    id: 1,
+    nickname: "user1",
+    email: "user1@test.com",
+    avatar: guides[0].photo,
+  };
 
   const googleLogin = async () => {
     await WebBrowser.openBrowserAsync(
@@ -69,7 +76,8 @@ const SignInScreen = () => {
     );
   };
 
-  return user?.id ? (
+  // return user?.id ? (
+  return (
     <View
       style={{
         flex: 1,
@@ -77,96 +85,97 @@ const SignInScreen = () => {
     >
       <Profile user={user} />
     </View>
-  ) : (
-    <View
-      style={{
-        padding: 20,
-      }}
-    >
-      {/* 제목, 부제목 */}
-      <View>
-        <Text style={styles.title}>어서오세요!</Text>
-        <Text style={styles.subtitle}>
-          여행의 시작, {"\n"}
-          <Text style={styles.soomgaText}>SOOMGA</Text>
-          <Text>와 함께라면</Text> {"\n"}
-          당신만의 특별한 여행이 펼쳐집니다.
-        </Text>
-      </View>
-      {/* 이메일, 비밀번호 입력창 */}
-      <View style={styles.inputContainer}>
-        <InputText title="이메일" placeholder="username@gmail.com" />
-        <View style={{ position: "relative" }}>
-          <InputText
-            title="비밀번호"
-            placeholder="비밀번호 입력"
-            style={{ marginTop: 20 }}
-            isPasswordVisible={isPasswordVisible}
-          />
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => setIsPasswordVisible(!isPasswordVisible)}
-            style={styles.visibleButton}
-          >
-            {isPasswordVisible ? (
-              <Feather name="eye-off" size={24} color="black" />
-            ) : (
-              <Feather name="eye" size={24} color="black" />
-            )}
-          </TouchableOpacity>
-        </View>
-      </View>
-      {/* 회원가입, 비밀번호 재설정 버튼 */}
-      <View style={styles.signInButtonContainer}>
-        <TouchableOpacity style={{ marginTop: 10 }} activeOpacity={0.6}>
-          <Text style={styles.signInText}>회원가입</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={{ marginTop: 10 }} activeOpacity={0.6}>
-          <Text style={styles.signInText}>비밀번호를 잊어버렸나요?</Text>
-        </TouchableOpacity>
-      </View>
-      {/* 로그인 버튼 */}
-      <NextButton />
-      {/* 소셜 로그인 컨테이너 */}
-      <View>
-        <View
-          style={{ flexDirection: "row", alignItems: "center", marginTop: 20 }}
-        >
-          <Hr />
-          <Text style={{ marginHorizontal: 5, fontSize: 15 }}>소셜 로그인</Text>
-          <Hr />
-        </View>
-        <View style={styles.socialLoginContainer}>
-          {/* 구글 소셜 로그인 */}
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={styles.socialLoginButton}
-            onPress={googleLogin}
-          >
-            <GoogleIcon
-              style={{
-                width: 50,
-                height: 50,
-              }}
-            />
-          </TouchableOpacity>
-          {/* 라인 소셜 로그인 */}
-          <TouchableOpacity
-            activeOpacity={0.6}
-            style={styles.socialLoginButton}
-            onPress={lineLogin}
-          >
-            <LineIcon
-              style={{
-                width: 50,
-                height: 50,
-              }}
-            />
-          </TouchableOpacity>
-        </View>
-      </View>
-    </View>
   );
+  // ) : (
+  //   <View
+  //     style={{
+  //       padding: 20,
+  //     }}
+  //   >
+  //     {/* 제목, 부제목 */}
+  //     <View>
+  //       <Text style={styles.title}>어서오세요!</Text>
+  //       <Text style={styles.subtitle}>
+  //         여행의 시작, {"\n"}
+  //         <Text style={styles.soomgaText}>SOOMGA</Text>
+  //         <Text>와 함께라면</Text> {"\n"}
+  //         당신만의 특별한 여행이 펼쳐집니다.
+  //       </Text>
+  //     </View>
+  //     {/* 이메일, 비밀번호 입력창 */}
+  //     <View style={styles.inputContainer}>
+  //       <InputText title="이메일" placeholder="username@gmail.com" />
+  //       <View style={{ position: "relative" }}>
+  //         <InputText
+  //           title="비밀번호"
+  //           placeholder="비밀번호 입력"
+  //           style={{ marginTop: 20 }}
+  //           isPasswordVisible={isPasswordVisible}
+  //         />
+  //         <TouchableOpacity
+  //           activeOpacity={1}
+  //           onPress={() => setIsPasswordVisible(!isPasswordVisible)}
+  //           style={styles.visibleButton}
+  //         >
+  //           {isPasswordVisible ? (
+  //             <Feather name="eye-off" size={24} color="black" />
+  //           ) : (
+  //             <Feather name="eye" size={24} color="black" />
+  //           )}
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //     {/* 회원가입, 비밀번호 재설정 버튼 */}
+  //     <View style={styles.signInButtonContainer}>
+  //       <TouchableOpacity style={{ marginTop: 10 }} activeOpacity={0.6}>
+  //         <Text style={styles.signInText}>회원가입</Text>
+  //       </TouchableOpacity>
+  //       <TouchableOpacity style={{ marginTop: 10 }} activeOpacity={0.6}>
+  //         <Text style={styles.signInText}>비밀번호를 잊어버렸나요?</Text>
+  //       </TouchableOpacity>
+  //     </View>
+  //     {/* 로그인 버튼 */}
+  //     <NextButton />
+  //     {/* 소셜 로그인 컨테이너 */}
+  //     <View>
+  //       <View
+  //         style={{ flexDirection: "row", alignItems: "center", marginTop: 20 }}
+  //       >
+  //         <Hr />
+  //         <Text style={{ marginHorizontal: 5, fontSize: 15 }}>소셜 로그인</Text>
+  //         <Hr />
+  //       </View>
+  //       <View style={styles.socialLoginContainer}>
+  //         {/* 구글 소셜 로그인 */}
+  //         <TouchableOpacity
+  //           activeOpacity={0.6}
+  //           style={styles.socialLoginButton}
+  //           onPress={googleLogin}
+  //         >
+  //           <GoogleIcon
+  //             style={{
+  //               width: 50,
+  //               height: 50,
+  //             }}
+  //           />
+  //         </TouchableOpacity>
+  //         {/* 라인 소셜 로그인 */}
+  //         <TouchableOpacity
+  //           activeOpacity={0.6}
+  //           style={styles.socialLoginButton}
+  //           onPress={lineLogin}
+  //         >
+  //           <LineIcon
+  //             style={{
+  //               width: 50,
+  //               height: 50,
+  //             }}
+  //           />
+  //         </TouchableOpacity>
+  //       </View>
+  //     </View>
+  //   </View>
+  // );
 };
 
 export default SignInScreen;
