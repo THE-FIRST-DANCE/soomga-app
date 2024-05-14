@@ -2,36 +2,24 @@ import { useState, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import Colors from "@/modules/Color";
 import { styles as TagStyle } from "@main/Tags";
-import { guides, GuideType } from "@/data/guides";
+import { GuideType } from "@/data/guides";
+import { getAreasList, getGuidesList } from "@/api/GuideApi";
+import { Area } from "@/interface/Area";
 
 function RegionSelect({
   setGuidesInSelectedRegions,
 }: {
   setGuidesInSelectedRegions: (value: GuideType[]) => void;
 }) {
-  const regions = [
-    { id: 1, name: "모든 지역", fullName: "모든 지역" },
-    { id: 2, name: "서울", fullName: "서울특별시" },
-    { id: 3, name: "인천", fullName: "인천광역시" },
-    { id: 4, name: "부산", fullName: "부산광역시" },
-    { id: 5, name: "대구", fullName: "대구광역시" },
-    { id: 6, name: "대전", fullName: "대전광역시" },
-    { id: 7, name: "광주", fullName: "광주광역시" },
-    { id: 8, name: "울산", fullName: "울산광역시" },
-    { id: 9, name: "경기", fullName: "경기도" },
-    { id: 10, name: "강원", fullName: "강원도" },
-    { id: 11, name: "충남", fullName: "충청남도" },
-    { id: 12, name: "충북", fullName: "충청북도" },
-    { id: 13, name: "경북", fullName: "경상북도" },
-    { id: 14, name: "경남", fullName: "경상남도" },
-    { id: 15, name: "전북", fullName: "전라북도" },
-    { id: 16, name: "전남", fullName: "전라남도" },
-    { id: 17, name: "제주", fullName: "제주특별자치도" },
-  ];
+  /* 전체 가이드 리스트 */
+  const [guides, setGuides] = useState<GuideType[]>([]);
+
+  /* 전체 지역 리스트 */
+  const [areas, setAreas] = useState<Area[]>([]);
 
   /* 지역 선택 여부 */
   const [isRegionSelected, setIsRegionSelected] = useState<boolean[]>(
-    regions.map((_, index) => (index === 0 ? true : false))
+    areas.map((_, index) => (index === 0 ? true : false))
   );
 
   /* 선택된 지역 스타일 변경 함수 */
@@ -63,24 +51,68 @@ function RegionSelect({
   const [selectedRegions, setSelectedRegions] = useState<string[]>([]);
 
   /* 선택된 지역들 문자열로 표시 */
-  const [selectedRegionString, setSelectedRegionString] = useState<string>("");
+  const [selectedRegionString, setSelectedRegionString] =
+    useState<string>("모든 지역");
 
+  /* 지역 선택 시 마다 문자열 업데이트 */
   const updateSelectedRegionString = () => {
-    const selectedRegionNames = regions
+    const selectedRegionNames = areas
       .filter((_, index) => isRegionSelected[index])
-      .map((region) => region.name);
-    setSelectedRegionString(selectedRegionNames.join(", "));
+      .map((area) => area.name);
+
+    selectedRegionNames.length === 0
+      ? setSelectedRegionString("모든 지역")
+      : setSelectedRegionString(selectedRegionNames.join(", "));
   };
 
-  useEffect(updateSelectedRegionString, []);
-  useEffect(updateSelectedRegionString, [selectedRegions]);
   useEffect(() => {
+    toggleRegionSelection(0);
+    updateSelectedRegionString();
+    const getGuidesData = async () => {
+      try {
+        const guides = await getGuidesList();
+        setGuides(guides);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const getAreasData = async () => {
+      try {
+        const areas = await getAreasList();
+        const newAreas = [{ id: 0, name: "모든 지역" }, ...areas];
+        setAreas(newAreas);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getGuidesData();
+    getAreasData();
+  }, []);
+
+  useEffect(() => {
+    updateSelectedRegionString();
     const guidesInSelectedRegions =
       selectedRegions.length === 0
         ? guides
-        : guides.filter((guide) => selectedRegions.includes(guide.region));
+        : guides.filter((guide) => {
+            return guide.areas.some((area) =>
+              selectedRegions.includes(area.area.name)
+            );
+          });
+
     setGuidesInSelectedRegions(guidesInSelectedRegions);
-  }, [selectedRegions]);
+
+    console.log("선택된 지역: ", selectedRegions);
+    console.log("선택된 지역 가이드들: ", guidesInSelectedRegions);
+    guides.map((guide) => {
+      console.log(
+        "결과: ",
+        guide.areas.some((area) => selectedRegions.includes(area.area.name))
+      );
+    });
+  }, [selectedRegions, guides]);
 
   return (
     <View style={styles.container}>
@@ -89,7 +121,7 @@ function RegionSelect({
         <Text>{selectedRegionString}</Text>
       </View>
       <View style={styles.selectedRegionContainer}>
-        {regions.map((region, index) => (
+        {areas.map((region, index) => (
           <Pressable
             key={region.id}
             style={{
@@ -104,15 +136,13 @@ function RegionSelect({
               toggleRegionSelection(index);
               if (index === 0) {
                 setSelectedRegions([]);
-                setSelectedRegionString(region.fullName);
+                setSelectedRegionString(region.name);
               } else {
                 setSelectedRegions((prevRegions) => {
-                  if (prevRegions.includes(region.fullName)) {
-                    return prevRegions.filter(
-                      (item) => item !== region.fullName
-                    );
+                  if (prevRegions.includes(region.name)) {
+                    return prevRegions.filter((item) => item !== region.name);
                   } else {
-                    return [...prevRegions, region.fullName];
+                    return [...prevRegions, region.name];
                   }
                 });
               }
