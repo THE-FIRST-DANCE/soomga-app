@@ -1,4 +1,5 @@
 import { GuideReview } from "@/components/guide/GuideDetailReview";
+import MyPlansScreen from "@/Screens/ProfileScreen/MyPlansScreen";
 import MyReviewsScreen from "@/Screens/ProfileScreen/MyReviewsScreen";
 import SignInScreen from "@/Screens/SignScreen/SignInScreen";
 import SignUpScreen from "@/Screens/SignScreen/SignUpScreen";
@@ -27,6 +28,7 @@ export default function SignStack() {
       <Stack.Screen name="SignIn" component={SignInScreen} />
       <Stack.Screen name="SignUp" component={SignUpScreen} />
       <Stack.Screen name="MyReviewsScreen" component={MyReviewsScreen} />
+      <Stack.Screen name="MyPlansScreen" component={MyPlansScreen} />
     </Stack.Navigator>
   );
 }
