@@ -56,7 +56,7 @@ const Profile = ({ user }: { user: User }) => {
           </View>
         </View>
       </View>
-      <ScrollView style={styles.settingContainer}>
+      <ScrollView contentContainerStyle={styles.settingContainer}>
         <ReviewPlanPlaces />
         <Text style={{ color: Colors.GRAY_DARK, marginVertical: 10 }}>
           개인 정보 설정
