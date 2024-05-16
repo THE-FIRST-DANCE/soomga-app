@@ -24,7 +24,11 @@ function ReviewPlanPlaces() {
         <Text style={styles.title}>내 플랜</Text>
         <AntDesign name="right" size={20} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} activeOpacity={0.6}>
+      <TouchableOpacity
+        style={styles.item}
+        activeOpacity={0.6}
+        onPress={() => navigation.navigate("MyPlacesScreen")}
+      >
         <Text style={styles.title}>내 여행지</Text>
         <AntDesign name="right" size={20} color="black" />
       </TouchableOpacity>
