@@ -22,8 +22,8 @@ function MyReviewsScreen() {
   return (
     <Screen title="내 리뷰">
       <View style={{ alignItems: "center" }}>
-        {reviewsWithGuideInfo.map((review) => (
-          <View style={styles.reviewContainer}>
+        {reviewsWithGuideInfo.map((review, index) => (
+          <View key={index} style={styles.reviewContainer}>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
