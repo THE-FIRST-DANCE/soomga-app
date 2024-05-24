@@ -1,4 +1,5 @@
 import { GuideReview } from "@/components/guide/GuideDetailReview";
+import LangSettingScreen from "@/Screens/ProfileScreen/LangSettingScreen";
 import MyPlacesScreen from "@/Screens/ProfileScreen/MyPlacesScreen";
 import MyPlansScreen from "@/Screens/ProfileScreen/MyPlansScreen";
 import MyReviewsScreen from "@/Screens/ProfileScreen/MyReviewsScreen";
@@ -31,6 +32,7 @@ export default function SignStack() {
       <Stack.Screen name="MyReviewsScreen" component={MyReviewsScreen} />
       <Stack.Screen name="MyPlansScreen" component={MyPlansScreen} />
       <Stack.Screen name="MyPlacesScreen" component={MyPlacesScreen} />
+      <Stack.Screen name="LangSettingScreen" component={LangSettingScreen} />
     </Stack.Navigator>
   );
 }
