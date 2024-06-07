@@ -3,6 +3,7 @@ import LangSettingScreen from "@/Screens/ProfileScreen/LangSettingScreen";
 import MyPlacesScreen from "@/Screens/ProfileScreen/MyPlacesScreen";
 import MyPlansScreen from "@/Screens/ProfileScreen/MyPlansScreen";
 import MyReviewsScreen from "@/Screens/ProfileScreen/MyReviewsScreen";
+import ProfileModify from "@/Screens/ProfileScreen/ProfileModify";
 import SignInScreen from "@/Screens/SignScreen/SignInScreen";
 import SignUpScreen from "@/Screens/SignScreen/SignUpScreen";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -33,6 +34,7 @@ export default function SignStack() {
       <Stack.Screen name="MyPlansScreen" component={MyPlansScreen} />
       <Stack.Screen name="MyPlacesScreen" component={MyPlacesScreen} />
       <Stack.Screen name="LangSettingScreen" component={LangSettingScreen} />
+      <Stack.Screen name="ProfileModifyScreen" component={ProfileModify} />
     </Stack.Navigator>
   );
 }
