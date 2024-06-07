@@ -1,10 +1,15 @@
-import { PlanConfirmListItem } from "@/interface/Plan";
+// Libraries
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import { AntDesign } from "@expo/vector-icons";
+
+// Modules
 import { categories } from "@/data/categories";
 import Colors from "@/modules/Color";
+
+// Interface
+import { PlanConfirmListItem } from "@/interface/Plan";
 
 interface PlanEditItemProps {
   item: PlanConfirmListItem;
@@ -36,6 +41,7 @@ const PlanEditItem = gestureHandlerRootHOC(
             <Text style={styles.stayTime}>{item.stayTime}</Text>
           </View>
         </View>
+
         <TouchableOpacity style={styles.cancel} onPress={removeHandler}>
           <AntDesign name="close" size={20} color={Colors.GRAY_DARK} />
         </TouchableOpacity>

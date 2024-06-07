@@ -64,8 +64,6 @@ export const getTransCoord = async (
   x: number,
   y: number
 ): Promise<{ x: number; y: number }> => {
-  console.log(EXPO_PUBLIC_KAKAO_API);
-
   const response = await axios.get(
     "https://dapi.kakao.com/v2/local/geo/transcoord.json",
     {
@@ -125,6 +123,34 @@ export const getPlanById = async (planId: number) => {
 
 export const getPlanByUserId = async (userId: number): Promise<Plans[]> => {
   const response = await api.get(`plans/user/${userId}`);
+
+  return response.data;
+};
+
+export const deletePlan = async (planId: number) => {
+  const response = await api.delete(`plans/${planId}`);
+
+  return response.data;
+};
+
+export const getPlanComments = async (planId: number) => {
+  const response = await api.get(`plans/${planId}/comments`);
+
+  return response.data;
+};
+
+export const addPlanComment = async (planCommentDto: {
+  planId: number;
+  content: string;
+  memberId: number;
+}) => {
+  const response = await api.post("plans/comment", planCommentDto);
+
+  return response.data;
+};
+
+export const deletePlanComment = async (commentId: number) => {
+  const response = await api.delete(`plans/comment/${commentId}`);
 
   return response.data;
 };
