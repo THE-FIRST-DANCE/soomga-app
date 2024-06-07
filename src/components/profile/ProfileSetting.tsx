@@ -9,7 +9,11 @@ function ProfileSetting() {
 
   return (
     <View>
-      <TouchableOpacity style={styles.item} activeOpacity={0.6}>
+      <TouchableOpacity
+        style={styles.item}
+        activeOpacity={0.6}
+        onPress={() => navigation.navigate("ProfileModifyScreen")}
+      >
         <Text style={styles.title}>프로필 수정</Text>
         <AntDesign name="right" size={20} color="black" />
       </TouchableOpacity>
