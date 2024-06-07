@@ -23,7 +23,7 @@ function MyPlansScreen() {
   return (
     <Screen title="내 플랜">
       <View style={styles.container}>
-        {data ? (
+        {data && plans.length > 0 ? (
           plans.map((plan) => <PlanItem plan={plan} />)
         ) : (
           <View style={styles.noPlanContainer}>
