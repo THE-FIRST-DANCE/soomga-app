@@ -24,6 +24,8 @@ import { PlanStackParamList } from "@/stacks/PlanStack";
 
 // Modules
 import Colors from "@/modules/Color";
+import { useRecoilValue } from "recoil";
+import { ExecutePlanState } from "@/state/store/PlanRecoil";
 
 const styles = StyleSheet.create({
   create: {
@@ -50,11 +52,23 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: 20,
   },
+  executePlan: {
+    borderWidth: 1,
+    borderColor: Colors.PRIMARY,
+    padding: 10,
+    borderRadius: 10,
+    margin: 20,
+  },
+  executePlanText: {
+    color: Colors.BLACK,
+    fontSize: 20,
+    textAlign: "center",
+  },
 });
 
 const PlanCreateScreen = () => {
   const [plans, setPlans] = useState<Plans[]>([]);
-
+  const executePlanState = useRecoilValue(ExecutePlanState);
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
   const onPressCreate = () => {
@@ -87,6 +101,21 @@ const PlanCreateScreen = () => {
       <ScrollView contentContainerStyle={styles.planList}>
         {data && plans.map((plan) => <PlanItem key={plan.id} plan={plan} />)}
       </ScrollView>
+
+      {/* 실행 중인 플랜 */}
+      {executePlanState.executePlanId && (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("PlanExecuteScreen", {
+              executePlanId: executePlanState.executePlanId as number,
+              planId: executePlanState.planId as number,
+            })
+          }
+          style={styles.executePlan}
+        >
+          <Text style={styles.executePlanText}>실행 중인 플랜</Text>
+        </TouchableOpacity>
+      )}
     </Screen>
   );
 };
