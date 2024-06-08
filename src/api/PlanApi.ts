@@ -154,3 +154,34 @@ export const deletePlanComment = async (commentId: number) => {
 
   return response.data;
 };
+
+export const getPlanWithDaySchedules = async (
+  planid: number,
+  period: number
+) => {
+  const response = await api.get(`plans/${planid}/${period}`);
+
+  return response.data;
+};
+
+export const executedPlan = async (planId: number) => {
+  const response = await api.post("plans/execute", {
+    planId,
+    memberId: 2,
+  });
+
+  return response.data;
+};
+
+export interface executedActivityDto {
+  executedPlanId: number;
+  scheduleId: number;
+  memberId: number;
+  note?: string;
+  photos?: string[];
+}
+export const executedActivity = async (data: executedActivityDto) => {
+  const response = await api.post("plans/activity/execute", data);
+
+  return response.data;
+};
