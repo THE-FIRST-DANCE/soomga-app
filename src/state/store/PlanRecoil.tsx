@@ -10,7 +10,7 @@ export interface PlanInfo {
 }
 
 export const PlanInfo = atom<PlanInfo>({
-  key: "planInfo",
+  key: "planInfoAtom",
   default: {
     title: "",
     province: "",
@@ -21,7 +21,7 @@ export const PlanInfo = atom<PlanInfo>({
 });
 
 export const CurrentPeriod = atom<number>({
-  key: "currentPeriod",
+  key: "currentPeriodAtom",
   default: 1,
 });
 
@@ -47,13 +47,13 @@ export interface PlanConfirm {
 
 // 날짜별 여행 order 리스트
 export const PeriodPlanRecoil = atom<{ [period: number]: PlanListItem[] }>({
-  key: "PeriodPlan",
+  key: "PeriodPlanAtom",
   default: {},
 });
 
 // 여행 일정 확인
 export const PlanConfirmList = atom<PlanConfirm>({
-  key: "PlanConfirmList",
+  key: "PlanConfirmListAtom",
   default: {
     periodPlan: {},
     transport: "",
@@ -68,12 +68,32 @@ export const PlanConfirmList = atom<PlanConfirm>({
 });
 
 export const PlanTime = atom<string>({
-  key: "PlanTime",
+  key: "PlanTimeAtom",
   default: "12시간 00분",
 });
 
 // 여행장소 추가할 때 장소 저장 리스트
 export const PlanPlaceBox = atom<PlaceData[]>({
-  key: "PlanPlaceBox",
+  key: "PlanPlaceBoxAtom",
   default: [],
+});
+
+interface executePlanState {
+  executePlanId: number | null;
+  planId: number | null;
+}
+
+// 여행 실행 중인지 여부
+export const ExecutePlanState = atom<executePlanState>({
+  key: "ExecutePlanState",
+  default: {
+    executePlanId: null,
+    planId: null,
+  },
+});
+
+// 여행 실행 단계
+export const PlanStep = atom<number>({
+  key: "PlanStepAtom",
+  default: 1,
 });
