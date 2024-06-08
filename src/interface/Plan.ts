@@ -90,6 +90,7 @@ export interface PlanConfirmPeriodList {
 
 // 플랜 컨펌 리스트 아이템
 export interface PlanConfirmListItem {
+  id: number;
   item: PlaceData;
   nextLat: number;
   nextLng: number;
