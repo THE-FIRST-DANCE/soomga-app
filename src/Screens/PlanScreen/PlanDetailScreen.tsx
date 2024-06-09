@@ -6,10 +6,11 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   NavigationProp,
   RouteProp,
@@ -28,8 +29,9 @@ import { Plans } from "@/interface/Plan";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 
 // Api
-import { getPlanById } from "@/api/PlanApi";
+import { executedPlan, getPlanById } from "@/api/PlanApi";
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 enum Tab {
   Plan = "plan",
@@ -66,6 +68,42 @@ const PlanDetailScreen = () => {
     });
   };
 
+  const { mutate: executePlan } = useMutation({
+    mutationFn: executedPlan,
+    onSuccess: async (data) => {
+      try {
+        await AsyncStorage.setItem(
+          "executedPlan",
+          JSON.stringify({
+            planId: planId,
+            executePlanId: data,
+          })
+        );
+      } catch (error) {
+        console.log(error);
+      }
+      navigation.navigate("PlanExecuteScreen", {
+        executePlanId: data,
+        planId: planId,
+      });
+    },
+  });
+
+  const navigateToExecute = () => {
+    Alert.alert("플랜을 실행하시겠습니까?", "", [
+      {
+        text: "취소",
+        onPress: () => {},
+      },
+      {
+        text: "실행",
+        onPress: () => {
+          executePlan(planId);
+        },
+      },
+    ]);
+  };
+
   return (
     <Screen>
       <ScrollView>
@@ -76,9 +114,33 @@ const PlanDetailScreen = () => {
           />
           <TouchableOpacity
             onPress={navigateToDetail}
-            style={styles.detailButton}
+            style={[
+              styles.detailButton,
+              {
+                marginBottom: 50,
+              },
+            ]}
           >
             <Text style={{ color: Colors.BLACK }}>상세정보</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.detailButton,
+              {
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                borderColor: Colors.PRIMARY,
+              },
+            ]}
+            onPress={navigateToExecute}
+          >
+            <Text
+              style={{
+                color: Colors.WHITE,
+              }}
+            >
+              플랜실행
+            </Text>
           </TouchableOpacity>
           <View
             style={{
