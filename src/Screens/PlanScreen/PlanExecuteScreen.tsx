@@ -21,12 +21,17 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { executedActivity, getPlanWithDaySchedules } from "@/api/PlanApi";
+import {
+  executedActivity,
+  getPlanWithDaySchedules,
+  getTransCoord,
+} from "@/api/PlanApi";
 import { PlanConfirmListItem } from "@/interface/Plan";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { ExecutePlanState, PlanStep } from "@/state/store/PlanRecoil";
 import { ProgressBar } from "@/components/ProgressBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as WebBrowser from "expo-web-browser";
 
 const PlanExecuteScreen = () => {
   const [review, setReview] = useState<string>("");
@@ -89,6 +94,27 @@ const PlanExecuteScreen = () => {
       }
     },
   });
+
+  const nextRouteClick = async () => {
+    const { x: originX, y: originY } = await getTransCoord(
+      schedules[currentStep - 1].item.longitude,
+      schedules[currentStep - 1].item.latitude
+    );
+    const { x: destX, y: destY } = await getTransCoord(
+      schedules[currentStep - 1].nextLng,
+      schedules[currentStep - 1].nextLat
+    );
+
+    const mapType = "TYPE_MAP";
+    const target = "transit";
+    const rt = originX + "," + originY + "," + destX + "," + destY;
+    const rt1 = schedules[currentStep - 1].item.name;
+    const rt2 = schedules[currentStep - 1].nextPlaceName;
+
+    WebBrowser.openBrowserAsync(
+      `https://map.kakao.com/?map_type=${mapType}&target=${target}&rt=${rt}&rt1=${rt1}&rt2=${rt2}`
+    );
+  };
 
   const handleNext = () => {
     executeSchedule({
@@ -172,6 +198,7 @@ const PlanExecuteScreen = () => {
                 borderWidth: 1,
               },
             ]}
+            onPress={nextRouteClick}
           >
             <Text style={{ color: Colors.BLACK }}>다음 경로</Text>
           </TouchableOpacity>
