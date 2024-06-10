@@ -4,6 +4,7 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useCallback } from "react";
+import React from "react";
 
 const styles = StyleSheet.create({
   container: {

@@ -25,6 +25,7 @@ import { Plans } from "@/interface/Plan";
 import { addEvent, updateEvent } from "@/api/EventApi";
 import DateTimeSection from "@/components/schedule/DateTimeSection";
 import PlanSection from "@/components/schedule/PlanSelectSection";
+import React from "react";
 
 const ScheduleCreateScreen = () => {
   type PlanEditScreenRouteProp = RouteProp<

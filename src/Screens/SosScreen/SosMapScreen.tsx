@@ -28,6 +28,7 @@ import Screen from "@/components/Screen";
 
 // State
 import { SosContent } from "@/state/store/SosRecoil";
+import React from "react";
 
 const SosMapScreen = () => {
   const [location, setLocation] = useState<{

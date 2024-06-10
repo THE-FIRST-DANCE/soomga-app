@@ -9,6 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useRecoilState } from "recoil";
 import { CurrentPeriod, PlanConfirm } from "@/state/store/PlanRecoil";
 import Colors from "@/modules/Color";
+import React from "react";
 
 interface PlanConfirmPeriodModalProps {
   period: number;

@@ -73,6 +73,7 @@ export interface Plans {
   daySchedules: dayPlan[];
   comments: PlanComment[];
   author: AuthorType;
+  executedPlan: PlanReview[];
 }
 
 // 플랜 데이터 날짜별 스케쥴 (서버)
@@ -107,4 +108,19 @@ export interface PlanComment {
   content: string;
   createdAt: string;
   member: AuthorType;
+}
+
+export interface PlanReview {
+  id: number;
+  author: AuthorType;
+  executedActivity: ExecutedActivity[];
+  createdAt: Date;
+}
+
+export interface ExecutedActivity {
+  id: number;
+  scheduleId: number;
+  memberId: number;
+  note: string;
+  photos: string[];
 }

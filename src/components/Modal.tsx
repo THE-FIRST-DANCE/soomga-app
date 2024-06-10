@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import React from "react";
 
 interface ModalProps {
   visible: boolean;

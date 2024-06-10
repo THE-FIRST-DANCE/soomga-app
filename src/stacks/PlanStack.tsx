@@ -12,6 +12,8 @@ import PlanExecuteScreen from "@/Screens/PlanScreen/PlanExecuteScreen";
 import { PlanConfirmPeriodList, Plans } from "@/interface/Plan";
 import { PlanInfo } from "@/state/store/PlanRecoil";
 
+import React from "react";
+
 export type PlanStackParamList = {
   PlanCreateScreen: undefined;
   PlanCreateDetail: undefined;

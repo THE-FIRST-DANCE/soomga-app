@@ -1,6 +1,6 @@
 import Screen from "@/components/Screen";
 import Colors from "@/modules/Color";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Alert,
   Image,
@@ -32,6 +32,7 @@ import { ExecutePlanState, PlanStep } from "@/state/store/PlanRecoil";
 import { ProgressBar } from "@/components/ProgressBar";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as WebBrowser from "expo-web-browser";
+import React from "react";
 
 const PlanExecuteScreen = () => {
   const [review, setReview] = useState<string>("");
@@ -39,9 +40,14 @@ const PlanExecuteScreen = () => {
   const [schedules, setSchedules] = useState<PlanConfirmListItem[]>([]);
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
   const [period, setPeriod] = useState<number>(1);
+  const [timerState, setTimerState] = useState<boolean>(false);
+  const [currentStep, setCurrentStep] = useRecoilState(PlanStep);
+
+  const [timer, setTimer] = useState<string>("0시간 0분");
+
+  const [timerInterval, setTimerInterval] = useState<number | null>(null);
 
   const executePlanState = useRecoilValue(ExecutePlanState);
-  const [currentStep, setCurrentStep] = useRecoilState(PlanStep);
 
   type PlanEditScreenRouteProp = RouteProp<
     PlanStackParamList,
@@ -50,6 +56,41 @@ const PlanExecuteScreen = () => {
   const route = useRoute<PlanEditScreenRouteProp>();
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
   const { planId } = route.params; // 여행 정보
+
+  const startTimer = () => {
+    if (timerState) {
+      setTimerState(false);
+      setTimer("0시간 0분");
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+      return;
+    }
+    if (timerInterval) {
+      clearInterval(timerInterval);
+    }
+    setTimerState(true);
+    setTimer(schedules[currentStep - 1].stayTime);
+    const interval = setInterval(() => {
+      setTimer((prev) => {
+        let [hours, minutes] = prev
+          .split(" ")
+          .map((t, i) => (i === 0 ? parseInt(t) : parseInt(t)));
+        if (minutes === 0) {
+          if (hours === 0) {
+            clearInterval(interval);
+            return "0시간 0분";
+          }
+          hours -= 1;
+          minutes = 59;
+        } else {
+          minutes -= 1;
+        }
+        return `${hours}시간 ${minutes}분`;
+      });
+    }, 60000);
+    setTimerInterval(interval);
+  };
 
   const uploadImage = async () => {
     if (!status?.granted) {
@@ -84,6 +125,7 @@ const PlanExecuteScreen = () => {
     onSuccess: async () => {
       setImages([]);
       setReview("");
+      setTimerState(false);
       if (currentStep < schedules.length - 1) {
         setCurrentStep(currentStep + 1);
       } else {
@@ -128,6 +170,9 @@ const PlanExecuteScreen = () => {
 
   const handlePrev = () => {
     if (currentStep > 1) {
+      setImages([]);
+      setReview("");
+      setTimerState(false);
       setCurrentStep(currentStep - 1);
     }
   };
@@ -178,6 +223,20 @@ const PlanExecuteScreen = () => {
           onChangeText={setReview}
         />
 
+        <TouchableOpacity onPress={startTimer} style={styles.timer}>
+          <Text style={styles.timerText}>
+            {timerState ? "타이머 초기화" : "타이머 시작"}
+          </Text>
+        </TouchableOpacity>
+
+        {timerState && (
+          <View style={styles.timer}>
+            <Text style={styles.timerText}>
+              {timer === "0시간 0분" ? "완료" : timer}
+            </Text>
+          </View>
+        )}
+
         <View style={styles.buttonWrap}>
           <TouchableOpacity
             style={[
@@ -206,6 +265,8 @@ const PlanExecuteScreen = () => {
             <Text style={{ color: Colors.BLACK }}>다음</Text>
           </TouchableOpacity>
         </View>
+
+        <View style={{ height: 50 }} />
       </ScrollView>
     </Screen>
   );
@@ -278,5 +339,20 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.PRIMARY,
     justifyContent: "center",
     alignItems: "center",
+  },
+  timer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+    borderWidth: 1,
+    borderColor: Colors.GRAY_MEDIUM,
+    borderRadius: 10,
+    padding: 10,
+  },
+  timerText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: Colors.BLACK,
   },
 });

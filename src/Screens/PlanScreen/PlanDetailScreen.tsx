@@ -32,6 +32,10 @@ import { PlanStackParamList } from "@/stacks/PlanStack";
 import { executedPlan, getPlanById } from "@/api/PlanApi";
 import { LinearGradient } from "expo-linear-gradient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSetRecoilState } from "recoil";
+import { ExecutePlanState } from "@/state/store/PlanRecoil";
+import PlanDetailReviewTab from "@/components/plan/PlanDetailReviewTab";
+import React from "react";
 
 enum Tab {
   Plan = "plan",
@@ -42,6 +46,7 @@ enum Tab {
 const PlanDetailScreen = () => {
   const [plan, setPlan] = useState<Plans>();
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.Plan);
+  const setExecutePlanState = useSetRecoilState(ExecutePlanState);
 
   type PlanEditScreenRouteProp = RouteProp<
     PlanStackParamList,
@@ -79,13 +84,17 @@ const PlanDetailScreen = () => {
             executePlanId: data,
           })
         );
+        setExecutePlanState({
+          planId: planId,
+          executePlanId: data,
+        });
+        navigation.navigate("PlanExecuteScreen", {
+          executePlanId: data,
+          planId: planId,
+        });
       } catch (error) {
         console.log(error);
       }
-      navigation.navigate("PlanExecuteScreen", {
-        executePlanId: data,
-        planId: planId,
-      });
     },
   });
 
@@ -160,12 +169,24 @@ const PlanDetailScreen = () => {
             </View>
             <View style={[styles.flexRow, { gap: 15 }]}>
               <View style={styles.flexRow}>
-                <AntDesign name="hearto" size={24} color="black" />
-                <Text>0</Text>
+                <AntDesign name="hearto" size={24} color={Colors.DANGER} />
+                <Text
+                  style={{
+                    color: Colors.WHITE,
+                  }}
+                >
+                  0
+                </Text>
               </View>
               <View style={styles.flexRow}>
-                <AntDesign name="message1" size={24} color="black" />
-                <Text>0</Text>
+                <AntDesign name="message1" size={24} color={Colors.BLUE} />
+                <Text
+                  style={{
+                    color: Colors.WHITE,
+                  }}
+                >
+                  0
+                </Text>
               </View>
             </View>
           </View>
@@ -224,6 +245,13 @@ const PlanDetailScreen = () => {
             key={planId}
           />
         )}
+
+        {currentTab === Tab.Review && (
+          <PlanDetailReviewTab
+            reviews={plan?.executedPlan || []}
+            key={planId}
+          />
+        )}
       </ScrollView>
     </Screen>
   );
@@ -249,12 +277,15 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
+    color: Colors.WHITE,
   },
   headerSubTitle: {
     fontSize: 18,
+    color: Colors.WHITE,
   },
   headerPeriod: {
     fontSize: 18,
+    color: Colors.WHITE,
   },
   headerUser: {
     flexDirection: "row",
@@ -263,6 +294,7 @@ const styles = StyleSheet.create({
   },
   headerUserText: {
     fontSize: 15,
+    color: Colors.WHITE,
   },
   headerUserImage: {
     width: 30,

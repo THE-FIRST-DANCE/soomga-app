@@ -6,6 +6,7 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import TouristStack from "./TouristStack";
+import React from "react";
 
 export type MainStackParamList = {
   MainTabs: undefined;

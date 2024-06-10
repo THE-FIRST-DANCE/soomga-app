@@ -1,4 +1,5 @@
 import Colors from "@/modules/Color";
+import React from "react";
 import { useEffect, useRef } from "react";
 import { Animated, StyleSheet, Text, View } from "react-native";
 

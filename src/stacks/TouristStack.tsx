@@ -5,6 +5,8 @@ import TouristScreen from "@/Screens/TouristScreen/TouristScreen";
 import { SosCommentType } from "@/interface/Sos";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import React from "react";
+
 export type TouristStackParamList = {
   TouristScreen: undefined;
   TouristDetailScreen: {
