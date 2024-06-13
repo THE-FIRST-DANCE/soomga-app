@@ -19,6 +19,8 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { useRecoilValue } from "recoil";
 import { SignStackParamList } from "@/stacks/SignStack";
 import { UserRecoil } from "@/state/store/UserRecoil";
+import { guides } from "@/data/guides";
+import { api } from "@/api/PlanApi";
 
 interface LoginForm {
   email: string;
@@ -47,18 +49,20 @@ const SignInScreen = () => {
   // const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
   // console.log(recoilToken);
 
-  const user = useRecoilValue(UserRecoil);
+  // const user = useRecoilValue(UserRecoil);
+  const user = {
+    id: 1,
+    nickname: "user1",
+    email: "user1@test.com",
+    avatar: guides[0].photo,
+  };
 
   const googleLogin = async () => {
-    await WebBrowser.openBrowserAsync(
-      `http://192.168.0.17.nip.io:3000/api/auth/google/mobile`
-    );
+    await WebBrowser.openBrowserAsync(`${api}auth/google/mobile`);
   };
 
   const lineLogin = async () => {
-    await WebBrowser.openBrowserAsync(
-      `http://192.168.0.17.nip.io:3000/api/auth/line/mobile`
-    );
+    await WebBrowser.openBrowserAsync(`${api}auth/line/mobile`);
   };
 
   return user?.id ? (

@@ -6,7 +6,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useState } from "react";
 
-interface GuideReview {
+export interface GuideReview {
   id: number;
   writer_name: string;
   communication_score: number;
@@ -17,7 +17,7 @@ interface GuideReview {
   updated_at: Date;
 }
 
-const reviewsWithGuideInfo: GuideReview[] = [
+export const reviewsWithGuideInfo: GuideReview[] = [
   {
     id: 1,
     communication_score: 5,
@@ -61,12 +61,20 @@ const reviewsWithGuideInfo: GuideReview[] = [
   },
 ];
 
-const formatDate = (date: Date) => {
+export const formatDate = (date: Date) => {
   const year = date.getFullYear();
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
   return `${year}. ${month}. ${day}`;
+};
+
+export const hideFullName = (name: string) => {
+  if (name.length > 1) {
+    return name.slice(0, 1) + "**";
+  } else {
+    return name;
+  }
 };
 
 const ReviewComponent = ({ review }: { review: GuideReview }) => {
@@ -75,14 +83,6 @@ const ReviewComponent = ({ review }: { review: GuideReview }) => {
       review.kindness_score +
       review.location_score) /
     3;
-
-  const hideFullName = (name: string) => {
-    if (name.length > 1) {
-      return name.slice(0, 1) + "**";
-    } else {
-      return name;
-    }
-  };
 
   return (
     <View style={styles.reviewContainer}>
@@ -372,7 +372,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PencilSvg = () => {
+export const PencilSvg = () => {
   return (
     <Svg height="24" width="24">
       <G transform="translate(0 -1028.4)">
