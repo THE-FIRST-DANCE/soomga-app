@@ -17,7 +17,11 @@ function ProfileSetting() {
         <Text style={styles.title}>프로필 수정</Text>
         <AntDesign name="right" size={20} color="black" />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.item} activeOpacity={0.6}>
+      <TouchableOpacity
+        style={styles.item}
+        activeOpacity={0.6}
+        onPress={() => navigation.navigate("GuideRegisterScreen")}
+      >
         <Text style={styles.title}>가이드 신청</Text>
         <AntDesign name="right" size={20} color="black" />
       </TouchableOpacity>
