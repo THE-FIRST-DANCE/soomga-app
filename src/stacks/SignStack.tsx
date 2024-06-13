@@ -1,4 +1,5 @@
 import { GuideReview } from "@/components/guide/GuideDetailReview";
+import GuideRegisterScreen from "@/Screens/ProfileScreen/GuideRegisterScreen";
 import LangSettingScreen from "@/Screens/ProfileScreen/LangSettingScreen";
 import MyPlacesScreen from "@/Screens/ProfileScreen/MyPlacesScreen";
 import MyPlansScreen from "@/Screens/ProfileScreen/MyPlansScreen";
@@ -15,7 +16,7 @@ export type SignStackParamList = {
   MyPlansScreen: undefined;
   MyPlacesScreen: undefined;
   ProfileModifyScreen: undefined;
-  GuideApplicationScreen: undefined;
+  GuideRegisterScreen: undefined;
   LangSettingScreen: undefined;
 };
 
@@ -35,6 +36,10 @@ export default function SignStack() {
       <Stack.Screen name="MyPlacesScreen" component={MyPlacesScreen} />
       <Stack.Screen name="LangSettingScreen" component={LangSettingScreen} />
       <Stack.Screen name="ProfileModifyScreen" component={ProfileModify} />
+      <Stack.Screen
+        name="GuideRegisterScreen"
+        component={GuideRegisterScreen}
+      />
     </Stack.Navigator>
   );
 }
