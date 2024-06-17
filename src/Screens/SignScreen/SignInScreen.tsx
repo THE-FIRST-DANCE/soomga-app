@@ -20,7 +20,7 @@ import { Feather } from "@expo/vector-icons";
 /* navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { API_URL } from "@env";
 import { SignStackParamList } from "@/stacks/SignStack";
 import GoogleIcon from "@/components/icons/GoogleIcon";
@@ -28,6 +28,7 @@ import LineIcon from "@/components/icons/LineIcon";
 import { UserRecoil } from "@/state/store/UserRecoil";
 import Profile from "@/components/profile/Profile";
 import { login } from "@/api/LoginApi";
+import { api } from "@/api/PlanApi";
 
 interface LoginForm {
   email: string;
@@ -68,18 +69,15 @@ const SignInScreen = () => {
   // const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
   // console.log(recoilToken);
 
-  const user = useRecoilValue(UserRecoil);
+  // const user = useRecoilValue(UserRecoil);
+  const [user, setUser] = useRecoilState(UserRecoil);
 
   const googleLogin = async () => {
-    await WebBrowser.openBrowserAsync(
-      `http://home.juhyeonni.co.kr:3000/api/auth/google/mobile`
-    );
+    await WebBrowser.openBrowserAsync(`${api}auth/google/mobile`);
   };
 
   const lineLogin = async () => {
-    await WebBrowser.openBrowserAsync(
-      `http://home.juhyeonni.co.kr:3000/api/auth/line/mobile`
-    );
+    await WebBrowser.openBrowserAsync(`${api}auth/line/mobile`);
   };
 
   const emailInputText = useInputText();
@@ -90,6 +88,18 @@ const SignInScreen = () => {
       email: emailInputText.value,
       password: passwordInputText.value,
     });
+
+    try {
+      console.log("Email Login Succeed");
+      console.log(res);
+
+      setUser({
+        id: res.user.sub,
+        nickname: res.user.nickname,
+        email: res.user.email,
+        avatar: res.user.avatar,
+      });
+    } catch (error) {}
 
     console.log(res);
   };
