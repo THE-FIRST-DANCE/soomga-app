@@ -1,5 +1,12 @@
 import Colors from "@/modules/Color";
-import { View, Text, StyleSheet, ViewStyle, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ViewStyle,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { GuideType } from "@/data/guides";
 import { MessageProp } from "@/Screens/ChatScreen/ChatRoomScreen";
 import { ServiceProps } from "./ChatReservationModal";
@@ -97,15 +104,7 @@ export function MyMessage({ message, isSameSender }: MyMessageProps) {
 }
 
 export function ServiceMessage({
-  service = {
-    id: 1,
-    image:
-      "https://cdn.pixabay.com/photo/2016/11/14/03/43/kimono-1822520_1280.jpg",
-    title: "서비스 1",
-    price: 10000,
-    description:
-      "韓国在住約10年になります。代行のご依頼500件以上、ご不満だったという評価は受けたことがありません♡日本・韓国でネットショップ経営中です。購入代行、仕入れ代行、予約代行、サイン会・ヨントン応募、K",
-  },
+  service,
   isSameSender,
   created_at = new Date(),
 }: {
@@ -129,7 +128,7 @@ export function ServiceMessage({
         <View style={styles.service}>
           <Image
             source={{
-              uri: "https://cdn.pixabay.com/photo/2016/11/14/03/43/kimono-1822520_1280.jpg",
+              uri: "https://cdn.pixabay.com/photo/2018/09/17/05/14/water-noodle-3683050_1280.jpg",
             }}
             style={{ width: 150, height: 150 }}
           />
@@ -149,13 +148,15 @@ export function ServiceMessage({
             >
               {service.title}
             </Text>
-            <Text style={{ color: Colors.WHITE }}>￦{service.price}</Text>
+            {/* <Text style={{ color: Colors.WHITE }}>￦{service.price}</Text> */}
           </View>
           <Text style={{ fontSize: 13, marginTop: 5, color: Colors.WHITE }}>
-            시작 | {formatServiceTime(created_at)}
+            {/* 시작 | {formatServiceTime(created_at)} */}
+            시작 | 2024. 06. 14. 10:00
           </Text>
           <Text style={{ fontSize: 13, marginTop: 5, color: Colors.WHITE }}>
-            종료 | {formatServiceTime(created_at)}
+            {/* 종료 | {formatServiceTime(created_at)} */}
+            종료 | 2024. 06. 15. 17:00
           </Text>
 
           <View
@@ -165,22 +166,17 @@ export function ServiceMessage({
               justifyContent: "space-between",
             }}
           >
-            <View
+            <TouchableOpacity
+              activeOpacity={0.6}
               style={{
                 backgroundColor: Colors.WHITE,
                 ...styles.button,
               }}
             >
-              <Text style={{ color: Colors.BLACK, fontSize: 17 }}>거절</Text>
-            </View>
-            <View
-              style={{
-                backgroundColor: "#00ca7c",
-                ...styles.button,
-              }}
-            >
-              <Text style={{ color: Colors.WHITE, fontSize: 17 }}>확인</Text>
-            </View>
+              <Text style={{ color: Colors.BLACK, fontSize: 17 }}>
+                상세보기
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -240,8 +236,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.BASKETBALL_ORANGE,
   },
   button: {
-    width: 70,
-    height: 35,
+    width: 150,
+    height: 30,
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
