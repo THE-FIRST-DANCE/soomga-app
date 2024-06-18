@@ -1,23 +1,13 @@
+import { Room } from "@/interface/Chat";
 import { api } from "./PlanApi";
-import { User } from "@/state/store/UserRecoil";
-
-export interface ChatroomProps {
-  id: number;
-  name: string;
-  createdAt: Date;
-  deletedAt: Date;
-  members: User[];
-  messages: string[];
-}
 
 /* 채팅방 목록 가져오기 */
-export const getChatList = async (
-  setChatList: (newChatList: ChatroomProps[]) => void
-) => {
+export const getRooms = async () => {
   try {
-    const response = await api.get("chat");
-    setChatList(response.data);
-  } catch (e) {
-    console.error(e);
+    const res = await api.get<Room[]>("chat");
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    return undefined;
   }
 };
