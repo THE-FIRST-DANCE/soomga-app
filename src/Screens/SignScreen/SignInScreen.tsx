@@ -20,15 +20,14 @@ import { Feather } from "@expo/vector-icons";
 /* navigation */
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 
-import { useRecoilState, useRecoilValue } from "recoil";
-import { API_URL } from "@env";
+import { useRecoilState } from "recoil";
 import { SignStackParamList } from "@/stacks/SignStack";
 import GoogleIcon from "@/components/icons/GoogleIcon";
 import LineIcon from "@/components/icons/LineIcon";
 import { UserRecoil } from "@/state/store/UserRecoil";
 import Profile from "@/components/profile/Profile";
 import { login } from "@/api/LoginApi";
-import { api } from "@/api/PlanApi";
+import { AccessTokenAtom } from "@/state/store/AccessTokenAtom";
 
 interface LoginForm {
   email: string;
@@ -66,18 +65,21 @@ const SignInScreen = () => {
   /* 비밀번호 표시 여부 설정 */
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
-  // const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
-  // console.log(recoilToken);
+  const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
 
   // const user = useRecoilValue(UserRecoil);
   const [user, setUser] = useRecoilState(UserRecoil);
 
   const googleLogin = async () => {
-    await WebBrowser.openBrowserAsync(`${api}auth/google/mobile`);
+    await WebBrowser.openBrowserAsync(
+      `http://home.juhyeonni.co.kr:3000/api/auth/google/mobile`
+    );
   };
 
   const lineLogin = async () => {
-    await WebBrowser.openBrowserAsync(`${api}auth/line/mobile`);
+    await WebBrowser.openBrowserAsync(
+      `http://home.juhyeonni.co.kr:3000/api/auth/line/mobile`
+    );
   };
 
   const emailInputText = useInputText();
@@ -99,10 +101,16 @@ const SignInScreen = () => {
         email: res.user.email,
         avatar: res.user.avatar,
       });
-    } catch (error) {}
 
-    console.log(res);
+      setRecoilToken(res.accessToken);
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    console.log(recoilToken);
+  }, [recoilToken]);
 
   return user?.id ? (
     <View
