@@ -1,8 +1,9 @@
-import { api } from "@/api/PlanApi";
+import { getRooms } from "@/api/ChatApi";
+import { getMyInfo } from "@/api/LoginApi";
 import Screen from "@/components/Screen";
-import { guides } from "@/data/guides";
+import { Member } from "@/interface/Chat";
 import { ChatStackParamList } from "@/stacks/ChatStack";
-import { User } from "@/state/store/UserRecoil";
+import { ChatList } from "@/state/store/ChatList";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,51 +14,69 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-
-interface ChatroomProps {
-  id: number;
-  name: string;
-  createdAt: Date;
-  deletedAt: Date;
-  members: User[];
-  messages: string[];
-}
+import { useRecoilState } from "recoil";
 
 function ChatListScreen() {
   const navigation = useNavigation<NavigationProp<ChatStackParamList>>();
 
-  const [chatList, setChatList] = useState<ChatroomProps[]>([]);
-
-  const getChatList = async () => {
-    try {
-      const response = await api.get("chat");
-      setChatList(response.data);
-      console.log(chatList);
-    } catch (e) {
-      console.error(e);
-    }
-  };
+  const [chatLists, setChatLists] = useRecoilState(ChatList);
+  const [opponent, setOpponent] = useState<Member | null>(null);
 
   useEffect(() => {
-    getChatList();
+    const getRoomsData = async () => {
+      try {
+        const rooms = await getRooms();
+        const { id: myId } = await getMyInfo();
+
+        if (rooms) {
+          setChatLists(rooms);
+
+          rooms[0].members.forEach(({ member }) => {
+            if (member.id !== myId) {
+              setOpponent(member);
+            }
+          });
+        } else {
+          console.error("Failed to fetch Chat rooms");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    getRoomsData();
   }, []);
+
+  useEffect(() => {
+    console.log("채팅 리스트:", chatLists);
+  }, [chatLists]);
+
+  useEffect(() => {
+    console.log("상대방", opponent);
+  }, [opponent]);
 
   return (
     <Screen title="채팅방 목록">
       <View style={styles.container}>
         <FlatList
-          data={chatList}
+          data={chatLists}
           renderItem={({ item }) => (
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.chatItem}
-              onPress={() => navigation.navigate("ChatRoomScreen")}
+              onPress={() =>
+                navigation.navigate("ChatRoomScreen", { opponent: opponent })
+              }
             >
               <View style={{ flexDirection: "row" }}>
-                {/* <Image
-                  source={{ uri: item.photo }}
+                <Image
+                  source={
+                    opponent?.avatar
+                      ? { uri: opponent.avatar }
+                      : require("src/assets/defaultProfile.png")
+                  }
                   style={{ width: 60, height: 60, borderRadius: 20 }}
-                /> */}
+                />
                 <View style={{ marginLeft: 10, flex: 1 }}>
                   <Text style={styles.name}>{item.name}</Text>
                   <Text style={styles.message}>메시지</Text>
