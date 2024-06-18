@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as SecureStore from "expo-secure-store";
 import { api } from "./PlanApi";
 
 export const tokenLogin = async (token: string) => {
@@ -23,6 +24,17 @@ interface LoginForm {
 export const login = async (loginForm: LoginForm) => {
   try {
     const response = await api.post("auth/signin", loginForm);
+    const { accessToken } = response.data;
+    SecureStore.setItem("accessToken", accessToken);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getMyInfo = async () => {
+  try {
+    const response = await api.get("mypage");
     return response.data;
   } catch (error) {
     console.error(error);
