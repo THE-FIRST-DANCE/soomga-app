@@ -33,7 +33,7 @@ export interface MessageProp {
 
 function ChatRoomScreen() {
   const route = useRoute<RouteProp<ChatStackParamList, "ChatRoomScreen">>();
-  const { guide } = route.params;
+  const { opponent } = route.params;
 
   /* 사이드바 open 여부 */
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -147,7 +147,7 @@ function ChatRoomScreen() {
 
   return (
     <Screen
-      title={guide.name}
+      title={opponent?.nickname}
       right={
         <Feather
           name="menu"
@@ -159,20 +159,20 @@ function ChatRoomScreen() {
       }
     >
       <View style={{ flex: 1 }}>
-        {isSidebarOpen && (
+        {/* {isSidebarOpen && (
           <ChatRoomSidebar
             slideAnimation={slideAnimation}
             guide={guide}
             isStarred={isStarred}
             setIsStarred={setIsStarred}
           />
-        )}
+        )} */}
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Pressable
             style={{ flex: 0.8, justifyContent: "flex-end" }}
             onPress={() => isSidebarOpen && toggleSidebar()}
           >
-            {messages.map((message, index) =>
+            {/* {messages.map((message, index) =>
               message.isMine ? (
                 <MyMessage
                   key={index}
@@ -187,7 +187,7 @@ function ChatRoomScreen() {
                   isSameSender={isSameSender(index)}
                 />
               )
-            )}
+            )} */}
             <ServiceMessage
               service={{
                 id: 1,
