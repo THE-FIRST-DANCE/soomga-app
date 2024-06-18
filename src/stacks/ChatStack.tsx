@@ -1,11 +1,14 @@
 import { GuideType } from "@/data/guides";
+import { Member } from "@/interface/Chat";
 import ChatListScreen from "@/Screens/ChatScreen/ChatListScreen";
 import ChatRoomScreen from "@/Screens/ChatScreen/ChatRoomScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 
 export type ChatStackParamList = {
   ChatListScreen: undefined;
-  ChatRoomScreen: undefined;
+  ChatRoomScreen: {
+    opponent?: Member | null;
+  };
 };
 
 const Stack = createStackNavigator<ChatStackParamList>();
