@@ -2,6 +2,7 @@ import { getRooms } from "@/api/ChatApi";
 import { getMyInfo } from "@/api/LoginApi";
 import Screen from "@/components/Screen";
 import { Member } from "@/interface/Chat";
+import { socket } from "@/socket";
 import { ChatStackParamList } from "@/stacks/ChatStack";
 import { ChatList } from "@/state/store/ChatList";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
@@ -25,16 +26,18 @@ function ChatListScreen() {
   useEffect(() => {
     const getRoomsData = async () => {
       try {
-        const rooms = await getRooms();
-        const { id: myId } = await getMyInfo();
+        const chatLists = await getRooms();
+        const { id } = await getMyInfo();
 
-        if (rooms) {
-          setChatLists(rooms);
+        if (chatLists) {
+          setChatLists(chatLists);
 
-          rooms[0].members.forEach(({ member }) => {
-            if (member.id !== myId) {
-              setOpponent(member);
-            }
+          chatLists.forEach((chatList) => {
+            chatList.members?.forEach((member) => {
+              if (member.member.id !== id) {
+                setOpponent(member);
+              }
+            });
           });
         } else {
           console.error("Failed to fetch Chat rooms");
@@ -48,7 +51,7 @@ function ChatListScreen() {
   }, []);
 
   useEffect(() => {
-    console.log("채팅 리스트:", chatLists);
+    console.log("채팅 멤버들:", chatLists[0].members);
   }, [chatLists]);
 
   useEffect(() => {
@@ -64,15 +67,18 @@ function ChatListScreen() {
             <TouchableOpacity
               activeOpacity={0.6}
               style={styles.chatItem}
-              onPress={() =>
-                navigation.navigate("ChatRoomScreen", { opponent: opponent })
-              }
+              onPress={() => {
+                navigation.navigate("ChatRoomScreen", {
+                  room: item,
+                  opponent,
+                });
+              }}
             >
               <View style={{ flexDirection: "row" }}>
                 <Image
                   source={
-                    opponent?.avatar
-                      ? { uri: opponent.avatar }
+                    opponent?.member.avatar
+                      ? { uri: opponent.member.avatar }
                       : require("src/assets/defaultProfile.png")
                   }
                   style={{ width: 60, height: 60, borderRadius: 20 }}
@@ -87,7 +93,7 @@ function ChatListScreen() {
               </View>
             </TouchableOpacity>
           )}
-        ></FlatList>
+        />
       </View>
     </Screen>
   );
