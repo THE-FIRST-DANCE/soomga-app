@@ -8,7 +8,7 @@ import axios from "axios";
 import { EXPO_PUBLIC_KAKAO_API } from "@env";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000/api/",
+  baseURL: "http://home.juhyeonni.co.kr:3000/api/",
   withCredentials: true,
 });
 
