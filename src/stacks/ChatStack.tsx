@@ -1,5 +1,5 @@
 import { GuideType } from "@/data/guides";
-import { Member } from "@/interface/Chat";
+import { Member, Room } from "@/interface/Chat";
 import ChatListScreen from "@/Screens/ChatScreen/ChatListScreen";
 import ChatRoomScreen from "@/Screens/ChatScreen/ChatRoomScreen";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -7,6 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 export type ChatStackParamList = {
   ChatListScreen: undefined;
   ChatRoomScreen: {
+    room?: Room;
     opponent?: Member | null;
   };
 };
