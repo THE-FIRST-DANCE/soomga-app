@@ -14,15 +14,20 @@ import {
   Keyboard,
   Text,
   Pressable,
+  FlatList,
 } from "react-native";
 import { Feather, Entypo } from "@expo/vector-icons";
 import ChatRoomSidebar from "@/components/chat/ChatRoomSidebar";
 import {
+  Message,
   MyMessage,
   OpponentMessage,
   ServiceMessage,
 } from "@/components/chat/Message";
 import Multimedia from "@/components/chat/Multimedia";
+import { useChat } from "@/hooks/chat/useChat";
+import { useRecoilState } from "recoil";
+import { AccessTokenAtom } from "@/state/store/AccessTokenAtom";
 
 export interface MessageProp {
   id: number;
@@ -33,7 +38,8 @@ export interface MessageProp {
 
 function ChatRoomScreen() {
   const route = useRoute<RouteProp<ChatStackParamList, "ChatRoomScreen">>();
-  const { opponent } = route.params;
+  const { room, opponent } = route.params;
+  const [recoilToken, setRecoilToken] = useRecoilState(AccessTokenAtom);
 
   /* 사이드바 open 여부 */
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
@@ -117,37 +123,26 @@ function ChatRoomScreen() {
     outputRange: ["0deg", "45deg"],
   });
 
-  const [text, setText] = useState<string>("");
-  const [messages, setMessages] = useState<MessageProp[]>([
-    { id: 1, isMine: false, content: "반가워요!", created_at: new Date() },
-    {
-      id: 2,
-      isMine: false,
-      content: "꽁꽁 얼어붙은 한강 위로 고양이가 걸어다닙니다",
-      created_at: new Date(),
-    },
-  ]);
+  const { isConnected, messages, sendMessage, fetchMessages } = useChat(
+    room?.id
+  );
 
-  const isSameSender = (index: number) => {
-    return messages[index - 1]?.isMine === messages[index]?.isMine;
-  };
+  useEffect(() => {
+    console.log("메시지:", messages);
+  }, [messages]);
+
+  const [text, setText] = useState<string>("");
 
   const handleSend = () => {
     if (text) {
-      const newMessage = {
-        id: messages.length + 1,
-        isMine: true,
-        content: text,
-        created_at: new Date(),
-      };
-      setMessages([...messages, newMessage]);
+      sendMessage({ message: text }, recoilToken.name);
       setText("");
     }
   };
 
   return (
     <Screen
-      title={opponent?.nickname}
+      title={opponent?.member.nickname}
       right={
         <Feather
           name="menu"
@@ -167,43 +162,21 @@ function ChatRoomScreen() {
             setIsStarred={setIsStarred}
           />
         )} */}
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <Pressable
-            style={{ flex: 0.8, justifyContent: "flex-end" }}
-            onPress={() => isSidebarOpen && toggleSidebar()}
-          >
-            {/* {messages.map((message, index) =>
-              message.isMine ? (
-                <MyMessage
-                  key={index}
-                  message={message}
-                  isSameSender={isSameSender(index)}
-                />
-              ) : (
-                <OpponentMessage
-                  key={index}
-                  guide={guide}
-                  message={message}
-                  isSameSender={isSameSender(index)}
-                />
-              )
-            )} */}
-            <ServiceMessage
-              service={{
-                id: 1,
-                image:
-                  "https://cdn.pixabay.com/photo/2016/11/14/03/43/kimono-1822520_1280.jpg",
-                title: "서비스 1",
-                price: 10000,
-                description:
-                  "韓国在住約10年になります。代行のご依頼500件以上、ご不満だったという評価は受けたことがありません♡日本・韓国でネットショップ経営中です。購入代行、仕入れ代行、予約代行、サイン会・ヨントン応募、K",
-              }}
-              isSameSender={false}
-              created_at={new Date()}
-            />
-          </Pressable>
-        </ScrollView>
-
+        <Pressable
+          style={{ flex: 1, justifyContent: "flex-end" }}
+          onPress={() => isSidebarOpen && toggleSidebar()}
+        >
+          <FlatList
+            inverted
+            data={messages}
+            renderItem={({ item: message }) => (
+              <Message
+                isMine={message.sender.id !== opponent?.member.id}
+                content={message.content.message}
+              />
+            )}
+          />
+        </Pressable>
         <KeyboardAvoidingView
           behavior="height"
           keyboardVerticalOffset={100}
@@ -264,7 +237,6 @@ export default ChatRoomScreen;
 const styles = StyleSheet.create({
   menuButton: { position: "absolute", right: 0, marginRight: 20 },
   inputSection: {
-    height: 70,
     flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
