@@ -7,8 +7,6 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { GuideType } from "@/data/guides";
-import { MessageProp } from "@/Screens/ChatScreen/ChatRoomScreen";
 import { ServiceProps } from "./ChatReservationModal";
 
 const formatMsgTime = (date: Date) => {
@@ -30,75 +28,31 @@ const formatServiceTime = (date: Date) => {
   return `${year}. ${month}. ${day} ${hour}:${minute}`;
 };
 
-interface OpponentMessageProps {
-  guide: GuideType;
-  message: MessageProp;
-  style?: ViewStyle;
-  isSameSender: boolean;
-}
-
-export function OpponentMessage({
-  guide,
-  message,
-  isSameSender,
-}: OpponentMessageProps) {
+export function Message({
+  isMine,
+  content,
+}: {
+  isMine: boolean;
+  content: string;
+}) {
   return (
     <View
-      style={[
-        styles.opponentMsgContainer,
-        {
-          marginTop: isSameSender ? 5 : 10,
-        },
-      ]}
+      style={{
+        alignSelf: isMine ? "flex-end" : "flex-start",
+        maxWidth: "65%",
+        padding: 10,
+        borderRadius: 20,
+        marginVertical: 5,
+        marginLeft: isMine ? 0 : 20,
+        marginRight: isMine ? 20 : 0,
+        backgroundColor: isMine ? Colors.BASKETBALL_ORANGE : Colors.GRAY_MEDIUM,
+      }}
     >
-      {isSameSender ? (
-        <Image style={styles.opponentImage} />
-      ) : (
-        <Image source={{ uri: guide.photo }} style={styles.opponentImage} />
-      )}
-      <View style={{ marginLeft: 10 }}>
-        {isSameSender ? null : (
-          <Text style={{ marginBottom: 5 }}>{guide.name}</Text>
-        )}
-        <View style={{ flexDirection: "row", maxWidth: "100%" }}>
-          <View style={styles.opponent}>
-            <Text style={{ flexWrap: "wrap" }}>{message.content}</Text>
-          </View>
-          <Text style={{ fontSize: 10, marginLeft: 5, alignSelf: "flex-end" }}>
-            {formatMsgTime(message.created_at)}
-          </Text>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-interface MyMessageProps {
-  message: MessageProp;
-  style?: ViewStyle;
-  isSameSender: boolean;
-}
-
-export function MyMessage({ message, isSameSender }: MyMessageProps) {
-  return (
-    <View
-      style={[
-        styles.myMsgContainer,
-        {
-          marginTop: isSameSender ? 5 : 10,
-        },
-      ]}
-    >
-      <View style={{ flexDirection: "row", maxWidth: "100%" }}>
-        <Text style={{ fontSize: 10, marginLeft: 5, alignSelf: "flex-end" }}>
-          {formatMsgTime(message.created_at)}
-        </Text>
-        <View style={styles.my}>
-          <Text style={{ flexWrap: "wrap", color: Colors.WHITE }}>
-            {message.content}
-          </Text>
-        </View>
-      </View>
+      <Text
+        style={{ fontSize: 15, color: isMine ? Colors.WHITE : Colors.BLACK }}
+      >
+        {content}
+      </Text>
     </View>
   );
 }
