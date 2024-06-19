@@ -102,15 +102,14 @@ const SignInScreen = () => {
         avatar: res.user.avatar,
       });
 
-      setRecoilToken(res.accessToken);
+      setRecoilToken({
+        token: true,
+        name: res.accessToken,
+      });
     } catch (error) {
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    console.log(recoilToken);
-  }, [recoilToken]);
 
   return user?.id ? (
     <View
