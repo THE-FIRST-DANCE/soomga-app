@@ -12,6 +12,7 @@ import * as Notifications from "expo-notifications";
 import { LoadUserData } from "@/components/loaders/LoadUserData";
 import { UserLoader } from "@/components/loaders/UserLoader";
 import { LoadExecutePlan } from "@/components/loaders/LoadExecutePlan";
+import React from "react";
 
 const queryClient = new QueryClient();
 

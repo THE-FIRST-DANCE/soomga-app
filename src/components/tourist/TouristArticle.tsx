@@ -8,6 +8,8 @@ import { Tourist } from "@/interface/Tourist";
 import useFormatDate from "@/hooks/useFormatDate";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { TouristStackParamList } from "@/stacks/TouristStack";
+import React from "react";
+import useFirstImage from "@/hooks/useFirstImage";
 
 const TouristArticle = ({ item }: { item: Tourist }) => {
   const naviagtion = useNavigation<NavigationProp<TouristStackParamList>>();
@@ -22,11 +24,17 @@ const TouristArticle = ({ item }: { item: Tourist }) => {
     });
   };
 
+  const mainImage = useFirstImage(item?.content as string);
+
   return (
     <TouchableOpacity onPress={handlePress} style={styles.card}>
       <Image
         style={styles.articleImage}
-        source={{ uri: "https://picsum.photos/200/300" }}
+        src={
+          mainImage.length !== 0
+            ? mainImage[0].url
+            : "https://htmlcolorcodes.com/assets/images/colors/gray-color-solid-background-1920x1080.png"
+        }
       />
       <View style={styles.articleInfo}>
         <Text style={styles.articleTitle}>

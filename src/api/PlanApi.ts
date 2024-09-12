@@ -8,7 +8,7 @@ import axios from "axios";
 import { EXPO_PUBLIC_KAKAO_API } from "@env";
 
 export const api = axios.create({
-  baseURL: "http://home.juhyeonni.co.kr:3000/api/",
+  baseURL: "http://localhost:3000/api/",
   withCredentials: true,
 });
 
@@ -20,7 +20,8 @@ export const getPlaceApi = async (category: string, region: string) => {
         region,
       },
     });
-    return response.data;
+
+    return response.data.items;
   } catch (error) {
     console.error(error);
   }
@@ -111,6 +112,7 @@ export const getPlanList = async (authorId: number) => {
       authorId,
     },
   });
+  console.log(response.data);
 
   return response.data;
 };
