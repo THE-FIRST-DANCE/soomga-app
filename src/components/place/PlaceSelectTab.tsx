@@ -27,6 +27,8 @@ const PlaceSelectTab = ({ region, editMode }: PlaceSelectTabProps) => {
   const [searchKeyword, setSearchKeyword] = useState<string>("");
   const [places, setPlaces] = useState<PlaceData[]>([]);
 
+  console.log(places);
+
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
 
   const getPlace = () => {

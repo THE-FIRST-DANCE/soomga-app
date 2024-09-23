@@ -88,7 +88,6 @@ const GoogleMap = ({
   return (
     <MapView
       style={{ width: "100%", height: "100%", position: "relative" }}
-      provider={PROVIDER_GOOGLE}
       region={region}
     >
       {markers.map((m, index) => (

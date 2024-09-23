@@ -6,10 +6,11 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   NavigationProp,
   RouteProp,
@@ -28,8 +29,13 @@ import { Plans } from "@/interface/Plan";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 
 // Api
-import { getPlanById } from "@/api/PlanApi";
+import { executedPlan, getPlanById } from "@/api/PlanApi";
 import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useSetRecoilState } from "recoil";
+import { ExecutePlanState } from "@/state/store/PlanRecoil";
+import PlanDetailReviewTab from "@/components/plan/PlanDetailReviewTab";
+import React from "react";
 
 enum Tab {
   Plan = "plan",
@@ -40,6 +46,7 @@ enum Tab {
 const PlanDetailScreen = () => {
   const [plan, setPlan] = useState<Plans>();
   const [currentTab, setCurrentTab] = useState<Tab>(Tab.Plan);
+  const setExecutePlanState = useSetRecoilState(ExecutePlanState);
 
   type PlanEditScreenRouteProp = RouteProp<
     PlanStackParamList,
@@ -66,6 +73,46 @@ const PlanDetailScreen = () => {
     });
   };
 
+  const { mutate: executePlan } = useMutation({
+    mutationFn: executedPlan,
+    onSuccess: async (data) => {
+      try {
+        await AsyncStorage.setItem(
+          "executedPlan",
+          JSON.stringify({
+            planId: planId,
+            executePlanId: data,
+          })
+        );
+        setExecutePlanState({
+          planId: planId,
+          executePlanId: data,
+        });
+        navigation.navigate("PlanExecuteScreen", {
+          executePlanId: data,
+          planId: planId,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  });
+
+  const navigateToExecute = () => {
+    Alert.alert("플랜을 실행하시겠습니까?", "", [
+      {
+        text: "취소",
+        onPress: () => {},
+      },
+      {
+        text: "실행",
+        onPress: () => {
+          executePlan(planId);
+        },
+      },
+    ]);
+  };
+
   return (
     <Screen>
       <ScrollView>
@@ -76,9 +123,33 @@ const PlanDetailScreen = () => {
           />
           <TouchableOpacity
             onPress={navigateToDetail}
-            style={styles.detailButton}
+            style={[
+              styles.detailButton,
+              {
+                marginBottom: 50,
+              },
+            ]}
           >
             <Text style={{ color: Colors.BLACK }}>상세정보</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.detailButton,
+              {
+                backgroundColor: "transparent",
+                borderWidth: 1,
+                borderColor: Colors.PRIMARY,
+              },
+            ]}
+            onPress={navigateToExecute}
+          >
+            <Text
+              style={{
+                color: Colors.WHITE,
+              }}
+            >
+              플랜실행
+            </Text>
           </TouchableOpacity>
           <View
             style={{
@@ -98,12 +169,24 @@ const PlanDetailScreen = () => {
             </View>
             <View style={[styles.flexRow, { gap: 15 }]}>
               <View style={styles.flexRow}>
-                <AntDesign name="hearto" size={24} color="black" />
-                <Text>0</Text>
+                <AntDesign name="hearto" size={24} color={Colors.DANGER} />
+                <Text
+                  style={{
+                    color: Colors.WHITE,
+                  }}
+                >
+                  0
+                </Text>
               </View>
               <View style={styles.flexRow}>
-                <AntDesign name="message1" size={24} color="black" />
-                <Text>0</Text>
+                <AntDesign name="message1" size={24} color={Colors.BLUE} />
+                <Text
+                  style={{
+                    color: Colors.WHITE,
+                  }}
+                >
+                  0
+                </Text>
               </View>
             </View>
           </View>
@@ -162,6 +245,13 @@ const PlanDetailScreen = () => {
             key={planId}
           />
         )}
+
+        {currentTab === Tab.Review && (
+          <PlanDetailReviewTab
+            reviews={plan?.executedPlan || []}
+            key={planId}
+          />
+        )}
       </ScrollView>
     </Screen>
   );
@@ -187,12 +277,15 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
+    color: Colors.WHITE,
   },
   headerSubTitle: {
     fontSize: 18,
+    color: Colors.WHITE,
   },
   headerPeriod: {
     fontSize: 18,
+    color: Colors.WHITE,
   },
   headerUser: {
     flexDirection: "row",
@@ -201,6 +294,7 @@ const styles = StyleSheet.create({
   },
   headerUserText: {
     fontSize: 15,
+    color: Colors.WHITE,
   },
   headerUserImage: {
     width: 30,

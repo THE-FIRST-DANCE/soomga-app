@@ -18,6 +18,7 @@ import { deleteSosComment } from "@/api/SosApi";
 
 // Interfaces
 import { SosCommentType } from "@/interface/Sos";
+import React from "react";
 
 const FeedComment = ({ comment }: { comment: SosCommentType }) => {
   const queryClient = useQueryClient();

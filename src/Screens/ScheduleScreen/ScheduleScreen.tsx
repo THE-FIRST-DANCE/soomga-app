@@ -26,6 +26,7 @@ import { getEvent } from "@/api/EventApi";
 
 // Hooks
 import useParsedMarkers from "@/hooks/schedule/useParsedMarkers";
+import React from "react";
 
 const ScheduleScreen = () => {
   const [selectedDate, setSelectedDate] = useState<string>(

@@ -2,7 +2,7 @@ import axios from "axios";
 import * as SecureStore from "expo-secure-store";
 
 export const tokenApi = axios.create({
-  baseURL: "http://192.168.0.20:3000/api/",
+  baseURL: "http://192.168.0.17:3000/api/",
   withCredentials: true,
 });
 

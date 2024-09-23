@@ -29,6 +29,7 @@ import Colors from "@/modules/Color";
 
 // Components
 import GlobalModal from "../Modal";
+import React from "react";
 
 interface PlanConfirmItemProps {
   item: PlanConfirmListItem;

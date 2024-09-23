@@ -40,6 +40,7 @@ import { BoardComment } from "@/api/SosApi";
 import { useRecoilValue } from "recoil";
 import { UserRecoil } from "@/state/store/UserRecoil";
 import GlobalModal from "@/components/Modal";
+import React from "react";
 
 const TouristDetailCommentsScreen = () => {
   type TouristDetailScreenRouteProp = RouteProp<

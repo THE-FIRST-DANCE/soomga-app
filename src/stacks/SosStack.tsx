@@ -3,6 +3,8 @@ import SosMapScreen from "@/Screens/SosScreen/SosMapScreen";
 import SosScreen from "@/Screens/SosScreen/SosScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import React from "react";
+
 export type SosStackParamList = {
   SosScreen: undefined;
   SosCreateScreen: {

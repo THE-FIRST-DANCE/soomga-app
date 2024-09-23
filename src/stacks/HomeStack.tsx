@@ -1,4 +1,5 @@
 import Main from "@/Screens/MainScreen/Main";
+import React from "react";
 
 /* Stack Navigator */
 import GuideStack from "./GuideStack";

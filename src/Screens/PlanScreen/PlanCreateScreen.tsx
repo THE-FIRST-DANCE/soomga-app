@@ -1,6 +1,9 @@
 // Libraries
 import React, { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -24,6 +27,9 @@ import { PlanStackParamList } from "@/stacks/PlanStack";
 
 // Modules
 import Colors from "@/modules/Color";
+import { useRecoilValue } from "recoil";
+import { ExecutePlanState } from "@/state/store/PlanRecoil";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const styles = StyleSheet.create({
   create: {
@@ -50,20 +56,35 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: 20,
   },
+  executePlan: {
+    borderWidth: 1,
+    borderColor: Colors.PRIMARY,
+    backgroundColor: Colors.GRAY_MEDIUM,
+    padding: 10,
+    borderRadius: 10,
+    margin: 20,
+  },
+  executePlanText: {
+    color: Colors.BLACK,
+    fontSize: 20,
+    textAlign: "center",
+  },
 });
 
 const PlanCreateScreen = () => {
   const [plans, setPlans] = useState<Plans[]>([]);
-
+  const executePlanState = useRecoilValue(ExecutePlanState);
   const navigation = useNavigation<NavigationProp<PlanStackParamList>>();
+  const [refreshing, setRefreshing] = useState(false);
 
   const onPressCreate = () => {
     navigation.navigate("PlanCreateDetail");
   };
 
-  const { data } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey: ["plans"],
-    queryFn: () => getPlanList(2),
+    queryFn: () => getPlanList(1),
+    refetchOnWindowFocus: true,
   });
 
   useEffect(() => {
@@ -71,6 +92,12 @@ const PlanCreateScreen = () => {
       setPlans(data);
     }
   }, [data]);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    refetch();
+    setRefreshing(false);
+  };
 
   return (
     <Screen title="플랜 생성">
@@ -84,9 +111,55 @@ const PlanCreateScreen = () => {
       </View>
 
       {/* 플랜 리스트 */}
-      <ScrollView contentContainerStyle={styles.planList}>
+      {/* <ScrollView contentContainerStyle={styles.planList}>
         {data && plans.map((plan) => <PlanItem key={plan.id} plan={plan} />)}
-      </ScrollView>
+      </ScrollView> */}
+
+      {/* 플랜 리스트 */}
+      <FlatList
+        data={plans}
+        renderItem={({ item }) => <PlanItem plan={item} />}
+        keyExtractor={(item) => item.id.toString()}
+        style={styles.planList}
+        onEndReachedThreshold={0.6}
+        ListFooterComponent={() => {
+          if (isFetching) {
+            return <ActivityIndicator />;
+          }
+
+          return null;
+        }}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      />
+
+      {/* 실행 중인 플랜 */}
+      {executePlanState.executePlanId && (
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("PlanExecuteScreen", {
+              executePlanId: executePlanState.executePlanId as number,
+              planId: executePlanState.planId as number,
+            })
+          }
+          style={styles.executePlan}
+        >
+          <Text style={styles.executePlanText}>실행 중인 플랜</Text>
+        </TouchableOpacity>
+      )}
+      {/* <TouchableOpacity
+        style={{
+          backgroundColor: Colors.PRIMARY,
+          padding: 10,
+          borderRadius: 10,
+        }}
+        onPress={async () => {
+          await AsyncStorage.removeItem("executedPlan");
+        }}
+      >
+        <Text>플랜 중지</Text>
+      </TouchableOpacity> */}
     </Screen>
   );
 };

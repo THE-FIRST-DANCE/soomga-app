@@ -5,13 +5,14 @@ import Colors from "@/modules/Color";
 import { PlanStackParamList } from "@/stacks/PlanStack";
 import { PlanInfo } from "@/state/store/PlanRecoil";
 import { RouteProp, useRoute } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { useRecoilValue } from "recoil";
 
 const PlaceSelectScreen = () => {
   const [currentTab, setCurrentTab] = useState<"select" | "new">("select");
   const planInfo = useRecoilValue(PlanInfo);
+  console.log("planInfo", planInfo);
 
   type PlanEditScreenRouteProp = RouteProp<
     PlanStackParamList,
@@ -20,11 +21,14 @@ const PlaceSelectScreen = () => {
   const route = useRoute<PlanEditScreenRouteProp>();
   const { editMode } = route.params;
 
+  const handleTabSelect = useCallback(() => setCurrentTab("select"), []);
+  const handleTabNew = useCallback(() => setCurrentTab("new"), []);
+
   return (
     <Screen title="장소 추가">
       <View style={styles.tabSelect}>
         <TouchableOpacity
-          onPress={() => setCurrentTab("select")}
+          onPress={handleTabSelect}
           style={[
             styles.tab,
             currentTab === "select" && {
@@ -43,7 +47,7 @@ const PlaceSelectScreen = () => {
               borderBottomColor: Colors.BLUE,
             },
           ]}
-          onPress={() => setCurrentTab("new")}
+          onPress={handleTabNew}
         >
           <Text style={styles.tabName}>신규 장소 등록</Text>
         </TouchableOpacity>

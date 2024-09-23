@@ -10,6 +10,8 @@ import Chat from "@/Screens/ChatScreen/Chat";
 import { Entypo, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
 import SignStack from "@/stacks/SignStack";
 
+import React from "react";
+
 export default function MainTabs() {
   const Tab = createBottomTabNavigator();
 

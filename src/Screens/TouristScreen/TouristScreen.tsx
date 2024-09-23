@@ -26,6 +26,7 @@ import { getTouristList } from "@/api/TouristApi";
 
 // Interface
 import { Tourist } from "@/interface/Tourist";
+import React from "react";
 
 const TouristScreen = () => {
   const [areas, setAreas] = useState<number[]>([]);

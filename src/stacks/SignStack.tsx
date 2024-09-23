@@ -9,6 +9,8 @@ import SignInScreen from "@/Screens/SignScreen/SignInScreen";
 import SignUpScreen from "@/Screens/SignScreen/SignUpScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import React from "react";
+
 export type SignStackParamList = {
   SignIn: undefined;
   SignUp: undefined;

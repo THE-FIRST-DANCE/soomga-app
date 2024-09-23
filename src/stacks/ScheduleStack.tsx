@@ -4,6 +4,8 @@ import ScheduleScreen from "@/Screens/ScheduleScreen/ScheduleScreen";
 import { EventData } from "@/interface/Event";
 import { createStackNavigator } from "@react-navigation/stack";
 
+import React from "react";
+
 export type ScheduleStackParamList = {
   ScheduleScreen: undefined;
   ScheduleCreateScreen: {

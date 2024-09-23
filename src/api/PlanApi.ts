@@ -8,7 +8,7 @@ import axios from "axios";
 import { EXPO_PUBLIC_KAKAO_API } from "@env";
 
 export const api = axios.create({
-  baseURL: "http://home.juhyeonni.co.kr:3000/api/",
+  baseURL: "http://localhost:3000/api/",
   withCredentials: true,
 });
 
@@ -20,7 +20,8 @@ export const getPlaceApi = async (category: string, region: string) => {
         region,
       },
     });
-    return response.data;
+
+    return response.data.items;
   } catch (error) {
     console.error(error);
   }
@@ -111,6 +112,7 @@ export const getPlanList = async (authorId: number) => {
       authorId,
     },
   });
+  console.log(response.data);
 
   return response.data;
 };
@@ -151,6 +153,37 @@ export const addPlanComment = async (planCommentDto: {
 
 export const deletePlanComment = async (commentId: number) => {
   const response = await api.delete(`plans/comment/${commentId}`);
+
+  return response.data;
+};
+
+export const getPlanWithDaySchedules = async (
+  planid: number,
+  period: number
+) => {
+  const response = await api.get(`plans/${planid}/${period}`);
+
+  return response.data;
+};
+
+export const executedPlan = async (planId: number) => {
+  const response = await api.post("plans/execute", {
+    planId,
+    memberId: 2,
+  });
+
+  return response.data;
+};
+
+export interface executedActivityDto {
+  executedPlanId: number;
+  scheduleId: number;
+  memberId: number;
+  note?: string;
+  photos?: string[];
+}
+export const executedActivity = async (data: executedActivityDto) => {
+  const response = await api.post("plans/activity/execute", data);
 
   return response.data;
 };

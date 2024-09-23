@@ -78,7 +78,7 @@ const FeedItem = ({ item }: { item: SosType }) => {
   const handleComment = () => {
     const commentDto = {
       content: comment,
-      memberId: 2,
+      memberId: 72,
       boardId: item.id,
     };
 

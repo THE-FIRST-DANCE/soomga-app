@@ -1,6 +1,8 @@
 /* Stack Navigator */
 import { createStackNavigator } from "@react-navigation/stack";
 
+import React from "react";
+
 /* pages */
 import { GuideType } from "@/data/guides";
 import { TagType } from "@/data/tags";
